@@ -1,0 +1,244 @@
+html{
+    scroll-behavior:smooth;
+}
+*{
+    box-sizing: border-box;
+    
+    background-color: #658c9c;
+}
+body{
+    margin: 0;
+    font-family: "Montserrat";
+    overflow-x: hidden;
+    
+    
+}
+header{
+    width: 100vw;
+    height: 99vh;
+    background-color: #658c9c;
+    background-repeat: no-repeat;
+    background-image: url("2.jpg");
+    background-size: cover;
+    position: bottom;
+    background-attachment: fixed;
+    display: flex;
+    
+}
+main{
+    overflow-x: none;
+}
+#TituloE{
+    display: flex;
+    margin: auto;
+    background-color: transparent;
+    font-size: 10vw;
+    color:#fff;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    text-shadow: 15px 10px 20px #000;
+}
+#Logo{
+    width: 100vw;
+    height: 9vh;
+    background-color: #040404;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    padding-top:30px;
+    padding-bottom: 20px;
+    }
+#Logoimg{
+    width: 5.6vw;
+    height: 8vh;
+    display: inline;
+    display: flex;
+    background-color: #040404;
+}
+#About{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    background-color: inherit;
+    color: #fff;
+}
+.AboutL{
+    display: flex;
+    padding-right: 50px;
+    background-color: inherit;
+    color: #fff;
+}
+#RegistrateB{
+    display: flex;
+    margin-right: 50px;
+    width: 12vw;
+    height: 5vh;
+    align-items: center;
+    background-color: inherit;
+    border: 1px solid #b4b6b7;
+    transition: font-size .4s, width .4s, height .4s;
+}
+#RegistrateB:hover p{
+    font-size: 1.8vw;
+}
+#RegistrateB:hover{
+    width: 12.5vw;
+    height: 5.2vh;
+}
+#TextB{
+    margin: auto;
+    font-size: 1.6vw;
+    color: #fff;
+    font-weight:bolder ;
+    text-decoration: none;
+}
+.link{
+    text-decoration: none;
+    font-size: 1.4vw ;
+    color: #b4b6b7;
+    font-weight: bolder;
+    transition-property: font-size;
+    transition-duration: .5s;
+    background-color: inherit;
+    
+}
+.link:hover{
+    font-size:1.8vw;
+    
+}
+#listaProyectos{
+    font-size:1.4vw;
+    display:flex;
+    font-family: "Montserrat";
+    font-weight: 100;
+    color: #fff;
+}
+#listaProyectos:hover{
+    transition-property: font-size;
+    transition-duration: .5s;
+    font-size: 1.8vw;
+    color: #b4b6b7;
+}
+
+#nav2{
+    margin-bottom: 0;
+    display: flex;
+    position: sticky;
+    margin-bottom: 0;
+    display: flex;
+    position: sticky;
+    top: 0px;
+    z-index: 1000;
+    width: 100 vw;
+    height: 10vh;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: 0;
+    background-color:#040404 ;
+}
+
+h3,h4{
+    margin-top: 7vh;
+    color:#fff;
+    padding-left: 60px ;
+    font-size: 2vw;
+
+}
+h3:first-child{
+    margin-top:15vh
+}
+h4{
+    padding-left:30px
+}
+
+.p_article,ul{
+    color: #ddd;
+    text-align: justify;
+    padding-right: 60px;
+    font-size: 1.5vw;
+    list-style-type: none;
+    padding-left: 60px;
+    line-height: 4.7vh;
+    font-weight: lighter;
+}
+.div_stitulos{
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    margin-top: 0;
+}
+.p_article{
+    
+    text-align: justify;
+    font-size: 1.5vw;
+    font-weight: lighter;
+    display: flex;
+    margin-top:0;
+    color: #fff;
+    
+}
+.img_stitulos{
+    width: 29vw;
+    height: 30vh;
+    padding-left:60px;
+    display: flex;
+    border-radius: 8px;
+
+}
+.impar{
+    padding-right:60px;
+}
+.ul_stitulos{
+    margin-top: 10vh;
+    
+}
+#div_img{
+    
+    display: flex;
+    margin: auto;
+    margin-top: 10vh;
+    background-color: inherit;
+    flex-direction: column;
+    width: 80vw;
+    
+    
+    
+}
+#div_img_h3{
+    margin-top:30px;
+    display: flex;
+    align-self: center;
+    background-color: inherit;
+    align-items: center;
+    font-size: 3vw;
+    color: #fff;
+    font-weight: 600;
+    box-sizing: border-box;
+    
+}
+#Organigrama{
+    display: flex;
+    margin:auto;
+    width: 35vw;
+    height: 30vh;
+
+}
+#div_img_p{
+    display: flex;
+    
+}
+.stitulos4{
+    background-color: inherit;
+    color: #fff
+}
+.textoh4{
+    background-color: inherit;
+    color:#fff;
+    padding-left:30px;
+    padding-right: 30px;
+    line-height: 4vh;
+    text-align: justify;
+    font-size: 1.5vw;
+    font-weight: lighter;
+}
