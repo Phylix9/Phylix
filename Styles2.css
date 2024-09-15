@@ -3,22 +3,20 @@ html{
 }
 *{
     box-sizing: border-box;
-    
-    background-color: #658c9c;
+    list-style: none;
 }
 body{
     margin: 0;
-    font-family: "Montserrat";
     overflow-x: hidden;
-    
-    
+    background-color: #658c9c;
 }
 header{
     width: 100vw;
-    height: 99vh;
+    height: 100vh;
     background-color: #658c9c;
     background-repeat: no-repeat;
-    background-image: url("2.jpg");
+    background: rgb(0,5,8);
+    background: linear-gradient(0deg, rgba(0,5,8,1) 0%, rgba(0,109,121,1) 35%, rgba(0,59,58,1) 100%);
     background-size: cover;
     position: bottom;
     background-attachment: fixed;
@@ -28,46 +26,54 @@ header{
 main{
     overflow-x: none;
 }
-#TituloE{
+header {
     display: flex;
-    margin: auto;
-    background-color: transparent;
+    flex-direction: column;
+    align-items: center;
+}
+
+#TituloE {
     font-size: 10vw;
-    color:#fff;
-    padding-right: 15px;
-    padding-bottom: 10px;
-    text-shadow: 15px 10px 20px #000;
+    color: #fff;
+    margin-bottom: 30px;
+    text-shadow: 15px 10px 20px rgba(0, 0, 0, 0.7);
+    animation: fadein 3s ease-out;
 }
-#Logo{
-    width: 100vw;
-    height: 9vh;
-    background-color: #040404;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    padding-top:30px;
-    padding-bottom: 20px;
+
+#LogoPhylix {
+    max-width: 70%;
+    height: 30vh;
+    margin: 20px 0;
+    margin-bottom: 50px;
+    animation: fadein 2s ease-in;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); 
+}
+
+#SloganE {
+    font-size: 4vw;
+    margin-top: 10px;
+    color: #fff;
+    text-shadow: 10px 5px 15px rgba(0, 0, 0, 0.7);
+    animation: fadein 3s ease-in;
+}
+
+@keyframes slidein {
+    from {
+        transform: translateX(-100%);
     }
-#Logoimg{
-    width: 5.6vw;
-    height: 8vh;
-    display: inline;
-    display: flex;
-    background-color: #040404;
+    to {
+        transform: translateX(0);
+    }
 }
-#About{
-    display: flex;
-    align-items: center;
-    list-style: none;
-    background-color: inherit;
-    color: #fff;
-}
-.AboutL{
-    display: flex;
-    padding-right: 50px;
-    background-color: inherit;
-    color: #fff;
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 #RegistrateB{
     display: flex;
@@ -107,138 +113,178 @@ main{
     font-size:1.8vw;
     
 }
-#listaProyectos{
-    font-size:1.4vw;
-    display:flex;
-    font-family: "Montserrat";
-    font-weight: 100;
-    color: #fff;
-}
-#listaProyectos:hover{
-    transition-property: font-size;
-    transition-duration: .5s;
-    font-size: 1.8vw;
-    color: #b4b6b7;
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-#nav2{
-    margin-bottom: 0;
-    display: flex;
-    position: sticky;
-    margin-bottom: 0;
-    display: flex;
-    position: sticky;
-    top: 0px;
-    z-index: 1000;
-    width: 100 vw;
-    height: 10vh;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin: 0;
-    background-color:#040404 ;
-}
-
-h3,h4{
-    margin-top: 7vh;
-    color:#fff;
-    padding-left: 60px ;
-    font-size: 2vw;
-
-}
-h3:first-child{
-    margin-top:15vh
-}
-h4{
-    padding-left:30px
-}
-
-.p_article,ul{
-    color: #ddd;
-    text-align: justify;
-    padding-right: 60px;
-    font-size: 1.5vw;
-    list-style-type: none;
-    padding-left: 60px;
-    line-height: 4.7vh;
-    font-weight: lighter;
-}
-.div_stitulos{
-    display: flex;
-    align-content: space-between;
-    align-items: center;
-    margin-top: 0;
-}
-.p_article{
-    
-    text-align: justify;
-    font-size: 1.5vw;
-    font-weight: lighter;
-    display: flex;
-    margin-top:0;
-    color: #fff;
-    
-}
-.img_stitulos{
-    width: 29vw;
-    height: 30vh;
-    padding-left:60px;
-    display: flex;
+article {
+    background: #fff;
     border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
 
+.stitulos {
+    font-size: 1.8rem;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
 }
-.impar{
-    padding-right:60px;
-}
-.ul_stitulos{
-    margin-top: 10vh;
-    
-}
-#div_img{
-    
+
+.content {
     display: flex;
-    margin: auto;
-    margin-top: 10vh;
-    background-color: inherit;
-    flex-direction: column;
-    width: 80vw;
-    
-    
-    
-}
-#div_img_h3{
-    margin-top:30px;
-    display: flex;
-    align-self: center;
-    background-color: inherit;
     align-items: center;
-    font-size: 3vw;
-    color: #fff;
-    font-weight: 600;
-    box-sizing: border-box;
-    
+    margin-bottom: 20px;
 }
-#Organigrama{
-    display: flex;
-    margin:auto;
-    width: 35vw;
-    height: 30vh;
 
+.img_stitulos {
+    max-width: 150px;
+    height: auto;
+    margin-right: 20px;
 }
-#div_img_p{
+
+.p_article {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.values-list {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+.organigrama-details h4 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.organigrama-details p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.organigrama-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.organigrama {
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .img_stitulos {
+        margin-bottom: 10px;
+    }
+}
+.container{
+    max-width: 1200px;
+    margin:  0 auto;
+}
+.footer{
+    background-color: #24262b;
+    padding: 80px 0;
+}
+.footer-row{
     display: flex;
-    
+    flex-wrap: wrap;
 }
-.stitulos4{
-    background-color: inherit;
-    color: #fff
+.footer-links{
+    width: 25%;
+    padding: 0 15px;
 }
-.textoh4{
-    background-color: inherit;
-    color:#fff;
-    padding-left:30px;
-    padding-right: 30px;
-    line-height: 4vh;
-    text-align: justify;
-    font-size: 1.5vw;
-    font-weight: lighter;
+.footer-links h4{
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 25px;
+    font-weight: 500;
+    border-bottom: 2px solid #658c9c;
+    padding-bottom: 10px;
+    display: inline-block; 
+}
+.footer-links ul li a {
+    font-size: 18px;
+    text-decoration: none;
+    color: #BBBBBB;
+    display: block;
+    margin-bottom: 15px;
+    transition: all .3s ease;
+}
+.footer-links ul li a:hover{
+    color: #FFFFFF;
+    padding-left: 6px;  
+} 
+.social-link a{
+    display: inline-block;
+    min-height: 40px;
+    width: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 10px 10px 0;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #FFFFFF;
+    transition: all .5 ease;
+}
+.social-link a:hover{
+    background-color:#658c9c;
+}
+
+@media(max-width:991px){
+    header {
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #TituloE {
+        font-size: 12vw;
+    }
+
+    #SloganE {
+        font-size: 5vw; 
+    }
+
+    #LogoPhylix {
+        max-width: 80%;
+    }
+
+    #RegistrateB {
+        width: 20vw;
+        height: 6vh;
+    }
+
+    #TextB {
+        font-size: 2vw;
+    }
+
+    .p_article {
+        font-size: 1.7vw;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .img_stitulos {
+        width: 40vw;
+        height: 25vh;
+    }
+    .footer-row{
+        text-align: center;
+    }
+    .footer-links{
+        width: 100%;
+        margin-bottom: 30px;
+
+    }
 }
