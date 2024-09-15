@@ -8,15 +8,17 @@ html{
 body{
     margin: 0;
     overflow-x: hidden;
-    background-color: #658c9c;
+    transition: margin-left 0.5s ease;
+    background: rgb(36,38,43);
+    background: linear-gradient(0deg, rgba(36,38,43,1) 9%, rgba(101,140,156,1) 63%, rgba(207,207,207,1) 81%);
 }
 header{
     width: 100vw;
     height: 100vh;
     background-color: #658c9c;
     background-repeat: no-repeat;
-    background: rgb(0,5,8);
-    background: linear-gradient(0deg, rgba(0,5,8,1) 0%, rgba(0,109,121,1) 35%, rgba(0,59,58,1) 100%);
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(101,140,156,1) 22%, rgba(207,207,207,1) 37%);
     background-size: cover;
     position: bottom;
     background-attachment: fixed;
@@ -31,6 +33,130 @@ header {
     flex-direction: column;
     align-items: center;
 }
+/* Barra lateral colapsada (cerrada) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 80px;
+    background-color: #12171e;
+    padding: 0.4rem 0.8rem;
+    transition: width 0.5s ease;
+    overflow: hidden;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Aseguramos que los íconos estén centrados verticalmente */
+}
+
+/* Barra lateral expandida (abierta) */
+.sidebar.active {
+    width: 250px;
+    align-items: flex-start; /* En modo abierto, los íconos se alinean a la izquierda */
+}
+
+/* Botón de menú */
+.sidebar #btn {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* Estilo del logo */
+.sidebar .top .logo {
+    color: #fff;
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Mostrar logo solo cuando la barra lateral está abierta */
+.sidebar.active .top .logo {
+    opacity: 1;
+}
+
+/* Lista de elementos de navegación */
+.sidebar ul li {
+    position: relative;
+    height: 50px;
+    margin: 0.8rem auto;
+    line-height: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilos de los enlaces de la barra lateral */
+.sidebar ul li a {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    border-radius: 0.8rem;
+    padding: 0 10px;
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: center; /* Centrar los íconos en modo colapsado */
+}
+
+/* Efecto hover sobre los enlaces */
+.sidebar ul li a:hover {
+    background-color: #fff;
+    color: #12171e;
+}
+
+/* Estilos de los íconos */
+.sidebar ul li a i {
+    font-size: 1.5rem;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+/* Texto de los elementos del menú */
+.sidebar .nav-item {
+    opacity: 0;
+    white-space: nowrap;
+    margin-left: 10px;
+    transition: opacity 0.3s ease;
+}
+
+/* Mostrar texto solo cuando la barra lateral está abierta */
+.sidebar.active .nav-item {
+    opacity: 1;
+}
+
+/* Tooltip para mostrar cuando la barra lateral está colapsada */
+.sidebar ul li .tooltip {
+    position: absolute;
+    left: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+}
+
+/* Mostrar tooltip al hacer hover sobre los íconos en modo colapsado */
+.sidebar ul li:hover .tooltip {
+    opacity: 1;
+}
+
+.sidebar.active ~ main,
+.sidebar.active ~ header {
+    margin-left: 250px;
+}
 
 #TituloE {
     font-size: 10vw;
@@ -42,7 +168,7 @@ header {
 
 #LogoPhylix {
     max-width: 70%;
-    height: 30vh;
+    height: auto;
     margin: 20px 0;
     margin-bottom: 50px;
     animation: fadein 2s ease-in;
@@ -74,30 +200,6 @@ header {
     to {
         opacity: 1;
     }
-}
-#RegistrateB{
-    display: flex;
-    margin-right: 50px;
-    width: 12vw;
-    height: 5vh;
-    align-items: center;
-    background-color: inherit;
-    border: 1px solid #b4b6b7;
-    transition: font-size .4s, width .4s, height .4s;
-}
-#RegistrateB:hover p{
-    font-size: 1.8vw;
-}
-#RegistrateB:hover{
-    width: 12.5vw;
-    height: 5.2vh;
-}
-#TextB{
-    margin: auto;
-    font-size: 1.6vw;
-    color: #fff;
-    font-weight:bolder ;
-    text-decoration: none;
 }
 .link{
     text-decoration: none;
