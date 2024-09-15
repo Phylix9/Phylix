@@ -33,43 +33,45 @@ header {
     flex-direction: column;
     align-items: center;
 }
-/* Barra lateral colapsada (cerrada) */
+
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
     width: 80px;
-    background-color: #12171e;
+    background-color: transparent;
     padding: 0.4rem 0.8rem;
     transition: width 0.5s ease;
     overflow: hidden;
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Aseguramos que los íconos estén centrados verticalmente */
 }
 
-/* Barra lateral expandida (abierta) */
+
 .sidebar.active {
     width: 250px;
-    align-items: flex-start; /* En modo abierto, los íconos se alinean a la izquierda */
+    align-items: flex-start; 
 }
 
-/* Botón de menú */
 .sidebar #btn {
     position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
+    top: 35px;
+    left: 70%;
+    transform: translateX(-200%);
+    color: #000;
     font-size: 1.2rem;
     cursor: pointer;
 }
 
-/* Estilo del logo */
+.sidebar.active #btn {
+    margin-left: 25px;
+}
+
+
 .sidebar .top .logo {
-    color: #fff;
+    color: #000;
     display: flex;
     height: 50px;
     width: 100%;
@@ -78,12 +80,32 @@ header {
     transition: opacity 0.3s ease;
 }
 
-/* Mostrar logo solo cuando la barra lateral está abierta */
-.sidebar.active .top .logo {
-    opacity: 1;
+.sidebar .top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 0;
+    width: 100%;
 }
 
-/* Lista de elementos de navegación */
+/* Estilo del logo */
+.sidebar .top .logo {
+    color: #000;
+    display: flex;
+    font-size: 1.5rem;
+    margin-left: 10px;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.active .top .logo {
+    opacity: 1;
+    font-size: 2rem;
+}
+
 .sidebar ul li {
     position: relative;
     height: 50px;
@@ -93,7 +115,6 @@ header {
     justify-content: center;
 }
 
-/* Estilos de los enlaces de la barra lateral */
 .sidebar ul li a {
     color: #fff;
     display: flex;
@@ -103,23 +124,20 @@ header {
     padding: 0 10px;
     transition: all 0.3s ease;
     width: 100%;
-    justify-content: center; /* Centrar los íconos en modo colapsado */
+    justify-content: center;
 }
 
-/* Efecto hover sobre los enlaces */
 .sidebar ul li a:hover {
     background-color: #fff;
     color: #12171e;
 }
 
-/* Estilos de los íconos */
 .sidebar ul li a i {
     font-size: 1.5rem;
-    color: #fff;
+    color: #000;
     transition: color 0.3s ease;
 }
 
-/* Texto de los elementos del menú */
 .sidebar .nav-item {
     opacity: 0;
     white-space: nowrap;
@@ -127,30 +145,32 @@ header {
     transition: opacity 0.3s ease;
 }
 
-/* Mostrar texto solo cuando la barra lateral está abierta */
 .sidebar.active .nav-item {
     opacity: 1;
 }
 
-/* Tooltip para mostrar cuando la barra lateral está colapsada */
 .sidebar ul li .tooltip {
     position: absolute;
     left: 80px;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.75);
-    color: #fff;
+    color: #000;
     padding: 5px 10px;
     border-radius: 5px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
     white-space: nowrap;
+    align-items: center;
 }
 
-/* Mostrar tooltip al hacer hover sobre los íconos en modo colapsado */
 .sidebar ul li:hover .tooltip {
     opacity: 1;
+}
+
+.sidebar.active ul li .tooltip{
+    display: none;
 }
 
 .sidebar.active ~ main,
