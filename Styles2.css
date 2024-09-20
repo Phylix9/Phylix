@@ -123,6 +123,7 @@ header {
 
 .sidebar ul li a {
     color: black;
+    font-weight: bold;
     display: flex;
     align-items: center;
     text-decoration: none;
