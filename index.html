@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <Title>Phylix</Title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icono.png" type="img/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wdth,wght@112.5,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="Styles2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+<body>
+    <div class="sidebar">
+        <div class="top">
+            <div class="logo">
+                <i class="bx bxl-codepen"></i>
+                <span>Phylix</span>
+            </div>
+            <i class="bx bx-menu" id="btn"></i>
+        </div>
+        <ul>
+            <li>
+                <a href="#">
+                    <i class="bx bx-home-alt"></i>
+                    <span class="nav-item">Inicio</span>
+                </a>
+                <span class="tooltip">Inicio</span>
+            </li>
+            <li>
+                <a href="PhylixInfo.html">
+                    <i class="bx bx-buildings"></i>
+                    <span class="nav-item">Acerca de</span>
+                </a>
+                <span class="tooltip">Acerca de</span>
+            </li>
+            <li>
+                <a href="Proyectos.html">
+                    <i class="bx bx-code"></i>
+                    <span class="nav-item">Proyectos</span>
+                </a>
+                <span class="tooltip">Proyectos</span>
+            </li>
+            <li>
+                <a href="Miembros.html">
+                    <i class="bx bxs-grid-alt"></i>
+                    <span class="nav-item">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+        </ul>
+    </div>
+    <header>
+        <h1 id="TituloE">Phylix</h1>
+        <h3 id="SloganE">Innovando tu futuro digital</h3>
+    </header>
+    
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-row">
+
+            <div class="footer-links">
+                <h4>Contactanos</h4>
+                <ul>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contactanos</h4>
+                <ul>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contactanos</h4>
+                <ul>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                    <li><a href="#">Nosotros</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Siguenos</h4>
+                <div class="social-link">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="https://github.com/Phylix9"><i class="fab fa-github"></i></a>
+                </div>
+            </div>   
+
+        </div>
+    </div>
+
+</footer>
+</body>
+
+<script>
+let btn = document.querySelector('#btn');
+let sidebar = document.querySelector('.sidebar');
+
+btn.onclick = function () {
+    sidebar.classList.toggle('active');
+};
+</script>
+</html>
