@@ -10,7 +10,8 @@ body{
     margin: 0;
     overflow-x: hidden;
     transition: margin-left 0.5s ease;
-    background: #000;
+    background: rgb(36,38,43);
+    background: linear-gradient(0deg, rgba(36,38,43,1) 9%, rgba(101,140,156,1) 63%, rgba(207,207,207,1) 81%);
 }
 
 header {
@@ -62,7 +63,7 @@ main{
     top: 35px;
     left: 70%;
     transform: translateX(-200%);
-    color: #fff;
+    color: #000;
     font-size: 1.2rem;
     cursor: pointer;
 }
@@ -71,8 +72,9 @@ main{
     margin-left: 35px;
 }
 
+
 .sidebar .top .logo {
-    color: #fff;
+    color: #000;
     display: flex;
     height: 30px;
     width: 100%;
@@ -90,7 +92,7 @@ main{
 }
 
 .sidebar .top .logo {
-    color: #fff;
+    color: #000;
     display: flex;
     font-size: 1.5rem;
     margin-left: 10px;
@@ -116,7 +118,7 @@ main{
 }
 
 .sidebar ul li a {
-    color: #fff;
+    color: #000;
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -127,14 +129,14 @@ main{
     justify-content: center;
 }
 
-.sidebar.active ul li a:hover {
+.sidebar ul li a:hover {
     background-color: #fff;
     color: #12171e;
 }
 
 .sidebar ul li a i {
     font-size: 1.5rem;
-    color: #fff;
+    color: #000;
     transition: color 0.3s ease;
 }
 
@@ -176,7 +178,6 @@ main{
 .sidebar.active ~ main,
 .sidebar.active ~ header {
     margin-left: 250px;
-    transition: margin-left 0.5s ease;
 }
 
 #LogoPhylix {
