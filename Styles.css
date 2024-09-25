@@ -225,27 +225,79 @@
     backdrop-filter: blur(5px);
   }
 
-  .container .card .content{
+  .container .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .container .card .titulito {
+    padding: 20px;
+    text-align: center;
+    opacity: 1;
+    transition: 0.3s;
+    position: absolute;
+    top: 150px; 
+    left: 50%; 
+    transform: translateX(-50%);
+  }
+
+  .container .card2 .titulito {
+    padding: 20px;
+    text-align: center;
+    opacity: 1;
+    transition: 0.3s;
+    position: absolute;
+    top: 200px; 
+    left: 50%; 
+    transform: translateX(-50%);
+  }
+  
+  .container .card .content {
     padding: 20px;
     text-align: center;
     transform: translateY(100px);
     opacity: 0;
     transition: 0.5s;
   }
-  .container .card:hover .content{
+  
+  .container .card:hover .content {
     transform: translateY(0px);
     opacity: 1;
   }
-  .container .card .content h3{
+  
+  .container .card:hover .titulito {
+    opacity: 0;
+  }
+
+  .container .card2:hover .titulito {
+    opacity: 0;
+  }
+  
+  .container .card .content h3 {
     font-size: 1.8rem;
     color: #fff;
     z-index: 1;
   }
-  .container .card .content p{
+  
+  .container .card .titulito h3 {
+    font-size: 3rem;
+    color: lightgray;
+    z-index: 1;
+  }
+
+  .container .card2 .titulito h3 {
+    font-size: 3rem;
+    color:lightgray;
+    z-index: 1;
+  }
+  
+  .container .card .content p {
     font-size: 1rem;
     color: #fff;
     font-weight: 300;
   }
+
   .container .card .content ul li{
     font-size: 1rem;
     color: #fff;
