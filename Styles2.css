@@ -12,7 +12,6 @@ body{
     transition: margin-left 0.5s ease;
     background: #000;
 }
-
 header {
     width: 100vw;
     height: 100vh;
@@ -24,12 +23,10 @@ header {
     background: url('fondoheader.jpg') no-repeat center center;
     background-size: cover;
 }
-
 .content {
     position: relative;
     z-index: 1;
 }
-
 main{
     overflow-x: none;
 }
@@ -195,14 +192,12 @@ main{
     margin: 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-
 #SloganE {
     font-size: 3vw;
     color: #FFFFFF;
     margin-top: 20px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
-
 @media (max-width: 768px) {
     #TituloE {
         font-size: 10vw;
@@ -210,24 +205,6 @@ main{
 
     #SloganE {
         font-size: 4vw;
-    }
-}
-
-@keyframes slidein {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
     }
 }
 .link{

@@ -3,12 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icono.png" type="img/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="Styles3.css">
     <title>Login</title>
 </head>
 <body>
+    <div class="titulo">
+        <h2 id="TituloE">FitData</h2>
+    </div>
+    <div class="sidebar">
+        <div class="top">
+            <div class="logo">
+                <img src="LogoPhylix.png" alt="Imagen central" id="LogoPhylix">
+                <span>Phylix</span>
+            </div>
+            <i class="bx bx-menu" id="btn"></i>
+        </div>
+        <ul>
+            <li>
+                <a href="index.html">
+                    <i class="bx bx-home-alt"></i>
+                    <span class="nav-item">Principal</span>
+                </a>
+                <span class="tooltip">Principal</span>
+            </li>
+            <li>
+                <a href="PhylixInfo.html">
+                    <i class="bx bx-buildings"></i>
+                    <span class="nav-item">Acerca de</span>
+                </a>
+                <span class="tooltip">Acerca de</span>
+            </li>
+            <li>
+                <a href="Proyecto.html">
+                    <i class="bx bx-code"></i>
+                    <span class="nav-item">Proyectos</span>
+                </a>
+                <span class="tooltip">Proyectos</span>
+            </li>
+            <li>
+                <a href="Miembros.html">
+                    <i class='bx bxs-id-card'></i>
+                    <span class="nav-item">Nosotros</span>
+                </a>
+                <span class="tooltip">Equipo</span>
+            </li>
+        </ul>
+    </div>
     <div class="container" id="main">
         <div class="sign-up">
             <form action="#">
@@ -47,8 +90,6 @@
                     <p>Ingresa tu cuenta en el Login</p>
                     <button id="SignIn">Inicia Sesion</button>
                 </div>
-            </div>
-            <div class="overlay">
                 <div class="overlay-right">
                     <h1>Eres Nuevo?</h1>
                     <p>Ingresa tu informacion y empieza tu vida saludable con nosotros</p>
@@ -57,6 +98,14 @@
             </div>
         </div>
     </div>
+    <script>
+        let btn = document.querySelector('#btn');
+        let sidebar = document.querySelector('.sidebar');
+        
+        btn.onclick = function () {
+            sidebar.classList.toggle('active');
+        };
+        </script>
     <script type="text/javascript">
         const signUpButton = document.getElementById('SignUp');
         const signInButton = document.getElementById('SignIn');

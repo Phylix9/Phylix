@@ -242,20 +242,12 @@
   }
 
   .container .card2 .titulito {
-<<<<<<< HEAD
-    padding: 60px;
-=======
     padding: 20px;
->>>>>>> c19f2e7422e2bbb3461eeb2b49e175a4c16ee38d
     text-align: center;
     opacity: 1;
     transition: 0.3s;
     position: absolute;
-<<<<<<< HEAD
-    top: 120px; 
-=======
     top: 200px; 
->>>>>>> c19f2e7422e2bbb3461eeb2b49e175a4c16ee38d
     left: 50%; 
     transform: translateX(-50%);
   }
@@ -314,13 +306,8 @@
   .container .card2{
     position: relative;
     width: 520px;
-<<<<<<< HEAD
-    height: 420px;
-    margin: 20px;
-=======
     height: 480px;
     margin: 30px;
->>>>>>> c19f2e7422e2bbb3461eeb2b49e175a4c16ee38d
     box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.1);
@@ -335,11 +322,7 @@
 
   .container .card2 .content{
     padding: 20px;
-<<<<<<< HEAD
-    text-align: justify;
-=======
     text-align: center;
->>>>>>> c19f2e7422e2bbb3461eeb2b49e175a4c16ee38d
     margin-left: 10px;
     transform: translateY(100px);
     opacity: 0;
