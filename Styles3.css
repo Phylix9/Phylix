@@ -4,8 +4,8 @@
   --primary-color: #111317;
   --primary-color-light: #1f2125;
   --primary-color-extra-light: #35373b;
-  --secondary-color: #658c9c;
-  --secondary-color-dark: #46626e;
+  --secondary-color: #539EE9;
+  --secondary-color-dark: #145799;
   --text-light: #d1d5db;
   --white: #ffffff;
   --max-width: 1200px;
@@ -63,6 +63,7 @@ img {
 
 a {
   text-decoration: none;
+  color: #fff;
 }
 
 .bg__blur {
