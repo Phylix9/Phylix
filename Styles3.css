@@ -16,7 +16,16 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #fff;
+}
 .section__container {
   max-width: var(--max-width);
   margin: auto;
@@ -45,10 +54,11 @@
   font-size: 1rem;
   color: var(--white);
   background-color: var(--secondary-color);
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
   transition: 0.3s;
   color:#fff;
+  font-weight: bold;
 }
 
 .btn:hover {

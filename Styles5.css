@@ -9,6 +9,18 @@
     --secondary-color-dark: #145799;
     --max-width: 1200px;
   }
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 body {
     align-items: center;
     display: flex;
@@ -21,7 +33,6 @@ body {
     overflow-x: hidden;
     overflow-y: hidden;
 }
-
 body::before {
     content: "";
     position: absolute;
@@ -32,7 +43,6 @@ body::before {
     background: radial-gradient(circle, rgba(83, 158, 233, 0.2), transparent);
     z-index: -1;
 }
-
 body::after {
     content: "";
     position: absolute;
@@ -45,7 +55,6 @@ body::after {
     opacity: 0.5;
     z-index: -1;
 }
-
 .titulo {
     position: absolute;
     top: 10%;
@@ -55,7 +64,6 @@ body::after {
     text-align: center;
     z-index: 1;
 }
-
 #TituloE {
     font-size: 12vw;
     font-weight: bold;
@@ -63,7 +71,6 @@ body::after {
     margin: 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
-
 .container {
     position: relative;
     width: 768px;

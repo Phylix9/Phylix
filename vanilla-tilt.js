@@ -116,9 +116,6 @@ class VanillaTilt {
     }
   }
 
-  /**
-   * Method remove event listeners from current this.elementListener
-   */
   removeEventListeners() {
     this.elementListener.removeEventListener("mouseenter", this.onMouseEnterBind);
     this.elementListener.removeEventListener("mouseleave", this.onMouseLeaveBind);

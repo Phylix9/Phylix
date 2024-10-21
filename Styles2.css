@@ -20,7 +20,7 @@ header {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: url('fondoheader.jpg') no-repeat center center;
+    background: url('src/fondoheader.webp') no-repeat center center;
     background-size: cover;
 }
 .content {
