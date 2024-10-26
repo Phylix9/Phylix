@@ -90,14 +90,13 @@
 %>
 
 <% if (!enviado) { %>
-    <!-- Formulario para Crear Menú -->
     <h1>Crear tu Menú</h1>
     <form action="" method="post">
         <!-- Comida 1 -->
         <h3>Comida 1</h3>
         <label for="proteina1">Elige tu Proteína:</label>
         <select name="proteina1" id="proteina1">
-            <option value="">Selecciona una proteína</option> <!-- Opción por default -->
+            <option value="">Selecciona una proteína</option>
             <% for (String proteina : proteinas) { %>
                 <option value="<%= proteina %>"><%= proteina %> g</option>
             <% } %>
@@ -105,7 +104,7 @@
 
         <label for="carbohidrato1">Elige tu Carbohidrato:</label>
         <select name="carbohidrato1" id="carbohidrato1">
-            <option value="">Selecciona un carbohidrato</option> <!-- Opción por default -->
+            <option value="">Selecciona un carbohidrato</option>
             <% for (String carbohidrato : carbohidratos) { %>
                 <option value="<%= carbohidrato %>"><%= carbohidrato %> g</option>
             <% } %>
@@ -113,7 +112,7 @@
 
         <label for="vitaminasMinerales1">Elige tus micronutrientes:</label>
         <select name="vitaminasMinerales1" id="vitaminasMinerales1">
-            <option value="">Selecciona un micronutriente</option> <!-- Opción por default -->
+            <option value="">Selecciona un micronutriente</option> 
             <% for (String vitamina : vitaminasMinerales) { %>
                 <option value="<%= vitamina %>"><%= vitamina %> g</option>
             <% } %>
@@ -121,7 +120,7 @@
 
         <label for="grasa1">Elige tu grasa:</label>
         <select name="grasa1" id="grasa1">
-            <option value="">Selecciona una grasa</option> <!-- Opción por default -->
+            <option value="">Selecciona una grasa</option>
             <% for (String grasa : grasas) { %>
                 <option value="<%= grasa %>"><%= grasa %> g</option>
             <% } %>
@@ -132,7 +131,7 @@
             <h3>Comida <%= i %></h3>
             <label for="proteina<%= i %>">Proteína:</label>
             <select name="proteina<%= i %>" id="proteina<%= i %>">
-                <option value="">Selecciona una proteína</option> <!-- Opción por default -->
+                <option value="">Selecciona una proteína</option> 
                 <% for (String proteina : proteinas) { %>
                     <option value="<%= proteina %>"><%= proteina %> g</option>
                 <% } %>
@@ -140,7 +139,7 @@
 
             <label for="carbohidrato<%= i %>">Carbohidrato:</label>
             <select name="carbohidrato<%= i %>" id="carbohidrato<%= i %>">
-                <option value="">Selecciona un carbohidrato</option> <!-- Opción por default -->
+                <option value="">Selecciona un carbohidrato</option>
                 <% for (String carbohidrato : carbohidratos) { %>
                     <option value="<%= carbohidrato %>"><%= carbohidrato %> g</option>
                 <% } %>
@@ -148,7 +147,7 @@
 
             <label for="vitaminasMinerales<%= i %>">Vitaminas y Minerales:</label>
             <select name="vitaminasMinerales<%= i %>" id="vitaminasMinerales<%= i %>">
-                <option value="">Selecciona un micronutriente</option> <!-- Opción por default -->
+                <option value="">Selecciona un micronutriente</option>
                 <% for (String vitamina : vitaminasMinerales) { %>
                     <option value="<%= vitamina %>"><%= vitamina %> g</option>
                 <% } %>
@@ -156,7 +155,7 @@
 
             <label for="grasa<%= i %>">Grasas:</label>
             <select name="grasa<%= i %>" id="grasa<%= i %>">
-                <option value="">Selecciona una grasa</option> <!-- Opción por default -->
+                <option value="">Selecciona una grasa</option> 
                 <% for (String grasa : grasas) { %>
                     <option value="<%= grasa %>"><%= grasa %> g</option>
                 <% } %>
@@ -168,7 +167,6 @@
     </form>
 
 <% } else { %>
-    <!-- Mostrar el menú seleccionado -->
     <h1>Tu Menú</h1>
     <ul>
         <% for (int i = 1; i <= 5; i++) { %>
