@@ -3,92 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutinas Establecidas</title>
     <link rel="icon" href="src/logoFitData.png" type="img/png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
-    <link rel="stylesheet" href="Styles7.css">
-    <title>Rutinas Predeterminadas</title>
+    <link rel="stylesheet" href="Styles8.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
 
     <button class="back-button" onclick="window.history.back();">
         <i class="ri-arrow-left-line"></i>
-      </button>
+    </button>    
 
-    <h2>Elige tus Ejercicios para Tren Superior</h2>
-    
-    <div class="checkbox-container">
-        <div class="checkbox-group" id="Hombros">
-            <label>Elige 2 Ejercicios para Hombro</label>
-            <label><input type="checkbox" name="hombros" value="Press supino"> Press militar agarre supino con mancuernas</label>
-            <label><input type="checkbox" name="hombros" value="Press neutro"> Press militar agarre neutro con mancuernas</label>
-            <label><input type="checkbox" name="hombros" value="Press barra"> Press militar con barra</label>
-            <label><input type="checkbox" name="hombros" value="Laterales"> Elevaciones laterales</label>
-            <label><input type="checkbox" name="hombros" value="Frontales"> Elevaciones frontales</label>
-            <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
-        </div>
+    <main>
+        <h1>Rutinas Establecidas</h1>
+        <div id="selected-plan" class="selected-plan"></div>
 
-        <div class="checkbox-group" id="Biceps">
-            <label>Elige 2 Ejercicios para Bíceps</label>
-            <label><input type="checkbox" name="biceps" value="Curl barra"> Curl con barra normal o z</label>
-            <label><input type="checkbox" name="biceps" value="Curl mancuernas"> Curl con mancuernas</label>
-            <label><input type="checkbox" name="biceps" value="Curl martillo"> Curl martillo, con mancuernas o barra, agarre neutro</label>
-            <label><input type="checkbox" name="biceps" value="Curl araña"> Curl en banco inclinado, con las mancuernas por detrás del pecho</label>
-            <label><input type="checkbox" name="biceps" value="Curl predicador"> Curl soportado en un banco, con barra o en máquina</label>
-            <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
-        </div>
+        <div class="plans-grid">
 
-        <div class="checkbox-group" id="Triceps">
-            <label>Elige 2 Ejercicios para Triceps</label>
-            <label><input type="checkbox" name="triceps" value="Press frances"> Press francés con barra z</label>
-            <label><input type="checkbox" name="triceps" value="Extension polea baja"> Extensión de triceps con cuerda, en polea baja</label>
-            <label><input type="checkbox" name="triceps" value="Fondos"> Fondos en paralelas para tríceps</label>
-            <label><input type="checkbox" name="triceps" value="Press cerrado"> Press de pecho cerrado, enfoque en triceps</label>
-            <label><input type="checkbox" name="triceps" value="Copas"> Contracción y extensión de triceps con mancuerna, trasnuca</label>
-            <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
-        </div>
+            <section class="plan-card" data-plan="plan1">
+                <div class="plan-header">
+                    <h2>Rutina de Pecho 1 - Fuerza</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Press de banca con barra: 4 series de 6-8 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Press inclinado con mancuernas: 4 series de 8-10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Press declinado con barra o mancuernas: 3 series de 10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Fondos en paralelas: 3 series al fallo</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan1', 'Rutina de Pecho 1')">Seleccionar Rutina</button>
+                </div>
+            </section>
 
-        <div class="checkbox-group" id="Pecho">
-            <label>Elige 2 Ejercicios para Pecho</label>
-            <label><input type="checkbox" name="pecho" value="Press pecho"> Press de pecho en banco plano</label>
-            <label><input type="checkbox" name="pecho" value="Press inclinado"> Press de pecho en banco inclinado</label>
-            <label><input type="checkbox" name="pecho" value="Cruces polea"> Cruces de arriba hacia abajo en polea</label>
-            <label><input type="checkbox" name="pecho" value="Aperturas"> Aperturas de pecho en máquina o con mancuernas</label>
-            <label><input type="checkbox" name="pecho" value="Press declinado"> Press de pecho en banco declinado</label>
-            <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
-        </div>
+            <section class="plan-card" data-plan="plan2">
+                <div class="plan-header">
+                    <h2>Rutina de Pecho 2 - Hipertrofia</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Press de banca plano con mancuernas: 4 series de 10-12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Aperturas en banco inclinado: 4 series de 12-15 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Press en máquina Smith: 3 series de 12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Cruce de poleas: 4 series de 15 repeticiones</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan2', 'Rutina de Pecho 2')">Seleccionar Rutina</button>
+                </div>
+            </section>
 
-        <div class="checkbox-group" id="Espalda">
-            <label>Elige 2 Ejercicios para Espalda</label>
-            <label><input type="checkbox" name="espalda" value="Jalon pecho"> Jalón al pecho en máquina</label>
-            <label><input type="checkbox" name="espalda" value="Remo supino"> Remo con barra agarre supino</label>
-            <label><input type="checkbox" name="espalda" value="Pull over"> Pull over con cuerda en polea</label>
-            <label><input type="checkbox" name="espalda" value="Remo neutro"> Remo agarre neutro con mancuernas o en máquina</label>
-            <label><input type="checkbox" name="espalda" value="Jalon triangulo"> Jalón al pecho en máquina con agarre en forma de triángulo</label>
-            <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
+            <section class="plan-card" data-plan="plan3">
+                <div class="plan-header">
+                    <h2>Rutina de Espalda 1 - Ancho</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Dominadas con agarre amplio: 4 series al fallo</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Jalón en polea con agarre supino: 4 series de 10-12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Remo con barra: 3 series de 8-10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Pullover en polea alta: 3 series de 12-15 repeticiones</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan3', 'Rutina de Espalda 1')">Seleccionar Rutina</button>
+                </div>
+            </section>
+
+            <section class="plan-card" data-plan="plan4">
+                <div class="plan-header">
+                    <h2>Rutina de Espalda 2 - Grosor</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Remo en barra T: 4 series de 8-10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Remo en polea baja: 4 series de 10-12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Peso muerto convencional: 3 series de 6-8 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Hiperextensiones: 3 series de 15 repeticiones</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan4', 'Rutina de Espalda 2')">Seleccionar Rutina</button>
+                </div>
+            </section>
+
+            <section class="plan-card" data-plan="plan5">
+                <div class="plan-header">
+                    <h2>Rutina de Cuádriceps 1 - Volumen</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Sentadilla con barra: 4 series de 8-10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Prensa de piernas en máquina: 4 series de 10-12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Extensiones de piernas en máquina: 3 series de 12-15 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Sentadillas búlgaras: 3 series de 12 repeticiones por pierna</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan5', 'Rutina de Cuádriceps 1')">Seleccionar Rutina</button>
+                </div>
+            </section>
+
+            <section class="plan-card" data-plan="plan6">
+                <div class="plan-header">
+                    <h2>Rutina de Cuádriceps 2 - Definición</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Sentadilla frontal con barra: 4 series de 8-10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Zancadas en máquina Smith: 4 series de 12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Prensa de piernas en ángulo cerrado: 4 series de 10-12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Sissy Squat: 3 series de 15 repeticiones</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan6', 'Rutina de Cuádriceps 2')">Seleccionar Rutina</button>
+                </div>
+            </section>
+
+            <section class="plan-card" data-plan="plan7">
+                <div class="plan-header">
+                    <h2>Rutina de Femoral 1 - Gluteo </h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Peso muerto rumano: 4 series de 10-12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Curl de piernas acostado: 4 series de 10-12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Hip Thrust: 3 series de 12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Patada de glúteos en máquina: 3 series de 15 repeticiones</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan7', 'Rutina de Femoral 1')">Seleccionar Rutina</button>
+                </div>
+            </section>
+
+            <section class="plan-card" data-plan="plan8">
+                <div class="plan-header">
+                    <h2>Rutina de Femoral 2 - Desarrollo Femoral</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Peso muerto rumano con barra: 4 series de 8-10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Curl de piernas acostado en máquina: 4 series de 12 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Sentadilla sumo con mancuernas o barra: 3 series de 10-12 repeticiones                    </p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Desplante invertido: 3 series de 10-12 repeticiones por pierna</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan8', 'Rutina de Femoral 2')">Seleccionar Rutina</button>
+                </div>
+            </section>
+            
+            <section class="plan-card" data-plan="plan9">
+                <div class="plan-header">
+                    <h2>Rutina de Cuerpo Completo</h2>
+                </div>
+                <div class="routine-list">
+                    <div class="routine-item"><span class="routine-time">Ejercicio 1</span><p>Sentadilla con barra: 4 series de 6-8 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 2</span><p>Peso muerto convencional: 4 series de 6-8 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 3</span><p>Press de banca con barra: 4 series de 8-10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 4</span><p>Remo con barra: 4 series de 10 repeticiones</p></div>
+                    <div class="routine-item"><span class="routine-time">Ejercicio 5</span><p>Press militar con barra: 3 series de 10 repeticiones</p></div>
+                    <button class="select-btn" onclick="selectPlan('plan9', 'Rutina de Cuerpo Completo')">Seleccionar Rutina</button>
+                </div>
+            </section>
         </div>
-    </div>
+    </main>
 
     <script>
-        function limitarCheckboxes(id, max) {
-            const group = document.getElementById(id);
-            const checkboxes = group.querySelectorAll('input[type="checkbox"]');
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const seleccionadas = group.querySelectorAll('input[type="checkbox"]:checked');
-                    if (seleccionadas.length > max) {
-                        this.checked = false;
-                        group.classList.add('error');
-                    } else {
-                        group.classList.remove('error');
-                    }
-                });
+        function selectPlan(planId, planName) {
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
             });
+            
+            const selectedCard = document.querySelector(`[data-plan="${planId}"]`);
+            selectedCard.classList.add('selected');
+
+            const selectedPlanDiv = document.getElementById('selected-plan');
+            selectedPlanDiv.innerHTML = `<div class="selected-message">
+                <p>Has seleccionado: <strong>${planName}</strong></p>
+                <button class="clear-btn" onclick="clearSelection()">Cambiar Selección</button>
+            </div>`;
+            selectedPlanDiv.style.display = 'block';
         }
 
-        ['Hombros', 'Biceps', 'Triceps', 'Pecho', 'Espalda'].forEach(id => {
-            limitarCheckboxes(id, 2);
-        });
+        function clearSelection() {
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('selected-plan').style.display = 'none';
+        }
     </script>
 </body>
 </html>

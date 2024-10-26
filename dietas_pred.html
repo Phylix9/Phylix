@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planes Nutricionales</title>
     <link rel="icon" href="src/logoFitData.png" type="img/png">
-    <link rel="stylesheet" href="Styles8.css">
+    <link rel="stylesheet" href="Styles9.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
@@ -199,16 +199,13 @@
 
     <script>
         function selectPlan(planId, planName) {
-            // Remove selected class from all cards
             document.querySelectorAll('.plan-card').forEach(card => {
                 card.classList.remove('selected');
             });
             
-            // Add selected class to clicked card
             const selectedCard = document.querySelector(`[data-plan="${planId}"]`);
             selectedCard.classList.add('selected');
-            
-            // Update selected plan message
+
             const selectedPlanDiv = document.getElementById('selected-plan');
             selectedPlanDiv.innerHTML = `<div class="selected-message">
                 <p>Has seleccionado: <strong>${planName}</strong></p>
