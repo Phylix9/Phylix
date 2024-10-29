@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="Styles10.css">
 </head>
 <body>
-    <button class="back-button" onclick="window.history.back();">
+    <button class="back-button" onclick="location.href='Proyecto.html'">
         <i class="ri-arrow-left-line"></i>
     </button>
     <main>
@@ -29,7 +29,7 @@
                     <button onclick="calculateIMC()" class="calculate-btn">Calcular IMC</button>
                 </div>
                 <div class="result-container">
-                    <canvas id="imcGauge" width="300" height="300"></canvas>
+                    <canvas id="imcGauge" width="750" height="750"></canvas>
                     <div id="imcResult" class="imc-result"></div>
                 </div>                
             </div>
@@ -127,6 +127,44 @@
         </section>
     </main>
 
+    <footer class="section__container footer__container">
+        <span class="bg__blur"></span>
+        <span class="bg__blur footer__blur"></span>
+        <div class="footer__col">
+          <div class="footer__logo"><img src="src/logoFitData.png" alt="logo" /></div>
+          <p>
+            Da el primer paso hacia una persona más sana y fuerte con nuestros
+            planes inmejorables. ¡Logremos y conquistemos juntos!
+          </p>
+          <div class="footer__socials">
+            <a href="https://www.facebook.com/profile.php?id=61566664822814&mibextid=LQQJ4d"><i class="ri-facebook-fill"></i></a>
+            <a href="https://www.instagram.com/phylix_official?igsh=MTNvb3VvY2dlbGtm"><i class="ri-instagram-line"></i></a>
+            <a href="https://x.com/phylix5im9/status/1839495022829306317?s=46&t=CErG4mdE38hn7Yl5WGVeGQ"><i class="ri-twitter-fill"></i></a>
+          </div>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <a href="#">Business</a>
+          <a href="#">Partnership</a>
+          <a href="#">Network</a>
+        </div>
+        <div class="footer__col">
+          <h4>About Us</h4>
+          <a href="#">Blogs</a>
+          <a href="#">Security</a>
+          <a href="#">Careers</a>
+        </div>
+        <div class="footer__col">
+          <h4>Contact</h4>
+          <a href="#">Contact Us</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
+        </div>
+      </footer>
+      <div class="footer__bar">
+        Copyright © 2024 FitData. Todos los derechos reservados.
+      </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         let imcGauge;
@@ -137,65 +175,66 @@
                 type: 'doughnut',
                 data: {
                     datasets: [{
-                        data: [1],
-                        backgroundColor: ['#e0e0e0'],
-                        circumference: 180,
-                        rotation: 270
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '80%',
-                    plugins: {
-                        tooltip: { enabled: false },
-                        legend: { display: false }
-                    }
+                    data: [1],
+                    backgroundColor: ['#e0e0e0'],
+                    circumference: 180,
+                    rotation: 270
+                }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '80%',
+            plugins: {
+                tooltip: { enabled: false },
+                legend: { display: false }
                 }
-            });
-        }
+            }
+        });
+    }
+
+        function updateGauge(imc) {
+        let color;
+        if (imc < 18.5) color = '#3498db';
+        else if (imc < 25) color = '#2ecc71';
+        else if (imc < 30) color = '#f1c40f';
+        else color = '#e74c3c';
+
+        imcGauge.data.datasets[0].backgroundColor = [color];
+        imcGauge.update();
+    }
+
 
         function calculateIMC() {
             const weight = parseFloat(document.getElementById('weight').value);
             const height = parseFloat(document.getElementById('height').value);
-    
-                if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
-                    alert("Por favor, ingresa un peso y una altura válidos.");
-                    return;
-                    }
 
-            const imc = weight / (height * height);
+        if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+            alert("Por favor, ingresa un peso y una altura válidos.");
+            return;
+        }
+
+        const imc = weight / (height * height);
             updateGauge(imc);
             displayResult(imc);
         }
 
-        function updateGauge(imc) {
-            let color;
-            if (imc < 18.5) color = '#3498db';
-            else if (imc < 25) color = '#2ecc71';
-            else if (imc < 30) color = '#f1c40f';
-            else color = '#e74c3c';
-
-            imcGauge.data.datasets[0].backgroundColor = [color];
-            imcGauge.update();
-        }
 
         function displayResult(imc) {
-            const resultDiv = document.getElementById('imcResult');
-            let category;
-            
-            if (imc < 18.5) category = 'Bajo peso';
-            else if (imc < 25) category = 'Peso normal';
-            else if (imc < 30) category = 'Sobrepeso';
-            else category = 'Obesidad';
+        const resultDiv = document.getElementById('imcResult');
+        let category;
 
-            resultDiv.innerHTML = `
-                <h3>Tu IMC: ${imc.toFixed(1)}</h3>
-                <p>Categoría: ${category}</p>
-            `;
-        }
+        if (imc < 18.5) category = 'Bajo peso';
+        else if (imc < 25) category = 'Peso normal';
+        else if (imc < 30) category = 'Sobrepeso';
+        else category = 'Obesidad';
 
-        window.addEventListener('load', initGauge);
+        resultDiv.innerHTML = `
+            <h3>Tu IMC: ${imc.toFixed(1)}</h3>
+            <p>Categoría: ${category}</p>
+        `;
+    }
+    window.addEventListener('load', initGauge);
     </script>
 
 </body>

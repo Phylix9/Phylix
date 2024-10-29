@@ -21,7 +21,7 @@
 .back-button {
     position: fixed;
     top: 1rem;
-    left: 1rem;
+    left: 0.5rem;
     background-color: transparent;
     border: none;
     cursor: pointer;
