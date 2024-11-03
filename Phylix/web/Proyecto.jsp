@@ -1,3 +1,10 @@
+<%-- 
+    Document   : Proyecto
+    Created on : Nov 2, 2024, 11:15:34 PM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,41 +17,53 @@
     <title>FitData</title>
   </head>
   <body>
-    <button class="back-button" onclick="location.href='index.html'">
-      <i class="ri-arrow-left-line"></i>
+    <button class="back-button" onclick="location.href='index.jsp'">
+        <i class="ri-arrow-left-line"></i>
     </button>
 
     <nav>
-      <div class="nav__logo">
-        <a href="#"><img src="src/LogoFitdata2.png" alt="logo"/></a>
-      </div>
-      <ul class="nav__links">
-        <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
-        <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
-        <li class="link"><a href="Dietas.jsp">Dietas</a></li>
-        <li class="link"><a href="Informacion.jsp">Informacion</a></li>
-      </ul>
-      <div id="authButtonContainer">
-        <button class="btn" onclick="location.href='Login.h'" id="loginButton">Log-in</button>
-      </div>
+        <div class="nav__logo">
+            <a href="#"><img src="src/LogoFitdata2.png" alt="logo"/></a>
+        </div>
+        <ul class="nav__links">
+            <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
+            <li class="link"><a href="Rutinas.html">Rutinas</a></li>
+            <li class="link"><a href="Dietas.html">Dietas</a></li>
+            <li class="link"><a href="Informacion.html">Informacion</a></li>
+        </ul>
+        <div id="authButtonContainer">
+            <% 
+                String username = (String) session.getAttribute("nombre_usuario");
+                if (username != null) { %>
+              <div class="user-icon" onclick="toggleDropdown()">
+                <i class="ri-user-line" style="font-size: 24px; color: #fff;"></i>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="Perfil.jsp">Ver Perfil</a>
+                        <li><a href="Logout.jsp">Cerrar Sesión</a>
+                    </ul>
+                </div>
+              </div>
+            <% } else { %>
+              <button class="btn" onclick="location.href='Login.html'">Log-in</button>
+            <% } %>
+          </div>
     </nav>
 
     <header class="section__container header__container">
-      <div class="header__content">
-        <span class="bg__blur"></span>
-        <span class="bg__blur header__blur"></span>
-        <h1><span>FIT</span>DATA</h1>
-        <h4>SALUD EN UN SOLO CLICK</h4>
-        <p>
-          FitData es una Aplicacion que tiene como objetivo buscar mejorar 
-          y dar soluciones a la salud de las personas mediante rutinas de ejercicios 
-          y planes de alimentacion.
-        </p>
-        <button class="btn" onclick="location.href='Login.html'">Inicia Ahora</button>
-      </div>
-      <div class="header__image">
-        <img src="src/header.png" alt="header" />
-      </div>
+        <div class="header__content">
+            <span class="bg__blur"></span>
+            <span class="bg__blur header__blur"></span>
+            <h1><span>FIT</span>DATA</h1>
+            <h4>SALUD EN UN SOLO CLICK</h4>
+            <p>
+                FitData es una Aplicacion que tiene como objetivo mejorar y dar soluciones a la salud de las personas mediante rutinas de ejercicios y planes de alimentacion.
+            </p>
+            <button class="btn" onclick="location.href='Login.jsp'">Inicia Ahora</button>
+        </div>
+        <div class="header__image">
+            <img src="src/header.png" alt="header" />
+        </div>
     </header>
 
     <section class="section__container explore__container">
@@ -142,39 +161,21 @@
     <div class="footer__bar">
       Copyright © 2024 FitData. Todos los derechos reservados.
     </div>
-
-    <script>
-      // Verifica si el usuario ha iniciado sesión almacenando un valor en el localStorage
-      function checkAuthentication() {
-        const isLoggedIn = localStorage.getItem("isLoggedIn");
-        const authButtonContainer = document.getElementById("authButtonContainer");
-
-        if (isLoggedIn === "true") {
-          // Si el usuario está autenticado, muestra las opciones de perfil y cerrar sesión
-          authButtonContainer.innerHTML = `
-            <button class="btn" onclick="viewProfile()">Ver Perfil</button>
-            <button class="btn" onclick="logout()">Cerrar Sesión</button>
-          `;
+        
+        <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown-menu');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
-      }
 
-      function viewProfile() {
-        location.href = "Perfil.jsp"; // Redirige a la página de perfil
-      }
-
-      function logout() {
-        localStorage.setItem("isLoggedIn", "false"); // Cambia el estado de sesión
-        location.href = "index.jsp"; // Recarga la página principal
-      }
-
-      // Función para simular inicio de sesión (esto debería ser hecho en el backend)
-      function login() {
-        localStorage.setItem("isLoggedIn", "true");
-        location.href = "index.jsp";
-      }
-
-      // Llama a la función al cargar la página para verificar el estado de autenticación
-      checkAuthentication();
+        document.addEventListener('click', (event) => {
+            const dropdown = document.querySelector('.dropdown-menu');
+            const userIcon = document.querySelector('.user-icon');
+            if (dropdown && !userIcon.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
     </script>
+
   </body>
 </html>

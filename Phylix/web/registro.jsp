@@ -1,7 +1,7 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.io.*"%>
 <%@page import="java.sql.*"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,26 +26,36 @@
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, user, password);
             
-                sta = con.prepareStatement("SELECT * FROM Usuario WHERE correo_usuario = ?;");
+            sta = con.prepareStatement("SELECT * FROM Usuario WHERE correo_usuario = ?;");
+            sta.setString(1, correo);
+            r = sta.executeQuery();
+           
+            if (r.next()) {
+        %>
+                <script>
+                    alert("Correo ya registrado. Inicia sesión.");
+                    window.location.href = "Login.html";
+                </script>
+        <%
+            } else {
+                sta = con.prepareStatement("INSERT INTO Usuario (nombre_usuario, correo_usuario, contrasena_usuario) VALUES (?, ?, ?);");
+                sta.setString(1, nombre);
+                sta.setString(2, correo);
+                sta.setString(3, contra);
+                sta.executeUpdate();
+                sta = con.prepareStatement("SELECT id_usuario FROM Usuario WHERE correo_usuario = ?;");
                 sta.setString(1, correo);
                 r = sta.executeQuery();
-           
+                
                 if (r.next()) {
-                    out.println("<script> mensaje2(); </script>");
-                    response.sendRedirect("login.jsp");
-                } 
-                else
-                {
-                    sta = con.prepareStatement("INSERT INTO Usuario (nombre_usuario, correo_usuario, contrasena_usuario) VALUES (?, ?, ?);");
-                    sta.setString(1, nombre);
-                    sta.setString(2, correo);
-                    sta.setString(3, contra);
-                    sta.executeUpdate();
-                    
-                    out.println("<script>alert('Usuario registrado');</script>");
+                    session.setAttribute("id_usuario", r.getInt("id_usuario"));
+                    session.setAttribute("correo", correo);
+                    session.setAttribute("nombre_usuario", nombre);
+
+                    out.println("<script>alert('Usuario registrado exitosamente');</script>");
                     response.sendRedirect("Cuestionario.html");
                 }
-
+            }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             response.getWriter().print("Error: " + e.getMessage());
         } finally {
@@ -58,14 +68,5 @@
             }
         }
         %>
-        
-        <script>
-            function mensaje() {
-                alert("Usuario registrado");
-            }
-            function mensaje2() {
-                alert("Nombre de usuario o contraseña ya está registrados, cree un nuevo");
-            }
-            </script>
     </body>
 </html>

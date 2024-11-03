@@ -18,7 +18,7 @@
 
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="Registro" method="post">
+                <form action="registro.jsp">
                     <h1>Crea Una Cuenta</h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -26,16 +26,16 @@
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>O usa tu email para registrarte</span>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required />
-                    <input type="email" id="email" name="email" placeholder="Email" required />
-                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required 
+                    <input type="text" placeholder="Nombre" required />
+                    <input type="email" placeholder="Email" required />
+                    <input type="password" placeholder="Contraseña" required 
                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]+" minlength="8"/>
                     <button type="submit">Registrarse</button>
                 </form>
             </div>
 
             <div class="form-container sign-in-container">
-                <form action="Login" method="post">
+                <form action="login.jsp">
                     <h1>Iniciar Sesion</h1>
                     <div class="social-container">
                         <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -43,8 +43,8 @@
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>O usa tu cuenta</span>
-                    <input type="email" id="email" name="email" placeholder="Email" required />
-                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required />
+                    <input type="email" placeholder="Email" required />
+                    <input type="password" placeholder="Contraseña" required />
                     <button type="submit">Inicia Sesion</button>
                 </form>
             </div>
