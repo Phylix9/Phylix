@@ -26,7 +26,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "0");
         
-        response.sendRedirect("Acceder.jsp");
+        response.sendRedirect("Proyecto.jsp");
     }
 
     @Override

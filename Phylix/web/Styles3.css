@@ -149,7 +149,7 @@ nav {
 }
 
 .dropdown-menu {
-  display: flex;
+  display: none;
   list-style-type: none;
   position: absolute;
   top: 50px;

@@ -40,12 +40,12 @@
                 <div class="dropdown-menu">
                     <ul>
                         <li><a href="Perfil.jsp">Ver Perfil</a>
-                        <li><a href="Logout.jsp">Cerrar Sesión</a>
+                        <li><a href="Logout">Cerrar Sesión</a>
                     </ul>
                 </div>
               </div>
             <% } else { %>
-              <button class="btn" onclick="location.href='Login.html'">Log-in</button>
+              <button class="btn" onclick="location.href='Login.html'">Login</button>
             <% } %>
           </div>
     </nav>
@@ -59,7 +59,7 @@
             <p>
                 FitData es una Aplicacion que tiene como objetivo mejorar y dar soluciones a la salud de las personas mediante rutinas de ejercicios y planes de alimentacion.
             </p>
-            <button class="btn" onclick="location.href='Login.jsp'">Inicia Ahora</button>
+            <button class="btn" onclick="location.href='Login.html'">Inicia Ahora</button>
         </div>
         <div class="header__image">
             <img src="src/header.png" alt="header" />
@@ -171,6 +171,8 @@
         document.addEventListener('click', (event) => {
             const dropdown = document.querySelector('.dropdown-menu');
             const userIcon = document.querySelector('.user-icon');
+
+            // Verifica si el clic no fue en el icono de usuario ni dentro del menú
             if (dropdown && !userIcon.contains(event.target)) {
                 dropdown.style.display = 'none';
             }

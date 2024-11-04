@@ -33,4 +33,22 @@
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>Menus</servlet-name>
+        <servlet-class>com.Phylix.Menus</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Menus</servlet-name>
+        <url-pattern>/Menus</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CalculoComidas</servlet-name>
+        <servlet-class>com.Phylix.CalculoComidas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CalculoComidas</servlet-name>
+        <url-pattern>/CalculoComidas</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

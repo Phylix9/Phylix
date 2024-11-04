@@ -55,9 +55,10 @@ public class Cuestionario extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, user, password);
 
-            sta2 = con.prepareStatement("INSERT INTO Usuario (edad_usuario, sexo_usuario) VALUES (?, ?);");
+            sta2 = con.prepareStatement("UPDATE Usuario SET edad_usuario = ?, sexo_usuario = ? WHERE id_usuario = ?;");
             sta2.setInt(1, edad);
             sta2.setString(2, sexo);
+            sta2.setInt(3, id_usuario);
             sta2.executeUpdate();
 
             sta = con.prepareStatement("INSERT INTO Cuestionario (nombre_completo, condicion_usuario, "
@@ -76,7 +77,14 @@ public class Cuestionario extends HttpServlet {
 
             sta.executeUpdate();
 
-            response.sendRedirect("Proyecto.html");
+            session.setAttribute("edad", edad);
+            session.setAttribute("sexo", sexo);
+            session.setAttribute("frecuencia", frecuencia);
+            session.setAttribute("objetivos", objetivos);
+            session.setAttribute("alergias", alergia);
+            session.setAttribute("restriccion", restriccion);
+
+            response.sendRedirect("Proyecto.jsp");
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             response.getWriter().print("Error: " + e.getMessage());
