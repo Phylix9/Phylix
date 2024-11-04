@@ -37,10 +37,10 @@ public class Menus extends HttpServlet {
         List<String> grasas = new ArrayList<>();
 
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            cargarAlimentos(conn, "Proteína", id_usuario, proteinas);
-            cargarAlimentos(conn, "Carbohidrato", id_usuario, carbohidratos);
-            cargarAlimentos(conn, "Vitamina", id_usuario, vitaminasMinerales);
-            cargarAlimentos(conn, "Grasa", id_usuario, grasas);
+            cargarAlimentos(conn, "Proteína", proteinas);
+            cargarAlimentos(conn, "Carbohidrato", carbohidratos);
+            cargarAlimentos(conn, "Vitamina", vitaminasMinerales);
+            cargarAlimentos(conn, "Grasa", grasas);
 
             request.setAttribute("proteinas", proteinas);
             request.setAttribute("carbohidratos", carbohidratos);
@@ -53,11 +53,10 @@ public class Menus extends HttpServlet {
         }
     }
 
-    private void cargarAlimentos(Connection conn, String categoria, Integer id_usuario, List<String> lista) throws SQLException {
-        String query = "SELECT nombre_alim FROM Alimentos WHERE categoria = ? AND id_usuario = ?";
+    private void cargarAlimentos(Connection conn, String categoria, List<String> lista) throws SQLException {
+        String query = "SELECT nombre_alim FROM Alimentos WHERE categoria = ?;";
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, categoria);
-            ps.setInt(2, id_usuario);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     lista.add(rs.getString("nombre_alim"));

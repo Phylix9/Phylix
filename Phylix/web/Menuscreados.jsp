@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page import="java.util.List" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -14,43 +13,69 @@
 <h2>Alimentos Seleccionados</h2>
 
 <% 
-    List<String> proteinas = (List<String>) request.getAttribute("proteinas");
-    List<String> carbohidratos = (List<String>) request.getAttribute("carbohidratos");
-    List<String> vitaminasMinerales = (List<String>) request.getAttribute("vitaminasMinerales");
-    List<String> grasas = (List<String>) request.getAttribute("grasas");
+    String[] proteinasSeleccionadas = (String[]) request.getAttribute("proteinasComida");
+    Integer porcionProteina = (Integer) request.getAttribute("porcionProteinaComida");
     
-    int porcionProteina = (int) request.getAttribute("porcionProteina");
-    int porcionCarbohidrato = (int) request.getAttribute("porcionCarbohidrato");
-    int porcionGrasas = (int) request.getAttribute("porcionGrasas");
+    String[] carbohidratosSeleccionados = (String[]) request.getAttribute("carbohidratosComida");
+    Integer porcionCarbohidrato = (Integer) request.getAttribute("porcionCarbohidratoComida");
+    
+    String[] vitaminasSeleccionadas = (String[]) request.getAttribute("vitaminasComida");
+    Integer porcionVitamina = (Integer) request.getAttribute("porcionVitaminasComida");
+    
+    String[] grasasSeleccionadas = (String[]) request.getAttribute("grasasComida");
+    Integer porcionGrasa = (Integer) request.getAttribute("porcionGrasasComida");
+    
+    int numComidas = 5;  // Ajusta según la cantidad de comidas que deseas mostrar
 %>
 
-<h3>Proteínas</h3>
-<ul>
-    <% for (String proteina : proteinas) { %>
-        <li><%= proteina %> - <%= porcionProteina %> gramos</li>
-    <% } %>
-</ul>
+<% for (int i = 0; i < numComidas; i++) { %>
+    <h3>Comida <%= (i + 1) %></h3>
+    <ul>
+        <% 
+            if (proteinasSeleccionadas != null && i < proteinasSeleccionadas.length) { 
+                String proteina = proteinasSeleccionadas[i];
+        %>
+                <li><%= proteina != null ? proteina : "No seleccionada" %> - <%= porcionProteina %> gramos</li>
+        <% 
+            } else { 
+        %>
+            <p>No se seleccionó una proteína para esta comida.</p>
+        <% } %>
 
-<h3>Carbohidratos</h3>
-<ul>
-    <% for (String carbohidrato : carbohidratos) { %>
-        <li><%= carbohidrato %> - <%= porcionCarbohidrato %> gramos</li>
-    <% } %>
-</ul>
-
-<h3>Vitaminas y Minerales</h3>
-<ul>
-    <% for (String vitamina : vitaminasMinerales) { %>
-        <li><%= vitamina %></li>
-    <% } %>
-</ul>
-
-<h3>Grasas</h3>
-<ul>
-    <% for (String grasa : grasas) { %>
-        <li><%= grasa %> - <%= porcionGrasas %> gramos</li>
-    <% } %>
-</ul>
+        <% 
+            if (carbohidratosSeleccionados != null && i < carbohidratosSeleccionados.length) { 
+                String carbohidrato = carbohidratosSeleccionados[i];
+        %>
+                <li><%= carbohidrato != null ? carbohidrato : "No seleccionada" %> - <%= porcionCarbohidrato %> gramos</li>
+        <% 
+            } else { 
+        %>
+            <p>No se seleccionó un carbohidrato para esta comida.</p>
+        <% } %>
+        <% 
+            if (vitaminasSeleccionadas != null && i < vitaminasSeleccionadas.length) { 
+                String vitamina = vitaminasSeleccionadas[i];
+        %>
+                <li><%= vitamina != null ? vitamina : "No seleccionada" %> - <%= porcionVitamina %> gramos</li>
+        <% 
+            } else { 
+        %>
+            <p>No se seleccionó una vitamina/mineral para esta comida.</p>
+        <% } %>
+        
+        <% 
+            if (grasasSeleccionadas != null && i < grasasSeleccionadas.length) { 
+                String grasa = grasasSeleccionadas[i];
+        %>
+                <li><%= grasa != null ? grasa : "No seleccionada" %> - <%= porcionGrasa %> gramos</li>
+        <% 
+            } else { 
+        %>
+            <p>No se seleccionó una grasa para esta comida.</p>
+        <% } %>
+    </ul>
+    <br>
+<% } %>
 
 </body>
 </html>

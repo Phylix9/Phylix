@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package com.Phylix;
 
 import jakarta.servlet.ServletException;
@@ -24,6 +20,12 @@ public class CalculoComidas extends HttpServlet {
         HttpSession session = request.getSession();
 
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+
+        if (idUsuario == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+            return;
+        }
+
         int edad = 0;
         String sexo = null;
         String objetivos = null;
@@ -49,6 +51,7 @@ public class CalculoComidas extends HttpServlet {
             if (rs.next()) {
                 edad = rs.getInt("edad_usuario");
                 sexo = rs.getString("sexo_usuario");
+                System.out.println("Edad: " + edad + ", Sexo: " + sexo);
             } else {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no encontrado.");
                 return;
@@ -80,24 +83,23 @@ public class CalculoComidas extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        
-        
-        
+
         List<String> proteinas = new ArrayList<>();
         List<String> carbohidratos = new ArrayList<>();
         List<String> vitaminasMinerales = new ArrayList<>();
         List<String> grasas = new ArrayList<>();
 
+        try {
+            con = DriverManager.getConnection(url, user, password);
 
-        try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            String query = "SELECT nombre, categoria FROM Alimentos";
-            PreparedStatement statement = conn.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
+            String query = "SELECT nombre_alim, categoria FROM Alimentos";
+            stmt = con.prepareStatement(query);
+            rs = stmt.executeQuery();
 
-            while (resultSet.next()) {
-                String nombre = resultSet.getString("nombre");
-                String categoria = resultSet.getString("categoria");
-                
+            while (rs.next()) {
+                String nombre = rs.getString("nombre_alim");
+                String categoria = rs.getString("categoria");
+
                 switch (categoria) {
                     case "Proteína":
                         proteinas.add(nombre);
@@ -113,22 +115,47 @@ public class CalculoComidas extends HttpServlet {
                         break;
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-          }
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        String[] proteinasSeleccionadas = new String[5];
+        String[] carbohidratosSeleccionados = new String[5];
+        String[] vitaminasSeleccionadas = new String[5];
+        String[] grasasSeleccionadas = new String[5];
+
+        for(int i = 0; i<5 ; i++){
+        proteinasSeleccionadas[i] = request.getParameter("proteina"+(i+1));
+        carbohidratosSeleccionados[i] = request.getParameter("carbohidrato"+(i+1));
+        vitaminasSeleccionadas[i] = request.getParameter("vitaminasMinerales"+(i+1));
+        grasasSeleccionadas[i] = request.getParameter("grasa"+(i+1));
+        }
+
 
         int porcionProteina = calcularPorcionProteina(edad, sexo, frecuencia, objetivos);
         int porcionCarbohidrato = calcularPorcionCarbohidrato(edad, sexo, frecuencia, objetivos);
         int porcionGrasas = calcularPorcionGrasas(edad, sexo, frecuencia, objetivos);
+        int porcionVitaminas = calcularPorcionVitaminas(edad, sexo, frecuencia, objetivos);
 
-        request.setAttribute("proteinas", proteinas);
-        request.setAttribute("carbohidratos", carbohidratos);
-        request.setAttribute("vitaminasMinerales", vitaminasMinerales);
-        request.setAttribute("grasas", grasas);
+            request.setAttribute("proteinasComida", proteinasSeleccionadas);
+            request.setAttribute("carbohidratosComida", carbohidratosSeleccionados);
+            request.setAttribute("vitaminasComida", vitaminasSeleccionadas);
+            request.setAttribute("grasasComida", grasasSeleccionadas);
 
-        request.setAttribute("porcionProteina", porcionProteina);
-        request.setAttribute("porcionCarbohidrato", porcionCarbohidrato);
-        request.setAttribute("porcionGrasas", porcionGrasas);
+            request.setAttribute("porcionProteinaComida", porcionProteina);
+            request.setAttribute("porcionCarbohidratoComida", porcionCarbohidrato);
+            request.setAttribute("porcionGrasasComida", porcionGrasas);
+            request.setAttribute("porcionVitaminasComida", porcionVitaminas);
+        
 
         request.getRequestDispatcher("Menuscreados.jsp").forward(request, response);
     }
@@ -136,11 +163,15 @@ public class CalculoComidas extends HttpServlet {
     private int calcularPorcionProteina(int edad, String sexo, String frecuencia, String objetivos) {
         int porcion = 0;
         if (objetivos.equals("bajar_peso")) {
-            porcion = (sexo.equals("masculino")) ? 100 : 80;
+            porcion -= 10;
         } else if (objetivos.equals("ganar_musculo")) {
-            porcion = (sexo.equals("masculino")) ? 150 : 120;
-        }
-        if (frecuencia.equals("alta")) {
+            porcion += 10;
+        }else if (objetivos.equals("mejorar_resistencia")) {
+            porcion += 10;
+        } else{
+            return porcion;
+          }
+        if ("alta".equals(frecuencia)) {
             porcion += 20;
         }
         return porcion;
@@ -148,12 +179,16 @@ public class CalculoComidas extends HttpServlet {
 
     private int calcularPorcionCarbohidrato(int edad, String sexo, String frecuencia, String objetivos) {
         int porcion = 0;
-        if (objetivos.equals("bajar de peso")) {
-            porcion = (sexo.equals("masculino")) ? 70 : 60;
+        if (objetivos.equals("bajar_peso")) {
+            porcion -= 10;
         } else if (objetivos.equals("ganar_musculo")) {
-            porcion = (sexo.equals("masculino")) ? 120 : 100;
-        }
-        if (frecuencia.equals("alta")) {
+            porcion += 10;
+        }else if (objetivos.equals("mejorar_resistencia")) {
+            porcion += 10;
+        } else{
+            return porcion;
+          }
+        if ("alta".equals(frecuencia)) {
             porcion += 10;
         }
         return porcion;
@@ -161,13 +196,32 @@ public class CalculoComidas extends HttpServlet {
 
     private int calcularPorcionGrasas(int edad, String sexo, String frecuencia, String objetivos) {
         int porcion = (sexo.equals("masculino")) ? 40 : 30;
-        if (objetivos.equals("bajar de peso")) {
+        if (objetivos.equals("bajar_peso")) {
             porcion -= 10;
         } else if (objetivos.equals("ganar_musculo")) {
             porcion += 10;
-        }
+        }else if (objetivos.equals("mejorar_resistencia")) {
+            porcion += 10;
+        } else{
+            return porcion;
+          }
         return porcion;
     }
+
+    private int calcularPorcionVitaminas(int edad, String sexo, String frecuencia, String objetivos) {
+        int porcion = (sexo.equals("masculino")) ? 40 : 30;
+        if (objetivos.equals("bajar_peso")) {
+            porcion -= 10;
+        } else if (objetivos.equals("ganar_musculo")) {
+            porcion += 10;
+        }else if (objetivos.equals("mejorar_resistencia")) {
+            porcion += 10;
+        } else{
+            return porcion;
+          }
+        return porcion;
+    }
+        
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -184,6 +238,5 @@ public class CalculoComidas extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Calculocomidas";
-    }// </editor-fold>
-
+    }
 }

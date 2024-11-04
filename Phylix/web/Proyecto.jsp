@@ -39,7 +39,7 @@
                 <i class="ri-user-line" style="font-size: 24px; color: #fff;"></i>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="Perfil.jsp">Ver Perfil</a>
+                        <li><a href="Perfil.html">Ver Perfil</a>
                         <li><a href="Logout">Cerrar Sesión</a>
                     </ul>
                 </div>
@@ -172,7 +172,6 @@
             const dropdown = document.querySelector('.dropdown-menu');
             const userIcon = document.querySelector('.user-icon');
 
-            // Verifica si el clic no fue en el icono de usuario ni dentro del menú
             if (dropdown && !userIcon.contains(event.target)) {
                 dropdown.style.display = 'none';
             }
