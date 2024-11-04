@@ -157,10 +157,10 @@ label {
     letter-spacing: 0.3px;
 }
 
-input, select {
+input, select, option {
     width: 100%;
     padding: 0.875rem 1.25rem;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--primary-color);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     color: white;
@@ -170,7 +170,7 @@ input, select {
 }
 
 input:hover, select:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--primary-color);
 }
 
 input:focus, select:focus {
