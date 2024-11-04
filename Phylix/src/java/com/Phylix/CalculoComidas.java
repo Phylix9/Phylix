@@ -105,10 +105,10 @@ public class CalculoComidas extends HttpServlet {
                     case "Carbohidrato":
                         carbohidratos.add(nombre);
                         break;
-                    case "Vitaminas/Minerales":
+                    case "Vitamina":
                         vitaminasMinerales.add(nombre);
                         break;
-                    case "Grasas":
+                    case "Grasa":
                         grasas.add(nombre);
                         break;
                 }
