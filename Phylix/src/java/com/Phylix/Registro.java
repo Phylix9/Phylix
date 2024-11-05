@@ -63,7 +63,7 @@ public class Registro extends HttpServlet {
                     session.setAttribute("id_usuario", idUsuario);
                     session.setAttribute("correo_usuario", correo);
                     session.setAttribute("nombre_usuario", nombre);
-                    response.sendRedirect("Cuestionario.html");
+                    response.sendRedirect("Cuestionario.jsp");
                 }
             }
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {

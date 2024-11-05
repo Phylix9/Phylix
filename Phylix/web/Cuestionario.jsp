@@ -1,3 +1,11 @@
+<%-- 
+    Document   : Cuestionario
+    Created on : Nov 4, 2024, 10:55:05 AM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

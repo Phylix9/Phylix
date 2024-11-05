@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,9 +17,27 @@
         </div>
         <ul class="nav__links">
           <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
-          <li class="link"><a href="Dietas.html">Dietas</a></li>
-          <li class="link"><a href="Informacion.html">Informacion</a></li>
+          <li class="link"><a href="Dietas.jsp">Dietas</a></li>
+          <li class="link"><a href="Informacion.jsp">Informacion</a></li>
         </ul>
+        
+        <div id="authButtonContainer">
+            <% 
+                String username = (String) session.getAttribute("nombre_usuario");
+                if (username != null) { %>
+              <div class="user-icon" onclick="toggleDropdown()">
+                <i class="ri-user-line" style="font-size: 24px; color: #fff;"></i>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="Perfil.jsp">Ver Perfil</a>
+                        <li><a href="Logout">Cerrar Sesión</a>
+                    </ul>
+                </div>
+              </div>
+            <% } else { %>
+              <button class="btn" onclick="location.href='Login.html'">Login</button>
+            <% } %>
+          </div>
       </nav>
 
       <section class="section__container">
@@ -52,7 +72,7 @@
                 </span>
                 <h4>Tu propio plan adaptado a ti</h4>
                 <p>Selecciona tus objetivos y preferencias para crear una rutina única.</p>
-                <button class="btn" onclick="location.href='Grupo_Muscular.html'">Crear Rutina</button>
+                <button class="btn" onclick="location.href='Grupo_Muscular.jsp'">Crear Rutina</button>
             </div>
             <div class="explore__card">
                 <span class="card__icon">
@@ -102,5 +122,21 @@
     <div class="footer__bar">
       Copyright © 2024 FitData. Todos los derechos reservados.
     </div>
+          
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.querySelector('.dropdown-menu');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        document.addEventListener('click', (event) => {
+            const dropdown = document.querySelector('.dropdown-menu');
+            const userIcon = document.querySelector('.user-icon');
+
+            if (dropdown && !userIcon.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>

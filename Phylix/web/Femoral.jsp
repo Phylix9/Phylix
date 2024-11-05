@@ -1,3 +1,10 @@
+<%-- 
+    Document   : Femoral
+    Created on : Nov 4, 2024, 10:51:14 AM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,34 +23,38 @@
 
     <h2>Elige tus Ejercicios</h2>
     
+    <form action="CrearRutina" method="post">
     <div class="checkbox-container">
         <div class="checkbox-group" id="Femoral">
+            <input type="hidden" name="grupoEjercicio0" value="Femoral">
             <label>Elige 3 Ejercicios para Femoral</label>
-            <label><input type="checkbox" name="femoral" value="Curl sentado"> Curl de piernas sentado</label>
-            <label><input type="checkbox" name="femoral" value="Curl acostado"> Curl de piernas acostado</label>
-            <label><input type="checkbox" name="femoral" value="Peso muerto"> Peso muerto rumano</label>
-            <label><input type="checkbox" name="femoral" value="Peso muerto sumo"> Peso muerto sumo</label>
-            <label><input type="checkbox" name="femoral" value="Hip Thrust"> Hip Thrust</label>
+            <label><input type="checkbox" name="ejercicio1_1" value="Curl de piernas sentado"> Curl de piernas sentado</label>
+            <label><input type="checkbox" name="ejercicio1_2" value="Curl de piernas acostado"> Curl de piernas acostado</label>
+            <label><input type="checkbox" name="ejercicio1_3" value="Peso muerto rumano"> Peso muerto rumano</label>
+            <label><input type="checkbox" name="ejercicio1_4" value="Peso muerto sumo"> Peso muerto sumo</label>
+            <label><input type="checkbox" name="ejercicio1_5" value="Hip Thrust"> Hip Thrust</label>
             <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
         </div>
-    
+
         <div class="checkbox-group" id="Gluteo">
+            <input type="hidden" name="grupoEjercicio1" value="Glúteo">
             <label>Elige 3 Ejercicios para Glúteo</label>
-            <label><input type="checkbox" name="gluteo" value="Hip thrust"> Hip Thrust</label>
-            <label><input type="checkbox" name="gluteo" value="Puente"> Puente de glúteo</label>
-            <label><input type="checkbox" name="gluteo" value="Sentadilla profunda"> Sentadilla profunda</label>
-            <label><input type="checkbox" name="gluteo" value="Patada de glúteo"> Patada de glúteo en polea</label>
-            <label><input type="checkbox" name="gluteo" value="Cable Pull-through"> Cable Pull-through</label>
+            <label><input type="checkbox" name="ejercicio2_1" value="Hip Thrust"> Hip Thrust</label>
+            <label><input type="checkbox" name="ejercicio2_2" value="Puente de glúteo"> Puente de glúteo</label>
+            <label><input type="checkbox" name="ejercicio2_3" value="Sentadilla profunda"> Sentadilla profunda</label>
+            <label><input type="checkbox" name="ejercicio2_4" value="Patada de glúteo en polea"> Patada de glúteo en polea</label>
+            <label><input type="checkbox" name="ejercicio2_5" value="Cable Pull-through"> Cable Pull-through</label>
             <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
         </div>
 
         <div class="checkbox-group" id="Abductor">
+            <input type="hidden" name="grupoEjercicio2" value="Abductor">
             <label>Elige 2 Ejercicios para Abductor</label>
-            <label><input type="checkbox" name="abductor_interno" value="Adducción de cadera en máquina"> Adducción de cadera en máquina</label>
-            <label><input type="checkbox" name="abductor_interno" value="Adducción de cadera con banda"> Adducción de cadera con banda elástica</label>
-            <label><input type="checkbox" name="abductor_interno" value="Elevación lateral en banco inclinado"> Elevación lateral en banco inclinado</label>
-            <label><input type="checkbox" name="abductor_interno" value="Sentadilla con piernas juntas"> Sentadilla con piernas juntas</label>
-            <label><input type="checkbox" name="abductor_interno" value="Ejercicio de mariposa"> Ejercicio de mariposa (butterfly stretch)</label>
+            <label><input type="checkbox" name="ejercicio3_1" value="Adducción de cadera en máquina"> Adducción de cadera en máquina</label>
+            <label><input type="checkbox" name="ejercicio3_2" value="Adducción de cadera con banda elástica"> Adducción de cadera con banda elástica</label>
+            <label><input type="checkbox" name="ejercicio3_3" value="Elevación lateral en banco inclinado"> Elevación lateral en banco inclinado</label>
+            <label><input type="checkbox" name="ejercicio3_4" value="Sentadilla con piernas juntas"> Sentadilla con piernas juntas</label>
+            <label><input type="checkbox" name="ejercicio3_5" value="Ejercicio de mariposa (butterfly stretch)"> Ejercicio de mariposa (butterfly stretch)</label>
             <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
         </div>
     
@@ -71,8 +82,9 @@
     </div>
 
     <div class="button-container">
-        <button class="btn" onclick="location.href='Rutinas.html'">Generar Rutina</button>
+        <input type="submit" class="btn" name="Femoral" value="Crear Rutina">
     </div>
+    </form>
 
     <script>
         function limitarCheckboxes(id, max) {

@@ -159,6 +159,11 @@ nav {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 150px;
   z-index: 10;
+  transition: opacity 0.3s ease;
+}
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
 }
 
 .dropdown-menu a {

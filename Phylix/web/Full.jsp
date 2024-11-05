@@ -1,3 +1,11 @@
+<%-- 
+    Document   : Full
+    Created on : Nov 4, 2024, 10:51:10 AM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,6 +24,7 @@
 
     <h2>Elige tus Ejercicios</h2>
     
+    <form action="CrearRutinaFull" method="post">
     <div class="checkbox-container">
         <div class="checkbox-group" id="Hombros">
             <label>Elige 1 Ejercicio para Hombro</label>
@@ -109,8 +118,9 @@
     </div>
 
     <div class="button-container">
-        <button class="btn" onclick="location.href='Rutinas.html'">Generar Rutina</button>
+        <input type="submit" class="btn" name="Full" value="Crear Rutina">
     </div>
+    </form>
 
     <script>
         function limitarCheckboxes(id, max) {

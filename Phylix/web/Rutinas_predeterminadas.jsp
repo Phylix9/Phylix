@@ -1,3 +1,10 @@
+<%-- 
+    Document   : Rutinas_predenterminadas
+    Created on : Nov 4, 2024, 10:52:28 AM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -149,16 +156,21 @@
             
             const selectedCard = document.querySelector(`[data-plan="${planId}"]`);
             selectedCard.classList.add('selected');
+            
+            const selectedCard = document.querySelector(`[data-plan="${planId}"]`);
+            selectedCard.classList.add('selected');
 
             const selectedPlanDiv = document.getElementById('selected-plan');
-            selectedPlanDiv.innerHTML = `<div class="selected-message">
-                <p>Has seleccionado: <strong>${planName}</strong></p>
-                <button class="clear-btn" onclick="location.href='CrearRutina'">Crear Rutina</button>
-            </div>`;
+            selectedPlanDiv.innerHTML = `
+                <div class="selected-message">
+                    <p>Has seleccionado: <strong>${planName}</strong></p>
+                    <button class="clear-btn" onclick="clearSelection()">Cambiar Selección</button>
+                </div>`;
             selectedPlanDiv.style.display = 'block';
         }
 
         function clearSelection() {
+            // Limpia cualquier selección visible
             document.querySelectorAll('.plan-card').forEach(card => {
                 card.classList.remove('selected');
             });

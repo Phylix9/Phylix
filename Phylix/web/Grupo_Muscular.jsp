@@ -1,3 +1,11 @@
+<%-- 
+    Document   : Grupo_Muscular
+    Created on : Nov 4, 2024, 10:50:10 AM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -36,19 +44,19 @@
                     <h3>Tren superior</h3>
                 </header>
                 <div class="image-container">
-                    <a href="Espalda.html" class="image-wrapper">
+                    <a href="Espalda.jsp" class="image-wrapper">
                         <img src="src/espalda.jpg" alt="Espalda" class="hero-image">
                         <span class="image-text">Espalda</span>
                     </a>
-                    <a href="Pecho.html" class="image-wrapper">
+                    <a href="Pecho.jsp" class="image-wrapper">
                         <img src="src/pecho.jpeg" alt="Pecho" class="hero-image">
                         <span class="image-text">Pecho</span>
                     </a>
-                    <a href="Brazo.html" class="image-wrapper">
+                    <a href="Brazo.jsp" class="image-wrapper">
                         <img src="src/brazo.jpg" alt="Brazo" class="hero-image">
                         <span class="image-text">Brazo</span>
                     </a>
-                    <a href="Full.html" class="image-wrapper">
+                    <a href="Full.jsp" class="image-wrapper">
                         <img src="src/full.jpg" alt="Full" class="hero-image">
                         <span class="image-text">Full Body</span>
                     </a>
@@ -59,19 +67,19 @@
                     <h3>Tren inferior</h3>
                 </header>
                 <div class="image-container">
-                    <a href="Cuadriceps.html" class="image-wrapper">
+                    <a href="Cuadriceps.jsp" class="image-wrapper">
                         <img src="src/extension.png" alt="Cuadriceps" class="hero-image">
                         <span class="image-text">Cuadriceps</span>
                     </a>
-                    <a href="Femoral.html" class="image-wrapper">
+                    <a href="Femoral.jsp" class="image-wrapper">
                         <img src="src/femoral2.jpg" alt="Femoral" class="hero-image">
                         <span class="image-text">Femoral</span>
                     </a>
-                    <a href="Gluteo.html" class="image-wrapper">
+                    <a href="Gluteo.jsp" class="image-wrapper">
                         <img src="src/sentadilla.jpg" alt="Gluteo" class="hero-image">
                         <span class="image-text">Glúteo</span>
                     </a>
-                    <a href="Abdomen.html" class="image-wrapper">
+                    <a href="Abdomen.jsp" class="image-wrapper">
                         <img src="src/abdominales.jpg" alt="Abdomen" class="hero-image">
                         <span class="image-text">Abdomen</span>
                     </a>

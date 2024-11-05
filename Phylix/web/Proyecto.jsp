@@ -27,8 +27,8 @@
         </div>
         <ul class="nav__links">
             <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
-            <li class="link"><a href="Rutinas.html">Rutinas</a></li>
-            <li class="link"><a href="Dietas.html">Dietas</a></li>
+            <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
+            <li class="link"><a href="Dietas.jsp">Dietas</a></li>
             <li class="link"><a href="Informacion.html">Informacion</a></li>
         </ul>
         <div id="authButtonContainer">
@@ -39,8 +39,8 @@
                 <i class="ri-user-line" style="font-size: 24px; color: #fff;"></i>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="Perfil.html">Ver Perfil</a>
-                        <li><a href="Logout">Cerrar Sesión</a>
+                        <li><a href="Perfil.jsp">Ver Perfil</a></li>
+                        <li><a href="Logout">Cerrar Sesión</a></li>
                     </ul>
                 </div>
               </div>
@@ -162,7 +162,7 @@
       Copyright © 2024 FitData. Todos los derechos reservados.
     </div>
         
-        <script>
+    <script>
         function toggleDropdown() {
             const dropdown = document.querySelector('.dropdown-menu');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';

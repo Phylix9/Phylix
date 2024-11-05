@@ -51,4 +51,13 @@
         <url-pattern>/CalculoComidas</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>CrearRutina</servlet-name>
+        <servlet-class>com.Phylix.CrearRutina</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CrearRutina</servlet-name>
+        <url-pattern>/CrearRutina</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

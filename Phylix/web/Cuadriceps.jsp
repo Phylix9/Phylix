@@ -1,3 +1,11 @@
+<%-- 
+    Document   : Cuadriceps
+    Created on : Nov 4, 2024, 10:53:53 AM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,36 +24,41 @@
 
     <h2>Elige tus Ejercicios</h2>
     
+    <form action="CrearRutina" method="post">
     <div class="checkbox-container">
         <div class="checkbox-group" id="Cuadriceps">
+            <input type="hidden" name="grupoEjercicio0" value="Cuadriceps">
             <label>Elige 3 Ejercicios para Cuádriceps</label>
-            <label><input type="checkbox" name="cuadriceps" value="Sentadilla"> Sentadilla con barra</label>
-            <label><input type="checkbox" name="cuadriceps" value="Prensa"> Prensa de piernas</label>
-            <label><input type="checkbox" name="cuadriceps" value="Extension"> Extensión de piernas en máquina</label>
-            <label><input type="checkbox" name="cuadriceps" value="Zancadas"> Zancadas con mancuernas</label>
-            <label><input type="checkbox" name="cuadriceps" value="Hack Squat"> Hack Squat</label>
+            <label><input type="checkbox" name="ejercicio1_1" value="Sentadilla con barra"> Sentadilla con barra</label>
+            <label><input type="checkbox" name="ejercicio1_2" value="Prensa de piernas"> Prensa de piernas</label>
+            <label><input type="checkbox" name="ejercicio1_3" value="Extensión de piernas en máquina"> Extensión de piernas en máquina</label>
+            <label><input type="checkbox" name="ejercicio1_4" value="Zancadas con mancuernas"> Zancadas con mancuernas</label>
+            <label><input type="checkbox" name="ejercicio1_5" value="Hack Squat"> Hack Squat</label>
             <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
         </div>
 
         <div class="checkbox-group" id="Pantorrilla">
+            <input type="hidden" name="grupoEjercicio1" value="Pantorrilla">
             <label>Elige 3 Ejercicios para Pantorrilla</label>
-            <label><input type="checkbox" name="pantorrilla" value="Elevación gemelos de pie"> Elevación de gemelos de pie</label>
-            <label><input type="checkbox" name="pantorrilla" value="Elevación gemelos sentado"> Elevación de gemelos sentado</label>
-            <label><input type="checkbox" name="pantorrilla" value="Prensa"> Prensa para pantorrillas</label>
-            <label><input type="checkbox" name="pantorrilla" value="Step"> Step con elevación de gemelos</label>
-            <label><input type="checkbox" name="pantorrilla" value="Saltos"> Saltos con peso</label>
+            <label><input type="checkbox" name="ejercicio2_1" value="Elevación de gemelos de pie"> Elevación de gemelos de pie</label>
+            <label><input type="checkbox" name="ejercicio2_2" value="Elevación de gemelos sentado"> Elevación de gemelos sentado</label>
+            <label><input type="checkbox" name="ejercicio2_3" value="Prensa para pantorrillas"> Prensa para pantorrillas</label>
+            <label><input type="checkbox" name="ejercicio2_4" value="Step con elevación de gemelos"> Step con elevación de gemelos</label>
+            <label><input type="checkbox" name="ejercicio2_5" value="Saltos con peso"> Saltos con peso</label>
             <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
         </div>
 
         <div class="checkbox-group" id="Abductor">
+            <input type="hidden" name="grupoEjercicio2" value="Abductor">
             <label>Elige 2 Ejercicios para Abductor</label>
-            <label><input type="checkbox" name="abductor_externo" value="Abducción de cadera en máquina"> Abducción de cadera en máquina</label>
-            <label><input type="checkbox" name="abductor_externo" value="Elevaciones laterales de pierna"> Elevaciones laterales de pierna</label>
-            <label><input type="checkbox" name="abductor_externo" value="Puente con abducción"> Puente con abducción de cadera</label>
-            <label><input type="checkbox" name="abductor_externo" value="Ejercicio con banda de resistencia"> Ejercicio con banda de resistencia (abducción de cadera)</label>
-            <label><input type="checkbox" name="abductor_externo" value="Sentadillas laterales"> Sentadillas laterales</label>
+            <label><input type="checkbox" name="ejercicio3_1" value="Abducción de cadera en máquina"> Abducción de cadera en máquina</label>
+            <label><input type="checkbox" name="ejercicio3_2" value="Elevaciones laterales de pierna"> Elevaciones laterales de pierna</label>
+            <label><input type="checkbox" name="ejercicio3_3" value="Puente con abducción de cadera"> Puente con abducción de cadera</label>
+            <label><input type="checkbox" name="ejercicio3_4" value="Ejercicio con banda de resistencia (abducción de cadera)"> Ejercicio con banda de resistencia (abducción de cadera)</label>
+            <label><input type="checkbox" name="ejercicio3_5" value="Sentadillas laterales"> Sentadillas laterales</label>
             <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
         </div>
+
         
 
         <!--
@@ -85,8 +98,9 @@
     </div>
 
     <div class="button-container">
-        <button class="btn" onclick="location.href='Rutinas.html'">Generar Rutina</button>
+        <input type="submit" class="btn" name="Cuadriceps" value="Crear Rutina">
     </div>
+    </form>
 
     <script>
         function limitarCheckboxes(id, max) {
