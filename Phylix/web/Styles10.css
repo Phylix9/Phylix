@@ -51,6 +51,10 @@ a {
     padding: 0.5rem;
 }
 
+#imc-value, #cat-value {
+    display: none;
+}
+
 .back-button:hover {
     color: var(--secondary);
 }
@@ -123,7 +127,8 @@ input {
     background-color: #4080c8;
 }
 
-.result-container {
+
+.result-container{
     flex: 1;
     display: flex;
     flex-direction: column;

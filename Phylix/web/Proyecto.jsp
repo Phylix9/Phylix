@@ -29,7 +29,7 @@
             <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
             <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
             <li class="link"><a href="Dietas.jsp">Dietas</a></li>
-            <li class="link"><a href="Informacion.html">Informacion</a></li>
+            <li class="link"><a href="Informacion.jsp">Informacion</a></li>
         </ul>
         <div id="authButtonContainer">
             <% 

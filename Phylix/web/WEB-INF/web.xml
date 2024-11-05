@@ -69,4 +69,13 @@
         <url-pattern>/Perfil</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>IMC</servlet-name>
+        <servlet-class>com.Phylix.IMC</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IMC</servlet-name>
+        <url-pattern>/IMC</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

@@ -18,7 +18,7 @@
 <body>
     <div class="sidebar">
         <img 
-            src="#" alt="Profile" class="profile-picture"/>
+            src="src/pfp-Abraham.jpeg" alt="Profile" class="profile-picture"/>
         <h2></h2>
         <a href="Perfil.html"><i data-lucide="user"></i> Perfil</a>
         <a href="MisDietas.html"><i data-lucide="cookie"></i> Mis Dietas</a>
@@ -60,15 +60,15 @@
         <div class="info-section">
             <h2>Información de Salud</h2>
             <div class="info">
-                <label>Estatura:</label>
+                <label>Estatura: <%= session.getAttribute("estatura") %> metros</label>
                 <span></span>
             </div>
             <div class="info">
-                <label>Peso:</label>
+                <label>Peso: <%= session.getAttribute("peso") %> kg</label>
                 <span></span>
             </div>
             <div class="info">
-                <label>IMC:</label>
+                <label>IMC: <%= session.getAttribute("IMC") %> </label>
                 <span></span>
             </div>
             <div class="info">
