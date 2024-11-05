@@ -29,7 +29,7 @@ public class Cuestionario extends HttpServlet {
             return;
         }
 
-        String nombre = request.getParameter("nombre");
+        String nombre = request.getParameter("nombrecompleto");
         String edadStr = request.getParameter("edad");
         String sexo = request.getParameter("genero");
         String condicion = request.getParameter("condiciones");
@@ -83,6 +83,7 @@ public class Cuestionario extends HttpServlet {
             session.setAttribute("objetivos", objetivos);
             session.setAttribute("alergias", alergia);
             session.setAttribute("restriccion", restriccion);
+            session.setAttribute("nombre", nombre);
 
             response.sendRedirect("Proyecto.jsp");
 

@@ -115,6 +115,8 @@ body {
     margin-bottom: 0.75rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-between;
+    align-items: center;
 }
 
 .info:last-child {
@@ -124,7 +126,7 @@ body {
 }
 
 .info label {
-    width: 200px;
+    width: 50%;
     color: var(--text-light);
     font-size: 0.95rem;
 }

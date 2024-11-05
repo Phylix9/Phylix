@@ -32,7 +32,7 @@
                     <h2>Información Básica</h2>
                 </div>
                 <label for="nombre">Nombre completo:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="text" id="nombre" name="nombrecompleto" required>
 
                 <label for="edad">Edad:</label>
                 <input type="number" id="edad" name="edad" required>

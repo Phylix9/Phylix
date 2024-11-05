@@ -21,27 +21,26 @@
             src="#" alt="Profile" class="profile-picture"/>
         <h2></h2>
         <a href="Perfil.html"><i data-lucide="user"></i> Perfil</a>
-        <a href="Dietas.html"><i data-lucide="cookie"></i> Mis Dietas</a>
-        <a href="Rutinas.html"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
-        <a href="Configuracion.html"><i data-lucide="settings"></i> Configuración</a>
-        <a href="logout.java"><i data-lucide="log-out"></i> Cerrar Sesión</a>
+        <a href="MisDietas.html"><i data-lucide="cookie"></i> Mis Dietas</a>
+        <a href="MisRutinas.html"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
+        <a href="Logout"><i data-lucide="log-out"></i> Cerrar Sesión</a>
     </div>
 
     <div class="container">
         <h1>Perfil del Usuario</h1>
 
         <div class="info-section">
-            <h2>Información de Usuario</h2>
+            <h2>Información de Usuario <%= session.getAttribute("id_usuario") %></h2>
             <div class="info">
-                <label>Nombre:</label>
+                <label>Nombre: <%= session.getAttribute("nombre") %></label>
                 <span></span>
             </div>
             <div class="info">
-                <label>Nombre de Usuario:</label>
+                <label>Nombre de Usuario: <%= session.getAttribute("nombre_usuario") %></label>
                 <span></span>
             </div>
             <div class="info">
-                <label>Correo Electrónico:</label>
+                <label>Correo Electrónico: <%= session.getAttribute("correo_usuario") %></label>
                 <span></span>
             </div>
         </div>
@@ -49,11 +48,11 @@
         <div class="info-section">
             <h2>Información Básica</h2>
             <div class="info">
-                <label>Edad:</label>
+                <label>Edad: <%= session.getAttribute("edad") %></label>
                 <span></span>
             </div>
             <div class="info">
-                <label>Género:</label>
+                <label>Género: <%= session.getAttribute("genero") %></label>
                 <span></span>
             </div>
         </div>
@@ -73,11 +72,11 @@
                 <span></span>
             </div>
             <div class="info">
-                <label>Condiciones Médicas:</label>
+                <label>Condiciones Médicas: <%= session.getAttribute("condiciones") %></label>
                 <span></span>
             </div>
             <div class="info">
-                <label>Medicamentos:</label>
+                <label>Medicamentos: <%= session.getAttribute("medicamentos") %></label>
                 <span></span>
             </div>
         </div>
@@ -85,7 +84,7 @@
         <div class="info-section">
             <h2>Nivel de Actividad Física</h2>
             <div class="info">
-                <label>Frecuencia de Actividad:</label>
+                <label>Frecuencia de Actividad: <%= session.getAttribute("actividad") %></label>
                 <span></span>
             </div>
         </div>
@@ -93,7 +92,7 @@
         <div class="info-section">
             <h2>Objetivos Personales</h2>
             <div class="info">
-                <label>Objetivo de Salud:</label>
+                <label>Objetivo de Salud: <%= session.getAttribute("objetivos") %></label>
                 <span></span>
             </div>
         </div>
@@ -101,11 +100,11 @@
         <div class="info-section">
             <h2>Alergias y Restricciones</h2>
             <div class="info">
-                <label>Alergias:</label>
+                <label>Alergias: <%= session.getAttribute("alergias") %></label>
                 <span></span>
             </div>
             <div class="info">
-                <label>Restricciones Alimenticias:</label>
+                <label>Restricciones Alimenticias: <%= session.getAttribute("restricciones") %></label>
                 <span></span>
             </div>
         </div>
@@ -113,30 +112,15 @@
         <div class="info-section">
             <h2>Otros Factores</h2>
             <div class="info">
-                <label>Nivel de Estrés:</label>
-                <span>Moderado</span>
+                <label>Nivel de Estrés: <%= session.getAttribute("estres") %></label>
+                <span></span>
             </div>
             <div class="info">
-                <label>Horas de Sueño:</label>
+                <label>Horas de Sueño: <%= session.getAttribute("suenio") %></label>
                 <span></span>
             </div>
         </div>
 
-        <div class="info-section">
-            <h2>Configuración de Cuenta</h2>
-            <div class="info">
-                <label>Privacidad del Perfil:</label>
-                <span></span>
-            </div>
-            <div class="info">
-                <label>Notificaciones:</label>
-                <span></span>
-            </div>
-            <div class="info">
-                <label>Idioma:</label>
-                <span></span>
-            </div>
-        </div>
     </div>
 
     <script>

@@ -39,7 +39,7 @@
                 <i class="ri-user-line" style="font-size: 24px; color: #fff;"></i>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="Perfil.jsp">Ver Perfil</a></li>
+                        <li><a href="Perfil">Ver Perfil</a></li>
                         <li><a href="Logout">Cerrar Sesión</a></li>
                     </ul>
                 </div>

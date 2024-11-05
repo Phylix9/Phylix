@@ -38,7 +38,6 @@ public class Registro extends HttpServlet {
 
             HttpSession session = request.getSession();
 
-            // Verificar si el usuario ya existe
             sta = con.prepareStatement("SELECT * FROM Usuario WHERE correo_usuario = ?;");
             sta.setString(1, correo);
             r = sta.executeQuery();
@@ -46,14 +45,12 @@ public class Registro extends HttpServlet {
             if (r.next()) {
                 response.sendRedirect("Login.html?correoRegistrado=true");
             } else {
-                // Registrar el nuevo usuario
                 sta = con.prepareStatement("INSERT INTO Usuario (nombre_usuario, correo_usuario, contrasena_usuario) VALUES (?, ?, ?);");
                 sta.setString(1, nombre);
                 sta.setString(2, correo);
                 sta.setString(3, contra);
                 sta.executeUpdate();
 
-                // Obtener el ID del usuario recién registrado
                 sta = con.prepareStatement("SELECT id_usuario FROM Usuario WHERE correo_usuario = ?;");
                 sta.setString(1, correo);
                 r = sta.executeQuery();

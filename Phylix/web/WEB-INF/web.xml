@@ -60,4 +60,13 @@
         <url-pattern>/CrearRutina</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>Perfil</servlet-name>
+        <servlet-class>com.Phylix.Perfil</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Perfil</servlet-name>
+        <url-pattern>/Perfil</url-pattern>
+    </servlet-mapping>
+    
 </web-app>
