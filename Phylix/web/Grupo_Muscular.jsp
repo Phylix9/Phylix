@@ -22,10 +22,28 @@
           <a href="Proyecto.html"><img src="src/LogoFitdata2.png" alt="logo"/></a>
         </div>
         <ul class="nav__links">
-          <li class="link"><a href="Proyecto.html">Inicio</a></li>
-          <li class="link"><a href="Dietas.html">Dietas</a></li>
-          <li class="link"><a href="Informacion.html">Informacion</a></li>
+          <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
+          <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
+          <li class="link"><a href="Informacion.jsp">Informacion</a></li>
         </ul>
+        
+        <div id="authButtonContainer">
+            <% 
+                String username = (String) session.getAttribute("nombre_usuario");
+                if (username != null) { %>
+              <div class="user-icon" onclick="toggleDropdown()">
+                <i class="ri-user-line" style="font-size: 24px; color: #fff;"></i>
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="Perfil.html">Ver Perfil</a>
+                        <li><a href="Logout">Cerrar Sesión</a>
+                    </ul>
+                </div>
+              </div>
+            <% } else { %>
+              <button class="btn" onclick="location.href='Login.html'">Login</button>
+            <% } %>
+          </div>
       </nav>
 
     <section class="section__container">
