@@ -27,7 +27,7 @@
         <h2></h2>
         <a href="Perfil.jsp"><i data-lucide="user"></i> Perfil</a>
         <a href="MisDietas"><i data-lucide="cookie"></i> Mis Dietas</a>
-        <a href="MisRutinas.jsp"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
+        <a href="MisRutinas"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
         <a href="Logout"><i data-lucide="log-out"></i> Cerrar Sesión</a>
     </div>
 

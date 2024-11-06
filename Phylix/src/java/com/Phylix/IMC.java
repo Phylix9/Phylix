@@ -29,7 +29,7 @@ public class IMC extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("id_usuario") == null) {
             response.sendRedirect("Login.html?error=sesion");
             return;

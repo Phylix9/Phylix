@@ -20,9 +20,9 @@
         String[] grupos = (String[]) request.getAttribute("gruposEjercicios");
 
         Integer edad = (Integer) request.getAttribute("edad");
-        String sexo = (String) request.getAttribute("sexo");
-        String objetivos = (String) request.getAttribute("objetivos");
-        String frecuencia = (String) request.getAttribute("frecuencia");
+        String sexo = (String) session.getAttribute("sexo");
+        String objetivos = (String) session.getAttribute("objetivos");
+        String frecuencia = (String) session.getAttribute("frecuencia");
     %>
 
     <h1>Rutina Personalizada</h1>

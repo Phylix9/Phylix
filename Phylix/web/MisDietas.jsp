@@ -12,22 +12,18 @@
     <h1>Mis Menús Creados</h1>
 
     <%
-        // Obtener la lista de comidas desde el request
         List<String[]> comidasList = (List<String[]>) request.getAttribute("comidas");
 
         if (comidasList != null && !comidasList.isEmpty()) {
-            int dietaIndex = 1;  // Índice para "Dieta i"
+            int dietaIndex = 1;
     %>
 
     <%
-        // Comienza la primera tabla
-        // Recorremos la lista de comidas e imprimimos los elementos
         for (int i = 0; i < comidasList.size(); i++) {
             if (i % 5 == 0) {
-                // Si el índice es múltiplo de 5, cerramos la tabla anterior y comenzamos una nueva
                 if (i > 0) {
     %>
-                    </table>  <!-- Cerrar la tabla anterior -->
+                    </table>
                 <%
                 }
 
@@ -48,7 +44,7 @@
     <%
             }
 
-            String[] comida = comidasList.get(i);  // Obtener el array de cada comida
+            String[] comida = comidasList.get(i);
     %>
             <tr>
                 <td><%= comida[0] %></td>

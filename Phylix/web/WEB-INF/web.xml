@@ -123,4 +123,13 @@
         <url-pattern>/MisDietas</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>MisRutinas</servlet-name>
+        <servlet-class>com.Phylix.MisRutinas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MisRutinas</servlet-name>
+        <url-pattern>/MisRutinas</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

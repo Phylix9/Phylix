@@ -16,19 +16,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author Abraham
- */
 @WebServlet(name = "CrearRutina", urlPatterns = {"/CrearRutina"})
 public class CrearRutina extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
         if (idUsuario == null) {
@@ -36,114 +31,89 @@ public class CrearRutina extends HttpServlet {
             return;
         }
 
-        int edad = 0;
-        String sexo = null;
-        String objetivos = null;
-        String frecuencia = null;
-
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
         String password = "AT10220906";
 
-        Connection con = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection(url, user, password);
-
-            String sqlUsuario = "SELECT edad_usuario, sexo_usuario FROM Usuario WHERE id_usuario = ?";
-            stmt = con.prepareStatement(sqlUsuario);
-            stmt.setInt(1, idUsuario);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                edad = rs.getInt("edad_usuario");
-                sexo = rs.getString("sexo_usuario");
-                System.out.println("Edad: " + edad + ", Sexo: " + sexo);
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no encontrado.");
-                return;
-            }
-            rs.close();
-            stmt.close();
-
-            String sqlCuestionario = "SELECT frecuencia_usuario, objetivo_usuario FROM Cuestionario WHERE id_usuario = ?";
-            stmt = con.prepareStatement(sqlCuestionario);
-            stmt.setInt(1, idUsuario);
-            rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                frecuencia = rs.getString("frecuencia_usuario");
-                objetivos = rs.getString("objetivo_usuario");
-            } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Cuestionario no encontrado para el usuario.");
-                return;
-            }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            response.getWriter().print("Error: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        List<String> gruposEjercicios = new ArrayList<>();
+        // Variables para almacenar datos del cuestionario
+        int edad = 0;
+        String sexo = null;
+        String objetivos = null;
+        String frecuencia = null;
         
-        for (int i = 0; i < 3; i++) {
-            String ejercicio = request.getParameter("grupoEjercicio" + (i));
-            if (ejercicio != null) {
-                gruposEjercicios.add(ejercicio);
-            }
-        }
-        request.setAttribute("gruposEjercicios", gruposEjercicios.toArray(new String[0]));
-        
+        // Listas para almacenar ejercicios y grupos de ejercicios
         List<String> ejercicios1 = new ArrayList<>();
         List<String> ejercicios2 = new ArrayList<>();
         List<String> ejercicios3 = new ArrayList<>();
+        List<String> gruposEjercicios = new ArrayList<>();
 
-        // Captura de los ejercicios de abdomen
         for (int i = 1; i <= 5; i++) {
             String ejercicio = request.getParameter("ejercicio1_" + i);
-            if (ejercicio != null) {
-                ejercicios1.add(ejercicio);
-            }
+            if (ejercicio != null) ejercicios1.add(ejercicio);
         }
-
-        // Captura de los ejercicios de espalda baja
         for (int i = 1; i <= 5; i++) {
             String ejercicio = request.getParameter("ejercicio2_" + i);
-            if (ejercicio != null) {
-                ejercicios2.add(ejercicio);
-            }
+            if (ejercicio != null) ejercicios2.add(ejercicio);
         }
-
-        // Captura del ejercicio de cardio (solo uno)
         for (int i = 1; i <= 5; i++) {
             String ejercicio = request.getParameter("ejercicio3_" + i);
-            if (ejercicio != null) {
-                ejercicios3.add(ejercicio);
-            }
+            if (ejercicio != null) ejercicios3.add(ejercicio);
+        }
+        for (int i = 0; i < 3; i++) {
+            String grupo = request.getParameter("grupoEjercicio" + i);
+            if (grupo != null) gruposEjercicios.add(grupo);
         }
 
-        request.setAttribute("ejercicios1", ejercicios1.toArray(new String[0]));
-        request.setAttribute("ejercicios2", ejercicios2.toArray(new String[0]));
-        request.setAttribute("ejercicios3", ejercicios3.toArray(new String[0]));
-        
-        request.setAttribute("edad", edad);
-        request.setAttribute("sexo", sexo);
-        request.setAttribute("objetivos", objetivos);
-        request.setAttribute("frecuencia", frecuencia);
+        // Guardar datos del cuestionario y ejercicios en la sesión
+        session.setAttribute("edad", edad);
+        session.setAttribute("sexo", sexo);
+        session.setAttribute("objetivos", objetivos);
+        session.setAttribute("frecuencia", frecuencia);
+        session.setAttribute("ejercicios1", ejercicios1.toArray(new String[0]));
+        session.setAttribute("ejercicios2", ejercicios2.toArray(new String[0]));
+        session.setAttribute("ejercicios3", ejercicios3.toArray(new String[0]));
+        session.setAttribute("gruposEjercicios", gruposEjercicios.toArray(new String[0]));
 
-        request.getRequestDispatcher("RutinasCreadas.jsp").forward(request, response);
+        // Array de repeticiones
+        int[] repeticiones = {10, 10, 10, 10, 10, 10, 10, 10};
+
+        
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            crearRegistroRutina(con, idUsuario, ejercicios1, ejercicios2, ejercicios3, repeticiones);
+            request.getRequestDispatcher("MisRutinas").forward(request, response);
+        } catch (Exception e) {
+            response.getWriter().print("Error: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
+    private void crearRegistroRutina(Connection con, Integer idUsuario, List<String> ejercicios1, List<String> ejercicios2, List<String> ejercicios3, int[] repeticiones) throws SQLException {
+        String query = "INSERT INTO Rutinasper (ejercicio1, ejercicio2, ejercicio3, ejercicio4, ejercicio5, ejercicio6, ejercicio7, ejercicio8, " +
+                       "reps1, reps2, reps3, reps4, reps5, reps6, reps7, reps8, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            // Asignación de ejercicios
+            stmt.setString(1, ejercicios1.size() > 0 ? ejercicios1.get(0) : null);
+            stmt.setString(2, ejercicios1.size() > 1 ? ejercicios1.get(1) : null);
+            stmt.setString(3, ejercicios2.size() > 0 ? ejercicios2.get(0) : null);
+            stmt.setString(4, ejercicios2.size() > 1 ? ejercicios2.get(1) : null);
+            stmt.setString(5, ejercicios2.size() > 2 ? ejercicios2.get(2) : null);
+            stmt.setString(6, ejercicios3.size() > 0 ? ejercicios3.get(0) : null);
+            stmt.setString(7, ejercicios3.size() > 1 ? ejercicios3.get(1) : null);
+            stmt.setString(8, ejercicios3.size() > 2 ? ejercicios3.get(2) : null);
+
+            // Asignación de repeticiones
+            for (int i = 0; i < 8; i++) {
+                stmt.setInt(9 + i, repeticiones[i]);
+            }
+
+            // Asignación del ID del usuario
+            stmt.setInt(17, idUsuario);
+
+            // Ejecución de la consulta
+            stmt.executeUpdate();
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -151,7 +121,6 @@ public class CrearRutina extends HttpServlet {
         processRequest(request, response);
     }
 
- 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -160,7 +129,6 @@ public class CrearRutina extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Creador de Rutinas";
+        return "Servlet para crear rutinas personalizadas y almacenar datos en sesión";
     }
-
 }

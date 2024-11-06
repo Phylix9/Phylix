@@ -49,8 +49,8 @@ public class DietaspersoCreadas extends HttpServlet {
     int[] idComidas = crearRegistroComidas(con, idUsuario, proteinasSeleccionadas, carbohidratosSeleccionados,
             vitaminasSeleccionadas, grasasSeleccionadas, porcionProteina, porcionCarbohidrato, porcionVitamina, porcionGrasa);
 
-    ArrayList<ArrayList<Object>> listaComidas = new ArrayList<>(); // Lista para almacenar las comidas
-
+    ArrayList<ArrayList<Object>> listaComidas = new ArrayList<>();
+    
     for (int i = 0; i < idComidas.length; i++) {
         if (idComidas[i] > 0) {
             insertarDietapersoCreadas(con, idComidas[i], idUsuario);

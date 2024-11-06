@@ -33,6 +33,7 @@ public class Login extends HttpServlet {
         PreparedStatement sta = null;
         ResultSet rs = null;
 
+        
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, user, password);
@@ -54,7 +55,7 @@ public class Login extends HttpServlet {
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             response.getWriter().print("Error: " + e.getMessage());
-        } finally {
+        }finally {
             try {
                 if (rs != null) rs.close();
                 if (sta != null) sta.close();

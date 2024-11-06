@@ -16,10 +16,10 @@ import java.io.IOException;
 public class Logout extends HttpServlet {
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // Obtener la sesión actual, si existe
+        HttpSession session = request.getSession();
         
         if (session != null) {
-            session.invalidate(); // Invalidar la sesión
+            session.invalidate();
         }
         
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // No almacenar en caché
