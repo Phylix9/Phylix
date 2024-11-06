@@ -78,7 +78,6 @@ h3 {
 }
 
 h3::before {
-  content: "🍽️";
   font-size: 1.2rem;
 }
 
