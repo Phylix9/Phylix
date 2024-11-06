@@ -33,7 +33,6 @@
     <p><strong>Objetivo:</strong> <%= objetivos %></p>
     <p><strong>Frecuencia:</strong> <%= frecuencia %></p>
 
-    <!-- Ejercicios de Abdomen -->
     <h2>Ejercicios Seleccionados para <%= grupos[0]%></h2>
     <ul>
         <% 

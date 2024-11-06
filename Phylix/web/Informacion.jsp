@@ -15,18 +15,34 @@
         <i class="ri-arrow-left-line"></i>
     </button>
     <main>
-        <section id="imc" class="imc-section">
-            <h1>Índice de Masa Corporal (IMC)</h1>
-            <div class="calculator-container">
-                <div class="calculator-form">
-                    <% 
+        <% 
                         String username = (String) session.getAttribute("nombre_usuario");
                         Double imc = (Double) session.getAttribute("IMC");
                         Double estatura = (Double) session.getAttribute("estatura");
                         Double peso = (Double) session.getAttribute("peso");
-                        if (username != null) {
                     %>
-                        <form action="IMC" method="post" onsubmit="return calculateIMC()">
+        <section id="imc" class="imc-section">
+            <h1>Índice de Masa Corporal (IMC) 
+                <% if(username!=null){%>
+                    de : <%= username%>
+                <%}%></h1>
+            <div class="calculator-container">
+                <div class="calculator-form">
+                    <% 
+                        if (username != null && imc != null) {
+                    %>
+                            <div class="input-group" >
+                                <label for="weight" >Tu Peso(kg) es:</label>
+                                <input type="number" name="peso" id="weight" min="30" max="300" step="0.1" readonly value="<%= peso %>" required>
+                            </div>
+                            <div class="input-group" >
+                                <label for="height"> Tu Altura (m) es:</label>
+                                <input type="number" name="estatura" id="height" min="1" max="2.5" step="0.01" readonly value="<%= estatura %>" required>
+                            </div>
+                            <input type="hidden" classname="imc" id="hiddenIMC" value="<%= imc %>">
+                            <button class="calculate-btn" onclick="calculateIMC()">Calcular mi IMC</button>
+                    <% } else if(username!=null){ %>
+                            <form action="IMC" method="post" onsubmit="return calculateIMC()">
                             <div class="input-group">
                                 <label for="weight">Peso (kg)</label>
                                 <input type="number" name="peso" id="weight" min="30" max="300" step="0.1" required>
@@ -36,10 +52,9 @@
                                 <input type="number" name="estatura" id="height" min="1" max="2.5" step="0.01" required>
                             </div>
                             <input type="hidden" name="imc" id="hiddenIMC">
-                            <button type="submit" onclick="calculateIMC()" class="calculate-btn">Calcular IMC</button>
+                            <button type="submit" class="calculate-btn">Calcular IMC</button>
                         </form>
-                    <% } else { %>
-                        <div>
+                        <% } else {%>
                             <div class="input-group">
                                 <label for="weight">Peso (kg)</label>
                                 <input type="number" id="weight" min="30" max="300" step="0.1" required>
@@ -49,8 +64,8 @@
                                 <input type="number" id="height" min="1" max="2.5" step="0.01" required>
                             </div>
                             <button onclick="calculateIMC()" class="calculate-btn">Calcular IMC</button>
-                        </div>
-                    <% } %>
+
+                        <% } %>
                 </div>
                 <div class="result-container">
                     <canvas id="imcGauge" width="750" height="750"></canvas>
@@ -59,9 +74,10 @@
                     <p id="cat-value" style="display: none;">Categoría:</p>
                 </div>
             </div>
-
-            <div class="info-card">
-                <p>El Índice de Masa Corporal (IMC) es un indicador que se usa para estimar si una persona tiene un peso adecuado para su altura...</p>
+        </section>
+                
+                <div class="info-card">
+                <p>El Índice de Masa Corporal (IMC) es un indicador que se usa para estimar si una persona tiene un peso adecuado para su altura. Sin embargo, el IMC tiene sus limitaciones. Por ejemplo, no distingue entre masa muscular y grasa, por lo que un atleta con mucha masa muscular podría tener un IMC elevado a pesar de estar en buena forma física.</p>
                 
                 <div class="imc-categories">
                     <div class="category">
@@ -157,117 +173,117 @@
         <span class="bg__blur"></span>
         <span class="bg__blur footer__blur"></span>
         <div class="footer__col">
-            <div class="footer__logo"><img src="src/logoFitData.png" alt="logo" /></div>
-            <p>
-                Da el primer paso hacia una persona más sana y fuerte con nuestros
-                planes inmejorables. ¡Logremos y conquistemos juntos!
-            </p>
-            <div class="footer__socials">
-                <a href="https://www.facebook.com/profile.php?id=61566664822814&mibextid=LQQJ4d"><i class="ri-facebook-fill"></i></a>
-                <a href="https://www.instagram.com/phylix_official?igsh=MTNvb3VvY2dlbGtm"><i class="ri-instagram-line"></i></a>
-                <a href="https://x.com/phylix5im9/status/1839495022829306317?s=46&t=CErG4mdE38hn7Yl5WGVeGQ"><i class="ri-twitter-fill"></i></a>
-            </div>
+          <div class="footer__logo"><img src="src/logoFitData.png" alt="logo" /></div>
+          <p>
+            Da el primer paso hacia una persona más sana y fuerte con nuestros
+            planes inmejorables. ¡Logremos y conquistemos juntos!
+          </p>
+          <div class="footer__socials">
+            <a href="https://www.facebook.com/profile.php?id=61566664822814&mibextid=LQQJ4d"><i class="ri-facebook-fill"></i></a>
+            <a href="https://www.instagram.com/phylix_official?igsh=MTNvb3VvY2dlbGtm"><i class="ri-instagram-line"></i></a>
+            <a href="https://x.com/phylix5im9/status/1839495022829306317?s=46&t=CErG4mdE38hn7Yl5WGVeGQ"><i class="ri-twitter-fill"></i></a>
+          </div>
         </div>
         <div class="footer__col">
-            <h4>Company</h4>
-            <a href="#">Business</a>
-            <a href="#">Partnership</a>
-            <a href="#">Network</a>
+          <h4>Company</h4>
+          <a href="#">Business</a>
+          <a href="#">Partnership</a>
+          <a href="#">Network</a>
         </div>
         <div class="footer__col">
-            <h4>About Us</h4>
-            <a href="#">Blogs</a>
-            <a href="#">Security</a>
-            <a href="#">Careers</a>
+          <h4>About Us</h4>
+          <a href="#">Blogs</a>
+          <a href="#">Security</a>
+          <a href="#">Careers</a>
         </div>
         <div class="footer__col">
-            <h4>Contact</h4>
-            <a href="#">Contact Us</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
+          <h4>Contact</h4>
+          <a href="#">Contact Us</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
         </div>
-    </footer>
-    <div class="footer__bar">
+      </footer>
+      <div class="footer__bar">
         Copyright © 2024 FitData. Todos los derechos reservados.
-    </div>
+      </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        let imcGauge;
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            let imcGauge;
 
-        function initGauge() {
-            const ctx = document.getElementById('imcGauge').getContext('2d');
-            imcGauge = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [1],
-                        backgroundColor: ['#e0e0e0'],
-                        circumference: 180,
-                        rotation: 270
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '80%',
-                    plugins: {
-                        tooltip: { enabled: false },
-                        legend: { display: false }
+            function initGauge() {
+                const ctx = document.getElementById('imcGauge').getContext('2d');
+                imcGauge = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        datasets: [{
+                            data: [1],
+                            backgroundColor: ['#e0e0e0'],
+                            circumference: 180,
+                            rotation: 270
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '80%',
+                        plugins: {
+                            tooltip: { enabled: false },
+                            legend: { display: false }
+                        }
                     }
-                }
-            });
-        }
-
-        function updateGauge(imc) {
-            let color;
-            if (imc < 18.5) color = '#3498db';
-            else if (imc < 25) color = '#2ecc71';
-            else if (imc < 30) color = '#f1c40f';
-            else color = '#e74c3c';
-
-            imcGauge.data.datasets[0].backgroundColor = [color];
-            imcGauge.update();
-        }
-
-        function calculateIMC() {
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value);
-
-            if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
-                alert("Por favor, ingresa un peso y una altura válidos.");
-                return false;
+                });
             }
 
-            const imc = weight / (height * height);
-            <% if (session.getAttribute("nombre_usuario") != null) { %>
-                document.getElementById('hiddenIMC').value = imc.toFixed(1);
-                return true; // Permite el envío del formulario
-            <% } else { %>
+            function updateGauge(imc) {
+                let color;
+                if (imc < 18.5) color = '#3498db';
+                else if (imc < 25) color = '#2ecc71';
+                else if (imc < 30) color = '#f1c40f';
+                else color = '#e74c3c';
+
+                imcGauge.data.datasets[0].backgroundColor = [color];
+                imcGauge.update();
+            }
+
+            function calculateIMC() {
+                const weight = parseFloat(document.getElementById('weight').value);
+                const height = parseFloat(document.getElementById('height').value);
+                let imc = parseFloat(document.getElementById('hiddenIMC')?.value);
+
+                if (isNaN(weight) || isNaN(height) || weight <= 0 || height <= 0) {
+                    alert("Por favor, ingresa un peso y una altura válidos.");
+                    return false;
+                }
+
+                if (!imc) {
+                    imc = weight / (height * height);
+                }
+
                 updateGauge(imc);
                 displayResult(imc);
-                return false; // Evita el envío del formulario
-            <% } %>
-        }
+                return true;
+            }
 
-        function displayResult(imc) {
-            const cat = document.getElementById('cat-value');
-            const imc_html = document.getElementById('imc-value');
+            function displayResult(imc) {
+                const cat = document.getElementById('cat-value');
+                const imc_html = document.getElementById('imc-value');
 
-            let category;
-            if (imc < 18.5) category = 'Bajo peso';
-            else if (imc < 25) category = 'Peso normal';
-            else if (imc < 30) category = 'Sobrepeso';
-            else category = 'Obesidad';
+                let category;
+                if (imc < 18.5) category = 'Bajo peso';
+                else if (imc < 25) category = 'Peso normal';
+                else if (imc < 30) category = 'Sobrepeso';
+                else category = 'Obesidad';
 
-            cat.innerHTML = "Categoría: " + category;
-            imc_html.innerHTML = "Tu IMC: " + imc.toFixed(2);
+                cat.innerHTML = "Categoría: " + category;
+                imc_html.innerHTML = "Tu IMC: " + imc.toFixed(1);
 
-            imc_html.style.display = "block";
-            cat.style.display = "block";
-        }
+                imc_html.style.display = "block";
+                cat.style.display = "block";
+            }
 
-        window.addEventListener('load', initGauge);
-    </script>
+            window.addEventListener('load', initGauge);
+        </script>
+    </main>
 </body>
 </html>

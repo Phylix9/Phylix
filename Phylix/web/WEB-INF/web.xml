@@ -78,4 +78,49 @@
         <url-pattern>/IMC</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>RutinaspersoCreadas</servlet-name>
+        <servlet-class>com.Phylix.RutinaspersoCreadas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RutinaspersoCreadas</servlet-name>
+        <url-pattern>/RutinaspersoCreadas</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>RutinasprestCreadas</servlet-name>
+        <servlet-class>com.Phylix.RutinasprestCreadas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RutinasprestCreadas</servlet-name>
+        <url-pattern>/RutinasprestCreadas</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>DietaspersoCreadas</servlet-name>
+        <servlet-class>com.Phylix.DietaspersoCreadas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DietaspersoCreadas</servlet-name>
+        <url-pattern>/DietaspersoCreadas</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>DietasprestCreadas</servlet-name>
+        <servlet-class>com.Phylix.DietasprestCreadas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DietasprestCreadas</servlet-name>
+        <url-pattern>/DietasprestCreadas</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MisDietas</servlet-name>
+        <servlet-class>com.Phylix.MisDietas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MisDietas</servlet-name>
+        <url-pattern>/MisDietas</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

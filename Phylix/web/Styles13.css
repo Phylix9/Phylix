@@ -36,6 +36,18 @@ body {
     align-items: center;
 }
 
+.back-button {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+    padding: 0.5rem;
+}
+
 .profile-picture {
     width: 120px;
     height: 120px;

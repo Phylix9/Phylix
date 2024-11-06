@@ -156,8 +156,12 @@ public class CalculoComidas extends HttpServlet {
             request.setAttribute("porcionGrasasComida", porcionGrasas);
             request.setAttribute("porcionVitaminasComida", porcionVitaminas);
         
+            session.setAttribute("proteinas", proteinas);
+            session.setAttribute("carbohidratos", carbohidratos);
+            session.setAttribute("vitaminasMinerales", vitaminasMinerales);
+            session.setAttribute("grasas", grasas);
 
-        request.getRequestDispatcher("Menuscreados.jsp").forward(request, response);
+        request.getRequestDispatcher("DietaspersoCreadas").forward(request, response);
     }
 
     private int calcularPorcionProteina(int edad, String sexo, String frecuencia, String objetivos) {

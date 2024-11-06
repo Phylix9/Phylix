@@ -59,10 +59,6 @@
 
         <div class="explore__header">
             <h3>Opciones de Rutinas</h3>
-            <div class="explore__nav">
-                <span><i class="ri-check-line"></i> Personalizada</span>
-                <span><i class="ri-heart-pulse-line"></i> Predeterminada</span>
-            </div>
         </div>
 
         <div class="explore__grid">

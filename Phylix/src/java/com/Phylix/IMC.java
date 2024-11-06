@@ -28,73 +28,62 @@ public class IMC extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        HttpSession session = request.getSession(false);
+
+        HttpSession session = request.getSession();
         if (session == null || session.getAttribute("id_usuario") == null) {
             response.sendRedirect("Login.html?error=sesion");
             return;
         }
-        
-        String imcc = request.getParameter("imc");
-        String estaturaa = request.getParameter("estatura");
-        String pesoo = request.getParameter("peso");
-        
-        double imc = Double.parseDouble(imcc);
-        double estatura = Double.parseDouble(estaturaa);
-        double peso = Double.parseDouble(pesoo);
-        
-        
-        int idUsuario = (int) session.getAttribute("id_usuario");
-        int idImc = idUsuario;
-        String url = "jdbc:mysql://localhost/FitData";
-        String user = "root";
-        String password = "AT10220906";
-        
-        Connection con = null;
-        PreparedStatement sta = null;
-        ResultSet r = null;
+
+        String estaturaStr = request.getParameter("estatura");
+        String pesoStr = request.getParameter("peso");
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection(url, user, password);
+            double estatura = Double.parseDouble(estaturaStr);
+            double peso = Double.parseDouble(pesoStr);
+            double imc = peso / (estatura * estatura);
+            String imcFormatted = String.format("%.1f", imc);
+            imc = Double.parseDouble(imcFormatted);
 
-            sta = con.prepareStatement("SELECT * FROM IMC WHERE id_usuario = ?;");
-            sta.setInt(1, idUsuario);
-            r = sta.executeQuery();
 
-            if (r.next()) {
+            int idUsuario = (int) session.getAttribute("id_usuario");
+            String url = "jdbc:mysql://localhost/FitData";
+            String user = "root";
+            String password = "AT10220906";
+
+            try (Connection con = DriverManager.getConnection(url, user, password)) {
+                PreparedStatement sta = con.prepareStatement("SELECT * FROM IMC WHERE id_usuario = ?");
+                sta.setInt(1, idUsuario);
+                ResultSet rs = sta.executeQuery();
+
+                if (rs.next()) {
+                    try (PreparedStatement updateSta = con.prepareStatement("UPDATE IMC SET imc_usuario = ?, peso_usuario = ?, altura_usuario = ? WHERE id_usuario = ?")) {
+                        updateSta.setDouble(1, imc);
+                        updateSta.setDouble(2, peso);
+                        updateSta.setDouble(3, estatura);
+                        updateSta.setInt(4, idUsuario);
+                        updateSta.executeUpdate();
+                    }
+                } else {
+                    try (PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC(imc_usuario, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?)")) {
+                        insertSta.setDouble(1, imc);
+                        insertSta.setDouble(2, peso);
+                        insertSta.setDouble(3, estatura);
+                        insertSta.setInt(4, idUsuario);
+                        insertSta.executeUpdate();
+                    }
+                }
+
                 session.setAttribute("IMC", imc);
-                session.setAttribute("estatura", estatura);
                 session.setAttribute("peso", peso);
-                
-                response.sendRedirect("Informacion.jsp?fromServlet=true");
-            } else {
-                sta = con.prepareStatement("INSERT INTO IMC(id_imc, imc_usuario, peso_usuario, altura_usuario, id_usuario) VALUES (?,?,?,?,?);");
-                sta.setInt(1, idImc);
-                sta.setDouble(2, imc);
-                sta.setDouble(3, estatura);
-                sta.setDouble(4, peso);
-                sta.setInt(5, idUsuario);
-                sta.executeUpdate();
-
-                session.setAttribute("IMC", imc);
                 session.setAttribute("estatura", estatura);
-                session.setAttribute("peso", peso);
-
-                response.sendRedirect("Informacion.jsp");
+                response.sendRedirect("Proyecto.jsp");
             }
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            response.getWriter().print("Error: " + e.getMessage());
-        } finally {
-            try {
-                if (r != null) r.close();
-                if (sta != null) sta.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (NumberFormatException e) {
+            response.getWriter().println("Error: Por favor ingresa valores válidos para peso y estatura.");
+        } catch (SQLException e) {
+            response.getWriter().println("Error de base de datos: " + e.getMessage());
         }
-        
     }
 
     @Override
@@ -111,7 +100,6 @@ public class IMC extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Añadir IMC a la base";
+        return "Añadir o actualizar IMC en la base de datos";
     }
-
 }

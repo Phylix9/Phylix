@@ -12,17 +12,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil del Usuario</title>
     <link rel="icon" href="src/logoFitData.png" type="img/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet"/>
     <link rel="stylesheet" href="Styles13.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
     <div class="sidebar">
+        <button class="back-button" onclick="location.href='Proyecto.jsp'">
+        <i class="ri-arrow-left-line"></i>
+    </button>
         <img 
             src="src/pfp-Abraham.jpeg" alt="Profile" class="profile-picture"/>
         <h2></h2>
-        <a href="Perfil.html"><i data-lucide="user"></i> Perfil</a>
-        <a href="MisDietas.html"><i data-lucide="cookie"></i> Mis Dietas</a>
-        <a href="MisRutinas.html"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
+        <a href="Perfil.jsp"><i data-lucide="user"></i> Perfil</a>
+        <a href="MisDietas"><i data-lucide="cookie"></i> Mis Dietas</a>
+        <a href="MisRutinas.jsp"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
         <a href="Logout"><i data-lucide="log-out"></i> Cerrar Sesión</a>
     </div>
 
@@ -30,7 +35,7 @@
         <h1>Perfil del Usuario</h1>
 
         <div class="info-section">
-            <h2>Información de Usuario <%= session.getAttribute("id_usuario") %></h2>
+            <h2>Información de Usuario </h2>
             <div class="info">
                 <label>Nombre: <%= session.getAttribute("nombre") %></label>
                 <span></span>
