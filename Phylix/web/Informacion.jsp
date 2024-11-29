@@ -51,7 +51,7 @@
         <section id="imc" class="imc-section">
             <h1>Índice de Masa Corporal (IMC) 
                 <% if(username!=null){%>
-                    de : <%= username%>
+                    de <%= username%>
                 <%}%></h1>
             <div class="calculator-container">
                 <div class="calculator-form">

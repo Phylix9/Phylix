@@ -132,4 +132,23 @@
         <url-pattern>/MisRutinas</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>AnadirImagen</servlet-name>
+        <servlet-class>com.Phylix.AnadirImagen</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AnadirImagen</servlet-name>
+        <url-pattern>/AnadirImagen</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ImagenPerfil</servlet-name>
+        <servlet-class>com.Phylix.ImagenPerfil</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImagenPerfil</servlet-name>
+        <url-pattern>/ImagenPerfil</url-pattern>
+    </servlet-mapping>
+
+    
 </web-app>

@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Medidas"%>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -24,9 +25,13 @@
         <button class="back-button" onclick="location.href='Proyecto.jsp'">
         <i class="ri-arrow-left-line"></i>
     </button>
-        <img 
-            src="src/perfil.png" alt="Profile" class="profile-picture"/>
-        <h2></h2>
+        <form  id="form-upload" action="AnadirImagen" method="post" enctype="multipart/form-data">
+            <label for="file-input">
+                <img src="ImagenPerfil" alt="Profile" class="profile-picture" />
+            </label>
+            <input type="file" accept="image/*" name="archivo" id="file-input" style="display: none;" />
+            <!-- <button type="submit">Subir Imagen</button> -->
+        </form>
         <a href="Perfil.jsp"><i data-lucide="user"></i> Perfil</a>
         <a href="MisDietas"><i data-lucide="cookie"></i> Mis Dietas</a>
         <a href="CrearRutina"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
@@ -137,6 +142,14 @@
 
     <script>
         lucide.createIcons();
+        
+        
+    document.getElementById('file-input').addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            document.getElementById('form-upload').submit(); 
+        }
+    });
+        
     </script>
 </body>
 </html>

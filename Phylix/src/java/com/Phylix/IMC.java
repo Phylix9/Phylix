@@ -58,7 +58,7 @@ public class IMC extends HttpServlet {
 
                 if (rs.next()) {
 
-                    try (PreparedStatement updateSta = con.prepareStatement("UPDATE IMC SET imc_usuario = ?, peso_usuario = ?, altura_usuario = ? WHERE id_usuario = ?")) {
+                    try (PreparedStatement updateSta = con.prepareStatement("UPDATE IMC SET imc_usuario = ?, peso_usuario = ?, altura_usuario = ? WHERE id_usuario = ?;")) {
                         updateSta.setDouble(1, imc);
                         updateSta.setDouble(2, peso);
                         updateSta.setDouble(3, estatura);
@@ -67,7 +67,7 @@ public class IMC extends HttpServlet {
                     }
                 } else {
                     // Insertar nuevo registro
-                    try (PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC(imc_usuario, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?)")) {
+                    try (PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC(imc_usuario, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?);")) {
                         insertSta.setDouble(1, imc);
                         insertSta.setDouble(2, peso);
                         insertSta.setDouble(3, estatura);
