@@ -27,7 +27,7 @@
 
     <% if (proteinas != null && carbohidratos != null && vitaminasMinerales != null && grasas != null) { %>
         <% for (int i = 1; i <= numComidas; i++) { %>
-            <h3>Comida <%= i %></h3>
+            <h3><i class="ri-restaurant-2-fill">Comida <%= i %></i></h3>
 
             <label for="proteina<%= i %>">Elige tu Proteína:</label>
             <select name="proteina<%= i %>" id="proteina<%= i %>">

@@ -29,7 +29,7 @@
                 <i class="ri-user-line" style="font-size: 24px; color: #fff;"></i>
                 <div class="dropdown-menu">
                     <ul>
-                        <li><a href="Perfil.html">Ver Perfil</a>
+                        <li><a href="Perfil.jsp">Ver Perfil</a>
                         <li><a href="Logout">Cerrar Sesión</a>
                     </ul>
                 </div>

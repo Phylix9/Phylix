@@ -5,10 +5,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Mis Menús Creados</title>
+    <title>Mis Dietas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="src/logoFitData.png" type="img/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <link rel="stylesheet" href="Styles17.css">
 </head>
 <body>
+    
+    <button class="back-button" onclick="window.history.back();">
+        <i class="ri-arrow-left-line"></i>
+    </button>
+    
     <h1>Mis Menús Creados</h1>
 
     <%

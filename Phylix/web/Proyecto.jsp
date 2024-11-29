@@ -17,7 +17,7 @@
     <title>FitData</title>
   </head>
   <body>
-    <button class="back-button" onclick="location.href='index.jsp'">
+    <button class="back-button" onclick="location.href='index.html'">
         <i class="ri-arrow-left-line"></i>
     </button>
 
