@@ -30,6 +30,7 @@ public class CalculoComidas extends HttpServlet {
         String sexo = null;
         String objetivos = null;
         String frecuencia = null;
+        double peso = 0.0;  // Agregado para almacenar el peso
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
@@ -43,7 +44,8 @@ public class CalculoComidas extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, user, password);
 
-            String sqlUsuario = "SELECT edad_usuario, sexo_usuario FROM Usuario WHERE id_usuario = ?";
+            // Modificamos la consulta para incluir el peso_usuario
+            String sqlUsuario = "SELECT edad_usuario, sexo_usuario, peso_usuario FROM Usuario WHERE id_usuario = ?";
             stmt = con.prepareStatement(sqlUsuario);
             stmt.setInt(1, idUsuario);
             rs = stmt.executeQuery();
@@ -51,7 +53,8 @@ public class CalculoComidas extends HttpServlet {
             if (rs.next()) {
                 edad = rs.getInt("edad_usuario");
                 sexo = rs.getString("sexo_usuario");
-                System.out.println("Edad: " + edad + ", Sexo: " + sexo);
+                peso = rs.getDouble("peso_usuario");  // Obtenemos el peso
+                System.out.println("Edad: " + edad + ", Sexo: " + sexo + ", Peso: " + peso);
             } else {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no encontrado.");
                 return;
@@ -84,6 +87,7 @@ public class CalculoComidas extends HttpServlet {
             }
         }
 
+        // Listas para los alimentos (sin cambios)
         List<String> proteinas = new ArrayList<>();
         List<String> carbohidratos = new ArrayList<>();
         List<String> vitaminasMinerales = new ArrayList<>();
@@ -127,105 +131,171 @@ public class CalculoComidas extends HttpServlet {
             }
         }
 
-
+        // Recogemos los alimentos seleccionados por el usuario (sin cambios)
         String[] proteinasSeleccionadas = new String[5];
         String[] carbohidratosSeleccionados = new String[5];
         String[] vitaminasSeleccionadas = new String[5];
         String[] grasasSeleccionadas = new String[5];
 
-        for(int i = 0; i<5 ; i++){
-        proteinasSeleccionadas[i] = request.getParameter("proteina"+(i+1));
-        carbohidratosSeleccionados[i] = request.getParameter("carbohidrato"+(i+1));
-        vitaminasSeleccionadas[i] = request.getParameter("vitaminasMinerales"+(i+1));
-        grasasSeleccionadas[i] = request.getParameter("grasa"+(i+1));
+        for (int i = 0; i < 5; i++) {
+            proteinasSeleccionadas[i] = request.getParameter("proteina" + (i + 1));
+            carbohidratosSeleccionados[i] = request.getParameter("carbohidrato" + (i + 1));
+            vitaminasSeleccionadas[i] = request.getParameter("vitaminasMinerales" + (i + 1));
+            grasasSeleccionadas[i] = request.getParameter("grasa" + (i + 1));
         }
 
+        // Calculamos las porciones, pasando el peso como parámetro
+        int porcionProteina = calcularPorcionProteina(edad, sexo, frecuencia, objetivos, peso);
+        int porcionCarbohidrato = calcularPorcionCarbohidrato(edad, sexo, frecuencia, objetivos, peso);
+        int porcionGrasas = calcularPorcionGrasas(edad, sexo, frecuencia, objetivos, peso);
+        int porcionVitaminas = calcularPorcionVitaminas(edad, sexo, frecuencia, objetivos, peso);
 
-        int porcionProteina = calcularPorcionProteina(edad, sexo, frecuencia, objetivos);
-        int porcionCarbohidrato = calcularPorcionCarbohidrato(edad, sexo, frecuencia, objetivos);
-        int porcionGrasas = calcularPorcionGrasas(edad, sexo, frecuencia, objetivos);
-        int porcionVitaminas = calcularPorcionVitaminas(edad, sexo, frecuencia, objetivos);
+        // Seteamos los atributos para la vista (sin cambios)
+        request.setAttribute("proteinasComida", proteinasSeleccionadas);
+        request.setAttribute("carbohidratosComida", carbohidratosSeleccionados);
+        request.setAttribute("vitaminasComida", vitaminasSeleccionadas);
+        request.setAttribute("grasasComida", grasasSeleccionadas);
 
-            request.setAttribute("proteinasComida", proteinasSeleccionadas);
-            request.setAttribute("carbohidratosComida", carbohidratosSeleccionados);
-            request.setAttribute("vitaminasComida", vitaminasSeleccionadas);
-            request.setAttribute("grasasComida", grasasSeleccionadas);
+        request.setAttribute("porcionProteinaComida", porcionProteina);
+        request.setAttribute("porcionCarbohidratoComida", porcionCarbohidrato);
+        request.setAttribute("porcionGrasasComida", porcionGrasas);
+        request.setAttribute("porcionVitaminasComida", porcionVitaminas);
 
-            request.setAttribute("porcionProteinaComida", porcionProteina);
-            request.setAttribute("porcionCarbohidratoComida", porcionCarbohidrato);
-            request.setAttribute("porcionGrasasComida", porcionGrasas);
-            request.setAttribute("porcionVitaminasComida", porcionVitaminas);
-        
-            session.setAttribute("proteinas", proteinas);
-            session.setAttribute("carbohidratos", carbohidratos);
-            session.setAttribute("vitaminasMinerales", vitaminasMinerales);
-            session.setAttribute("grasas", grasas);
+        // Almacenamos los alimentos en la sesión (sin cambios)
+        session.setAttribute("proteinas", proteinas);
+        session.setAttribute("carbohidratos", carbohidratos);
+        session.setAttribute("vitaminasMinerales", vitaminasMinerales);
+        session.setAttribute("grasas", grasas);
 
+        // Redirigimos a la página de dietas personalizadas (sin cambios)
         request.getRequestDispatcher("DietaspersoCreadas").forward(request, response);
     }
 
-    private int calcularPorcionProteina(int edad, String sexo, String frecuencia, String objetivos) {
-        int porcion = 0;
-        if (objetivos.equals("bajar_peso")) {
-            porcion -= 10;
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcion += 10;
-        }else if (objetivos.equals("mejorar_resistencia")) {
-            porcion += 10;
-        } else{
-            return porcion;
-          }
-        if ("alta".equals(frecuencia)) {
-            porcion += 20;
-        }
-        return porcion;
-    }
+    // Métodos para calcular las porciones (sin cambios, utilizan el peso obtenido desde la base de datos)
 
-    private int calcularPorcionCarbohidrato(int edad, String sexo, String frecuencia, String objetivos) {
-        int porcion = 0;
-        if (objetivos.equals("bajar_peso")) {
-            porcion -= 10;
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcion += 10;
-        }else if (objetivos.equals("mejorar_resistencia")) {
-            porcion += 10;
-        } else{
-            return porcion;
-          }
-        if ("alta".equals(frecuencia)) {
-            porcion += 10;
-        }
-        return porcion;
-    }
-
-    private int calcularPorcionGrasas(int edad, String sexo, String frecuencia, String objetivos) {
-        int porcion = (sexo.equals("masculino")) ? 40 : 30;
-        if (objetivos.equals("bajar_peso")) {
-            porcion -= 10;
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcion += 10;
-        }else if (objetivos.equals("mejorar_resistencia")) {
-            porcion += 10;
-        } else{
-            return porcion;
-          }
-        return porcion;
-    }
-
-    private int calcularPorcionVitaminas(int edad, String sexo, String frecuencia, String objetivos) {
-        int porcion = (sexo.equals("masculino")) ? 40 : 30;
-        if (objetivos.equals("bajar_peso")) {
-            porcion -= 10;
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcion += 10;
-        }else if (objetivos.equals("mejorar_resistencia")) {
-            porcion += 10;
-        } else{
-            return porcion;
-          }
-        return porcion;
-    }
+    private int calcularPorcionProteina(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+        int porcionProteina = 0;
         
+        if (objetivos.equals("bajar_peso")) {
+            porcionProteina = (int) (peso * 1.6); 
+        } else if (objetivos.equals("ganar_musculo")) {
+            porcionProteina = (int) (peso * 2.2); 
+        } else if (objetivos.equals("mejorar_resistencia")) {
+            porcionProteina = (int) (peso * 1.8); 
+        } else {
+            return porcionProteina; 
+        }
+
+        if ("mujer".equals(sexo)) {
+            porcionProteina = (int) (porcionProteina * 0.9); 
+        }
+
+        if ("baja".equals(frecuencia)) {
+            porcionProteina = (int) (porcionProteina * 1.2);
+        } else if ("moderada".equals(frecuencia)) {
+            porcionProteina = (int) (porcionProteina * 1.4);
+        } else if ("alta".equals(frecuencia)) {
+            porcionProteina = (int) (porcionProteina * 1.6);
+        }
+
+        return porcionProteina;
+    }
+
+    private int calcularPorcionCarbohidrato(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+        int porcionCarbohidratos = 0;
+
+        if (objetivos.equals("bajar_peso")) {
+            porcionCarbohidratos = (int) (peso * 2.0);
+        } else if (objetivos.equals("ganar_musculo")) {
+            porcionCarbohidratos = (int) (peso * 3.0);
+        } else if (objetivos.equals("mejorar_resistencia")) {
+            porcionCarbohidratos = (int) (peso * 2.5);
+        } else {
+            return porcionCarbohidratos;
+        }
+
+        if ("mujer".equals(sexo)) {
+            porcionCarbohidratos = (int) (porcionCarbohidratos * 0.9);
+        }
+
+        if ("baja".equals(frecuencia)) {
+            porcionCarbohidratos = (int) (porcionCarbohidratos * 1.2);
+        } else if ("moderada".equals(frecuencia)) {
+            porcionCarbohidratos = (int) (porcionCarbohidratos * 1.4);
+        } else if ("alta".equals(frecuencia)) {
+            porcionCarbohidratos = (int) (porcionCarbohidratos * 1.6);
+        }
+
+        return porcionCarbohidratos;
+    }
+
+    private int calcularPorcionGrasas(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+        int porcionGrasas = 0;
+
+        if (objetivos.equals("bajar_peso")) {
+            porcionGrasas = (int) (peso * 0.8);
+        } else if (objetivos.equals("ganar_musculo")) {
+            porcionGrasas = (int) (peso * 1.0);
+        } else if (objetivos.equals("mejorar_resistencia")) {
+            porcionGrasas = (int) (peso * 0.9);
+        } else {
+            return porcionGrasas;
+        }
+
+        if (edad < 18) {
+            porcionGrasas = (int) (porcionGrasas * 1.2);
+        } else if (edad > 50) {
+            porcionGrasas = (int) (porcionGrasas * 0.9);
+        }
+
+        if ("mujer".equals(sexo)) {
+            porcionGrasas = (int) (porcionGrasas * 0.9);
+        }
+
+        if ("baja".equals(frecuencia)) {
+            porcionGrasas = (int) (porcionGrasas * 1.2);
+        } else if ("moderada".equals(frecuencia)) {
+            porcionGrasas = (int) (porcionGrasas * 1.4);
+        } else if ("alta".equals(frecuencia)) {
+            porcionGrasas = (int) (porcionGrasas * 1.6);
+        }
+
+        return porcionGrasas;
+    }
+
+    private int calcularPorcionVitaminas(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+        int porcionVitaminas = 0;
+
+        if (objetivos.equals("bajar_peso")) {
+            porcionVitaminas = (int) (peso * 0.8);
+        } else if (objetivos.equals("ganar_musculo")) {
+            porcionVitaminas = (int) (peso * 1.0);
+        } else if (objetivos.equals("mejorar_resistencia")) {
+            porcionVitaminas = (int) (peso * 0.9);
+        } else {
+            return porcionVitaminas;
+        }
+
+        if (edad < 18) {
+            porcionVitaminas = (int) (porcionVitaminas * 1.2);
+        } else if (edad > 50) {
+            porcionVitaminas = (int) (porcionVitaminas * 0.9);
+        }
+
+        if ("mujer".equals(sexo)) {
+            porcionVitaminas = (int) (porcionVitaminas * 0.9);
+        }
+
+        if ("baja".equals(frecuencia)) {
+            porcionVitaminas = (int) (porcionVitaminas * 1.2);
+        } else if ("moderada".equals(frecuencia)) {
+            porcionVitaminas = (int) (porcionVitaminas * 1.4);
+        } else if ("alta".equals(frecuencia)) {
+            porcionVitaminas = (int) (porcionVitaminas * 1.6);
+        }
+
+        return porcionVitaminas;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

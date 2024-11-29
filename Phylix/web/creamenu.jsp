@@ -13,7 +13,7 @@
 </head>
 <body>
 
-<h1>Crear tu Menú</h1>
+    <h1>Crear tu Menú <%=session.getAttribute("id_usuario")%></h1>
 <form action="CalculoComidas" method="post">
 
     <% 

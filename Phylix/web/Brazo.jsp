@@ -26,40 +26,44 @@
     
     <form action="CrearRutina" method="post">
     <div class="checkbox-container">
-        <div class="checkbox-group" id="Hombros">
-            <input type="hidden" name="grupoEjercicio0" value="Hombros">
-            <label>Elige 3 Ejercicios para Hombro</label>
-            <label><input type="checkbox" name="ejercicio1_1" value="Press militar agarre supino con mancuernas"> Press militar agarre supino con mancuernas</label>
-            <label><input type="checkbox" name="ejercicio1_2" value="Press militar agarre neutro con mancuernas"> Press militar agarre neutro con mancuernas</label>
-            <label><input type="checkbox" name="ejercicio1_3" value="Press militar con barra"> Press militar con barra</label>
-            <label><input type="checkbox" name="ejercicio1_4" value="Elevaciones laterales"> Elevaciones laterales</label>
-            <label><input type="checkbox" name="ejercicio1_5" value="Elevaciones frontales"> Elevaciones frontales</label>
-            <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
-        </div>
-
+        
+        
         <div class="checkbox-group" id="Triceps">
-            <input type="hidden" name="grupoEjercicio1" value="Triceps">
+            <input type="hidden" name="grupoEjercicio0" value="Triceps">
             <label>Elige 3 Ejercicios para Triceps</label>
-            <label><input type="checkbox" name="ejercicio3_1" value="Press francés con barra z"> Press francés con barra z</label>
-            <label><input type="checkbox" name="ejercicio3_2" value="Extensión de triceps con cuerda, en polea baja"> Extensión de triceps con cuerda, en polea baja</label>
-            <label><input type="checkbox" name="ejercicio3_3" value="Fondos en paralelas para tríceps"> Fondos en paralelas para tríceps</label>
-            <label><input type="checkbox" name="ejercicio3_4" value="Press de pecho cerrado, enfoque en triceps"> Press de pecho cerrado, enfoque en triceps</label>
-            <label><input type="checkbox" name="ejercicio3_5" value="Contracción y extensión de triceps con mancuerna, trasnuca"> Contracción y extensión de triceps con mancuerna, trasnuca</label>
+            <label><input type="checkbox" name="ejercicio1_1" value="Press francés con barra z"> Press francés con barra z</label>
+            <label><input type="checkbox" name="ejercicio1_2" value="Extensión de triceps con cuerda, en polea baja"> Extensión de triceps con cuerda, en polea baja</label>
+            <label><input type="checkbox" name="ejercicio1_3" value="Fondos en paralelas para tríceps"> Fondos en paralelas para tríceps</label>
+            <label><input type="checkbox" name="ejercicio1_4" value="Press de pecho cerrado, enfoque en triceps"> Press de pecho cerrado, enfoque en triceps</label>
+            <label><input type="checkbox" name="ejercicio1_5" value="Contracción y extensión de triceps con mancuerna, trasnuca"> Contracción y extensión de triceps con mancuerna, trasnuca</label>
             <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
         </div>
-
+        
+        <div class="checkbox-group" id="Hombros">
+            <input type="hidden" name="grupoEjercicio1" value="Hombros">
+            <label>Elige 3 Ejercicios para Hombro</label>
+            <label><input type="checkbox" name="ejercicio2_1" value="Press militar agarre supino con mancuernas"> Press militar agarre supino con mancuernas</label>
+            <label><input type="checkbox" name="ejercicio2_2" value="Press militar agarre neutro con mancuernas"> Press militar agarre neutro con mancuernas</label>
+            <label><input type="checkbox" name="ejercicio2_3" value="Press militar con barra"> Press militar con barra</label>
+            <label><input type="checkbox" name="ejercicio2_4" value="Elevaciones laterales"> Elevaciones laterales</label>
+            <label><input type="checkbox" name="ejercicio2_5" value="Elevaciones frontales"> Elevaciones frontales</label>
+            <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
+        </div>
+        
         <div class="checkbox-group" id="Biceps">
             <input type="hidden" name="grupoEjercicio2" value="Biceps">
             <label>Elige 2 Ejercicios para Bíceps</label>
-            <label><input type="checkbox" name="ejercicio2_1" value="Curl con barra normal o z"> Curl con barra normal o z</label>
-            <label><input type="checkbox" name="ejercicio2_2" value="Curl con mancuernas"> Curl con mancuernas</label>
-            <label><input type="checkbox" name="ejercicio2_3" value="Curl martillo, con mancuernas o barra, agarre neutro"> Curl martillo, con mancuernas o barra, agarre neutro</label>
-            <label><input type="checkbox" name="ejercicio2_4" value="Curl en banco inclinado, con las mancuernas por detrás del pecho"> Curl en banco inclinado, con las mancuernas por detrás del pecho</label>
-            <label><input type="checkbox" name="ejercicio2_5" value="Curl soportado en un banco, con barra o en máquina"> Curl soportado en un banco, con barra o en máquina</label>
+            <label><input type="checkbox" name="ejercicio3_1" value="Curl con barra normal o z"> Curl con barra normal o z</label>
+            <label><input type="checkbox" name="ejercicio3_2" value="Curl con mancuernas"> Curl con mancuernas</label>
+            <label><input type="checkbox" name="ejercicio3_3" value="Curl martillo, con mancuernas o barra, agarre neutro"> Curl martillo, con mancuernas o barra, agarre neutro</label>
+            <label><input type="checkbox" name="ejercicio3_4" value="Curl en banco inclinado, con las mancuernas por detrás del pecho"> Curl en banco inclinado, con las mancuernas por detrás del pecho</label>
+            <label><input type="checkbox" name="ejercicio3_5" value="Curl soportado en un banco, con barra o en máquina"> Curl soportado en un banco, con barra o en máquina</label>
             <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
         </div>
 
+        
 
+        
     <!---
         <div class="checkbox-group" id="Abdomen">
             <label>Elige 2 Ejercicios para Abdomen</label>

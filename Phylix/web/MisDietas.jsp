@@ -53,7 +53,6 @@
                 <td><%= comida[3] %></td>
                 <td><%= comida[4] %></td>
                 <td><%= comida[5] %></td>
-                <!-- Mostrar solo las columnas disponibles -->
                 <td><%= (comida.length > 6 ? comida[6] : "") %></td>
                 <td><%= (comida.length > 7 ? comida[7] : "") %></td>
                 <td><%= (comida.length > 8 ? comida[8] : "") %></td>

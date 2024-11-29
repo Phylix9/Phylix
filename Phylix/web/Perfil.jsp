@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="clases.Medidas"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,14 +25,17 @@
         <i class="ri-arrow-left-line"></i>
     </button>
         <img 
-            src="src/pfp-Abraham.jpeg" alt="Profile" class="profile-picture"/>
+            src="src/perfil.png" alt="Profile" class="profile-picture"/>
         <h2></h2>
         <a href="Perfil.jsp"><i data-lucide="user"></i> Perfil</a>
         <a href="MisDietas"><i data-lucide="cookie"></i> Mis Dietas</a>
-        <a href="MisRutinas"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
+        <a href="CrearRutina"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
         <a href="Logout"><i data-lucide="log-out"></i> Cerrar Sesión</a>
     </div>
 
+    <%
+         List<Medidas> medidas = (List<Medidas>) request.getAttribute("medidas");
+    %>
     <div class="container">
         <h1>Perfil del Usuario</h1>
 
@@ -64,18 +69,20 @@
 
         <div class="info-section">
             <h2>Información de Salud</h2>
-            <div class="info">
-                <label>Estatura: <%= session.getAttribute("estatura") %> metros</label>
-                <span></span>
-            </div>
-            <div class="info">
-                <label>Peso: <%= session.getAttribute("peso") %> kg</label>
-                <span></span>
-            </div>
-            <div class="info">
-                <label>IMC: <%= session.getAttribute("IMC") %> </label>
-                <span></span>
-            </div>
+            <% for (Medidas medida : medidas) { %>
+                <div class="info">
+                    <label>Estatura: <%= medida.getAltura() %> metros</label>
+                    <span</span>
+                </div>
+                <div class="info">
+                    <label>Peso: <%= medida.getPeso() %> kg</label>
+                    <span></span>
+                </div>
+                <div class="info">
+                    <label>IMC: <%= medida.getImc() %> </label>
+                    <span></span>
+                </div>
+            <% } %>
             <div class="info">
                 <label>Condiciones Médicas: <%= session.getAttribute("condiciones") %></label>
                 <span></span>

@@ -44,7 +44,7 @@
         <div class="header__container">
             <div class="header__content">
                 <header class="section__header">
-                    <h2>Selecciona Tu Plan de Alimentacion</h2>
+                    <h2>Selecciona Tu Plan de Alimentacion<%=session.getAttribute("id_usuario")%></h2>
                     <p class="section__subheader">
                         Elige entre dieta personalizada o una predeterminada para complementar tus resultados.
                     </p>

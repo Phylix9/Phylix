@@ -29,12 +29,12 @@ public class IMC extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         if (session == null || session.getAttribute("id_usuario") == null) {
             response.sendRedirect("Login.html?error=sesion");
             return;
         }
-
+        
         String estaturaStr = request.getParameter("estatura");
         String pesoStr = request.getParameter("peso");
 
@@ -42,11 +42,11 @@ public class IMC extends HttpServlet {
             double estatura = Double.parseDouble(estaturaStr);
             double peso = Double.parseDouble(pesoStr);
             double imc = peso / (estatura * estatura);
-            String imcFormatted = String.format("%.1f", imc);
+            String imcFormatted = String.format("%.1f", imc); 
             imc = Double.parseDouble(imcFormatted);
 
-
             int idUsuario = (int) session.getAttribute("id_usuario");
+            
             String url = "jdbc:mysql://localhost/FitData";
             String user = "root";
             String password = "AT10220906";
@@ -57,6 +57,7 @@ public class IMC extends HttpServlet {
                 ResultSet rs = sta.executeQuery();
 
                 if (rs.next()) {
+
                     try (PreparedStatement updateSta = con.prepareStatement("UPDATE IMC SET imc_usuario = ?, peso_usuario = ?, altura_usuario = ? WHERE id_usuario = ?")) {
                         updateSta.setDouble(1, imc);
                         updateSta.setDouble(2, peso);
@@ -65,6 +66,7 @@ public class IMC extends HttpServlet {
                         updateSta.executeUpdate();
                     }
                 } else {
+                    // Insertar nuevo registro
                     try (PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC(imc_usuario, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?)")) {
                         insertSta.setDouble(1, imc);
                         insertSta.setDouble(2, peso);
@@ -73,16 +75,31 @@ public class IMC extends HttpServlet {
                         insertSta.executeUpdate();
                     }
                 }
+                
+                String categoria;
+                if (imc < 18.5) {
+                    categoria = "Bajo peso";
+                } else if (imc < 25) {
+                    categoria = "Peso normal";
+                } else if (imc < 30) {
+                    categoria = "Sobrepeso";
+                } else {
+                    categoria = "Obesidad";
+                }
 
                 session.setAttribute("IMC", imc);
+                session.setAttribute("categoria", categoria);
                 session.setAttribute("peso", peso);
                 session.setAttribute("estatura", estatura);
-                response.sendRedirect("Proyecto.jsp");
+
+                response.sendRedirect("Informacion.jsp");
             }
         } catch (NumberFormatException e) {
-            response.getWriter().println("Error: Por favor ingresa valores válidos para peso y estatura.");
+            session.setAttribute("error", "Por favor ingresa valores válidos para peso y estatura.");
+            response.sendRedirect("error.jsp");
         } catch (SQLException e) {
-            response.getWriter().println("Error de base de datos: " + e.getMessage());
+            session.setAttribute("error", "Error en la base de datos: " + e.getMessage());
+            response.sendRedirect("error.jsp");
         }
     }
 
@@ -100,6 +117,6 @@ public class IMC extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Añadir o actualizar IMC en la base de datos";
+        return "Servlet para calcular y almacenar el IMC del usuario";
     }
 }

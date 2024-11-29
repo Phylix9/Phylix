@@ -13,6 +13,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "Perfil", urlPatterns = {"/Perfil"})
 public class Perfil extends HttpServlet {
@@ -68,7 +70,23 @@ public class Perfil extends HttpServlet {
                 session.setAttribute("genero", rsUsuario.getString("sexo_usuario"));
             }
             
-            response.sendRedirect("Perfil.jsp");
+            PreparedStatement stmtMedidas = con.prepareStatement("SELECT imc_usuario, peso_usuario, altura_usuario FROM Imc WHERE id_usuario = ?");
+            stmtMedidas.setInt(1, idUsuario);
+            ResultSet rsMedidas = stmtMedidas.executeQuery();
+            
+            List<clases.Medidas> medidas = new ArrayList<>();
+            while (rsMedidas.next()) {
+                clases.Medidas medida = new clases.Medidas();
+                medida.setImc(rsMedidas.getDouble("imc_usuario"));
+                medida.setPeso(rsMedidas.getDouble("peso_usuario"));
+                medida.setAltura(rsMedidas.getDouble("altura_usuario"));
+                medidas.add(medida);
+            }
+            
+            request.setAttribute("medidas", medidas);
+            
+            request.getRequestDispatcher("Perfil.jsp").forward(request, response);
+
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             response.getWriter().print("Error: " + e.getMessage());

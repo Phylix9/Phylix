@@ -19,7 +19,7 @@ public class Menus extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         Integer id_usuario = (Integer) session.getAttribute("id_usuario");
 
         if (id_usuario == null) {

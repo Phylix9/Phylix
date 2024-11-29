@@ -23,56 +23,64 @@ public class MisRutinas extends HttpServlet {
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
         if (idUsuario == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+            response.sendRedirect("Login.html?mensaje=sesionExpirada");
             return;
         }
+
+        String plan = request.getParameter("plan");
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
         String password = "AT10220906";
+        
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
-        List<String[]> rutinasList = new ArrayList<>();
+        List<String[]> rutinaspredList = new ArrayList<>();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
-
-            String query = "SELECT * FROM Rutinasper WHERE id_usuario = ?";
-            stmt = con.prepareStatement(query);
+            
+            String queryUpdate = "UPDATE RutPrest SET id_usuario = ? WHERE id_plan = ?";
+            stmt = con.prepareStatement(queryUpdate);
             stmt.setInt(1, idUsuario);
+            stmt.setString(2, plan);
+            stmt.executeUpdate();
+            stmt.close();
+            
+            
+            String queryInsert = "INSERT INTO Rutina (rutina_usuario, id_usuario) VALUES (?, ?)";
+            stmt = con.prepareStatement(queryInsert);
+            stmt.setString(1, plan);
+            stmt.setInt(2, idUsuario);
+            stmt.executeUpdate();
+            stmt.close();
+            
+            String querySelect = "SELECT id_plan, rutina_prest FROM RutPrest WHERE id_usuario = ? AND id_plan = ?;";
+            stmt = con.prepareStatement(querySelect);
+            stmt.setInt(1, idUsuario);
+            stmt.setString(2, plan);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String[] rutina = new String[16];
-                rutina[0] = rs.getString("ejercicio1");
-                rutina[1] = String.valueOf(rs.getInt("reps1"));
-                rutina[2] = rs.getString("ejercicio2");
-                rutina[3] = String.valueOf(rs.getInt("reps2"));
-                rutina[4] = rs.getString("ejercicio3");
-                rutina[5] = String.valueOf(rs.getInt("reps3"));
-                rutina[6] = rs.getString("ejercicio4");
-                rutina[7] = String.valueOf(rs.getInt("reps4"));
-                rutina[8] = rs.getString("ejercicio5");
-                rutina[9] = String.valueOf(rs.getInt("reps5"));
-                rutina[10] = rs.getString("ejercicio6");
-                rutina[11] = String.valueOf(rs.getInt("reps6"));
-                rutina[12] = rs.getString("ejercicio7");
-                rutina[13] = String.valueOf(rs.getInt("reps7"));
-                rutina[14] = rs.getString("ejercicio8");
-                rutina[15] = String.valueOf(rs.getInt("reps8"));
-                
-                rutinasList.add(rutina);
+                session.setAttribute("id_plan", plan);
+                session.setAttribute("rutina",rs.getString("rutina_prest"));
+                rutinaspredList.add(new String[]{"id_plan", "rutina_prest"});
+            }
+            
+            String referer = request.getHeader("Referer");
+
+            if (referer != null && referer.endsWith("Perfil.jsp")) {
+                request.setAttribute("rutinasp", rutinaspredList);
+                request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
+            } else {
+                response.getWriter().println("<script>alert('Rutina creada');</script>");
+                response.sendRedirect("Proyecto.jsp");
             }
 
-            request.setAttribute("rutinas", rutinasList);
-
-            request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
-
         } catch (Exception e) {
-            response.getWriter().println("Error al consultar las rutinas: " + e.getMessage());
+            response.getWriter().println("Error al procesar la rutina: " + e.getMessage());
             e.printStackTrace();
         } finally {
             try {
@@ -99,6 +107,6 @@ public class MisRutinas extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Servlet para obtener las rutinas del usuario y mostrarlas en una tabla.";
+        return "Servlet para gestionar y mostrar rutinas del usuario en la base de datos.";
     }
 }

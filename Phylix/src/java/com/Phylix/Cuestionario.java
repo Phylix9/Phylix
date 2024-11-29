@@ -11,7 +11,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "Cuestionario", urlPatterns = {"/Cuestionario"})
 public class Cuestionario extends HttpServlet {
@@ -60,7 +63,14 @@ public class Cuestionario extends HttpServlet {
             sta2.setString(2, sexo);
             sta2.setInt(3, id_usuario);
             sta2.executeUpdate();
-
+            sta2.close();
+            
+            sta2 = con.prepareStatement("INSERT INTO Imc(id_imc, id_usuario) values (?,?);");
+            sta2.setInt(1, id_usuario);
+            sta2.setInt(2, id_usuario);
+            sta2.executeUpdate();
+            sta2.close();
+            
             sta = con.prepareStatement("INSERT INTO Cuestionario (nombre_completo, condicion_usuario, "
                     + "medicamento_usuario, frecuencia_usuario, objetivo_usuario, alergias_usuario, restriccion_usuario, "
                     + "estres_usuario, sueno_usuario, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
@@ -84,7 +94,7 @@ public class Cuestionario extends HttpServlet {
             session.setAttribute("alergias", alergia);
             session.setAttribute("restriccion", restriccion);
             session.setAttribute("nombre", nombre);
-
+         
             response.sendRedirect("Proyecto.jsp");
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {

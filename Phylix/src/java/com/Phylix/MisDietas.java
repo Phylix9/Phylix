@@ -49,12 +49,12 @@ public class MisDietas extends HttpServlet {
                 String[] comida = new String[9];
                 comida[0] = String.valueOf(rs.getInt("id_comida"));
                 comida[1] = rs.getString("proteina");
-                comida[2] = rs.getString("carbohidrato");
-                comida[3] = rs.getString("vitamina");
-                comida[4] = rs.getString("grasa");
-                comida[5] = String.valueOf(rs.getDouble("porcion_proteina"));
-                comida[6] = String.valueOf(rs.getDouble("porcion_carbohidrato"));
-                comida[7] = String.valueOf(rs.getDouble("porcion_vitamina"));
+                comida[3] = rs.getString("carbohidrato");
+                comida[5] = rs.getString("vitamina");
+                comida[7] = rs.getString("grasa");
+                comida[2] = String.valueOf(rs.getDouble("porcion_proteina"));
+                comida[4] = String.valueOf(rs.getDouble("porcion_carbohidrato"));
+                comida[6] = String.valueOf(rs.getDouble("porcion_vitamina"));
                 comida[8] = String.valueOf(rs.getDouble("porcion_grasa"));
                 comidasList.add(comida);
             }

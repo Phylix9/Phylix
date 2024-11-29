@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,12 +16,38 @@
         <i class="ri-arrow-left-line"></i>
     </button>
     <main>
-        <% 
-                        String username = (String) session.getAttribute("nombre_usuario");
-                        Double imc = (Double) session.getAttribute("IMC");
-                        Double estatura = (Double) session.getAttribute("estatura");
-                        Double peso = (Double) session.getAttribute("peso");
-                    %>
+            <% 
+            int idUsuario = (int) session.getAttribute("id_usuario");
+            String username = (String) session.getAttribute("nombre_usuario");
+            String url = "jdbc:mysql://localhost/FitData";
+            String user = "root";
+            String password = "AT10220906";
+            Double imc = null;
+            Double estatura = null;
+            Double peso = null;
+            try (Connection con = DriverManager.getConnection(url, user, password)) {
+
+                String query = "SELECT imc_usuario, peso_usuario, altura_usuario FROM IMC WHERE id_usuario = ?";
+                try (PreparedStatement stmt = con.prepareStatement(query)) {
+                    stmt.setInt(1, idUsuario);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        if (rs.next()) {
+                            imc = rs.getDouble("imc_usuario");
+                            peso = rs.getDouble("peso_usuario");
+                            estatura = rs.getDouble("altura_usuario");
+
+                            session.setAttribute("IMC", imc);
+                            session.setAttribute("peso", peso);
+                            session.setAttribute("estatura", estatura);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                session.setAttribute("error", "Error en la base de datos: " + e.getMessage());
+                response.sendRedirect("Proyecto.jsp");
+                return;
+            }
+        %>
         <section id="imc" class="imc-section">
             <h1>Índice de Masa Corporal (IMC) 
                 <% if(username!=null){%>
@@ -31,40 +58,39 @@
                     <% 
                         if (username != null && imc != null) {
                     %>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            initGauge();
+                            updateGauge(imc);
+                            calculateIMC();
+                            
+                        });
+                    </script>
+                    
+                    <form action="IMC" method="post">
                             <div class="input-group" >
                                 <label for="weight" >Tu Peso(kg) es:</label>
-                                <input type="number" name="peso" id="weight" min="30" max="300" step="0.1" readonly value="<%= peso %>" required>
+                                <input type="number" name="peso" id="weight" min="30" max="300" step="0.1" value="<%= peso %>" required>
                             </div>
                             <div class="input-group" >
                                 <label for="height"> Tu Altura (m) es:</label>
-                                <input type="number" name="estatura" id="height" min="1" max="2.5" step="0.01" readonly value="<%= estatura %>" required>
+                                <input type="number" name="estatura" id="height" min="1" max="2.5" step="0.01" value="<%= estatura %>" required>
                             </div>
                             <input type="hidden" classname="imc" id="hiddenIMC" value="<%= imc %>">
                             <button class="calculate-btn" onclick="calculateIMC()">Calcular mi IMC</button>
-                    <% } else if(username!=null){ %>
-                            <form action="IMC" method="post" onsubmit="return calculateIMC()">
+                    </form>
+                    <% }else {%>
+                    <form action="IMC" method="post">
                             <div class="input-group">
                                 <label for="weight">Peso (kg)</label>
-                                <input type="number" name="peso" id="weight" min="30" max="300" step="0.1" required>
+                                <input type="number" id="weight" name="peso" min="30" max="300" step="0.1" required>
                             </div>
                             <div class="input-group">
                                 <label for="height">Altura (m)</label>
-                                <input type="number" name="estatura" id="height" min="1" max="2.5" step="0.01" required>
+                                <input type="number" id="height" name="estatura" min="1" max="2.5" step="0.01" required>
                             </div>
-                            <input type="hidden" name="imc" id="hiddenIMC">
-                            <button type="submit" class="calculate-btn">Calcular IMC</button>
-                        </form>
-                        <% } else {%>
-                            <div class="input-group">
-                                <label for="weight">Peso (kg)</label>
-                                <input type="number" id="weight" min="30" max="300" step="0.1" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="height">Altura (m)</label>
-                                <input type="number" id="height" min="1" max="2.5" step="0.01" required>
-                            </div>
-                            <button onclick="calculateIMC()" class="calculate-btn">Calcular IMC</button>
-
+                            <button type="submit" onclick="calculateIMC()" class="calculate-btn">Calcular IMC</button>
+                    </form>
                         <% } %>
                 </div>
                 <div class="result-container">
@@ -247,6 +273,8 @@
             }
 
             function calculateIMC() {
+                
+                
                 const weight = parseFloat(document.getElementById('weight').value);
                 const height = parseFloat(document.getElementById('height').value);
                 let imc = parseFloat(document.getElementById('hiddenIMC')?.value);
