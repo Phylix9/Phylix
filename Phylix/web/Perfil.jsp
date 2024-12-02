@@ -40,9 +40,14 @@
 
     <%
          List<Medidas> medidas = (List<Medidas>) request.getAttribute("medidas");
+         String username = (String) session.getAttribute("nombre_usuario");
+         Double altura = null;
+         for (Medidas medida : medidas) {
+            altura = medida.getAltura();
+        }
     %>
     <div class="container">
-        <h1>Perfil del Usuario</h1>
+        <h1>Perfil de <%= username %></h1>
 
         <div class="info-section">
             <h2>Información de Usuario </h2>
@@ -73,8 +78,11 @@
         </div>
 
         <div class="info-section">
+            
             <h2>Información de Salud</h2>
-            <% for (Medidas medida : medidas) { %>
+            
+            <% if(altura>0){
+                for (Medidas medida : medidas) { %>
                 <div class="info">
                     <label>Estatura: <%= medida.getAltura() %> metros</label>
                     <span</span>
@@ -87,7 +95,9 @@
                     <label>IMC: <%= medida.getImc() %> </label>
                     <span></span>
                 </div>
-            <% } %>
+            <%  } 
+               } 
+            %>
             <div class="info">
                 <label>Condiciones Médicas: <%= session.getAttribute("condiciones") %></label>
                 <span></span>

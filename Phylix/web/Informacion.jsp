@@ -51,20 +51,20 @@
         <section id="imc" class="imc-section">
             <h1>Índice de Masa Corporal (IMC) 
                 <% if(username!=null){%>
-                    de <%= username%>
+                    de <%= username%> 
                 <%}%></h1>
             <div class="calculator-container">
                 <div class="calculator-form">
                     <% 
-                        if (username != null && imc != null) {
+                        if (username != null && imc > 0) {
                     %>
                     <script>
-                        document.addEventListener('DOMContentLoaded', function () {
+                            document.addEventListener('DOMContentLoaded', function () {
                             initGauge();
                             updateGauge(imc);
                             calculateIMC();
                             
-                        });
+                            });
                     </script>
                     
                     <form action="IMC" method="post">
@@ -77,7 +77,7 @@
                                 <input type="number" name="estatura" id="height" min="1" max="2.5" step="0.01" value="<%= estatura %>" required>
                             </div>
                             <input type="hidden" classname="imc" id="hiddenIMC" value="<%= imc %>">
-                            <button class="calculate-btn" onclick="calculateIMC()">Calcular mi IMC</button>
+                            <button class="calculate-btn">Calcular mi IMC</button>
                     </form>
                     <% }else {%>
                     <form action="IMC" method="post">
@@ -89,7 +89,7 @@
                                 <label for="height">Altura (m)</label>
                                 <input type="number" id="height" name="estatura" min="1" max="2.5" step="0.01" required>
                             </div>
-                            <button type="submit" onclick="calculateIMC()" class="calculate-btn">Calcular IMC</button>
+                            <button type="submit" class="calculate-btn">Calcular IMC</button>
                     </form>
                         <% } %>
                 </div>
@@ -292,6 +292,7 @@
                 displayResult(imc);
                 return true;
             }
+
 
             function displayResult(imc) {
                 const cat = document.getElementById('cat-value');

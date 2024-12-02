@@ -46,7 +46,8 @@
                         <span class="meal-time">Comida 5</span>
                         <p>Gelatina light, una taza de jícama rallada, té de hierbas sin azúcar.</p>
                     </div>
-                    <button class="select-btn" onclick="selectPlan('plan1', 'Plan 1')">Seleccionar Plan</button>
+                    <input type="hidden" name="plan" value="plan1">
+                    <button class="select-btn" onclick="selectPlan('Plan 1', 'Plan 1')">Seleccionar Plan</button>
                 </div>
             </section>
 
@@ -75,7 +76,8 @@
                         <span class="meal-time">Comida 5</span>
                         <p> Manzana roja chica con 20 almendras y 1 taza de gelatina de agua.</p>
                     </div>
-                    <button class="select-btn" onclick="selectPlan('plan2', 'Plan 2')">Seleccionar Plan</button>
+                    <input type="hidden" name="plan" value="plan2">
+                    <button class="select-btn" onclick="selectPlan('Plan 2', 'Plan 2')">Seleccionar Plan</button>
                 </div>
             </section>
 
@@ -104,7 +106,8 @@
                         <span class="meal-time">Comida 5</span>
                         <p> Manzana roja chica con 20 almendras y 1 taza de gelatina de agua.</p>
                     </div>
-                    <button class="select-btn" onclick="selectPlan('plan3', 'Plan 3')">Seleccionar Plan</button>
+                    <input type="hidden" name="plan" value="plan3">
+                    <button class="select-btn" onclick="selectPlan('Plan 3', 'Plan 3')">Seleccionar Plan</button>
                 </div>
             </section>
 
@@ -133,7 +136,8 @@
                         <span class="meal-time">Comida 5</span>
                         <p> Omelette con 4 claras de huevo y 40 g de queso Oaxaca, 1 taza de champiñones, acelgas y espinacas; acompañado de 3 tortillas de maíz.</p>
                     </div>
-                    <button class="select-btn" onclick="selectPlan('plan4', 'Plan 4')">Seleccionar Plan</button>
+                    <input type="hidden" name="plan" value="plan4">
+                    <button class="select-btn" onclick="selectPlan('Plan 4', 'Plan 4')">Seleccionar Plan</button>
                 </div>
             </section>
 
@@ -162,7 +166,8 @@
                         <span class="meal-time">Comida 5</span>
                         <p> Chilaquiles: 1 taza de salsa de tomate (con cebolla y chile al gusto), 3 tostadas Salma como totopos, 2 huevos estrellados y 40 g de queso panela rallado; acompañado de 1 cucharada de crema.</p>
                     </div>
-                    <button class="select-btn" onclick="selectPlan('plan5', 'Plan 5')">Seleccionar Plan</button>
+                    <input type="hidden" name="plan" value="plan5">
+                    <button class="select-btn" onclick="selectPlan('Plan 5', 'Plan 5')">Seleccionar Plan</button>
                 </div>
             </section>
 
@@ -191,7 +196,8 @@
                         <span class="meal-time">Comida 5</span>
                         <p> Tres rollitos de pechuga de pavo.</p>
                     </div>
-                    <button class="select-btn" onclick="selectPlan('plan6', 'Plan 6')">Seleccionar Plan</button>
+                    <input type="hidden" name="plan" value="plan6">
+                    <button class="select-btn" onclick="selectPlan('Plan 6', 'Plan 6')">Seleccionar Plan</button>
                 </div>
             </section>
         </div>
@@ -207,10 +213,11 @@
             selectedCard.classList.add('selected');
 
             const selectedPlanDiv = document.getElementById('selected-plan');
-            selectedPlanDiv.innerHTML = `<div class="selected-message">
-                <p>Has seleccionado: <strong>${planName}</strong></p>
-                <button class="clear-btn" onclick="clearSelection()">Cambiar Selección</button>
-            </div>`;
+            selectedPlanDiv.innerHTML = `
+                <div class="selected-message">
+                    <p>Has seleccionado: <strong>${planName}</strong></p>
+                    <button class="clear-btn" onclick="createRoutine('${planId}')">Crear Rutina</button>
+                </div>`;
             selectedPlanDiv.style.display = 'block';
         }
 
@@ -219,6 +226,10 @@
                 card.classList.remove('selected');
             });
             document.getElementById('selected-plan').style.display = 'none';
+        }
+        
+        function createRoutine(planId) {
+            location.href = `MisDietas?plan=${planId}`;
         }
     </script>
 </body>

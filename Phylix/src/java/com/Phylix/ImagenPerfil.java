@@ -18,8 +18,6 @@ import java.sql.SQLException;
 @WebServlet(name = "ImagenPerfil", urlPatterns = {"/ImagenPerfil"})
 public class ImagenPerfil extends HttpServlet {
 
-    // Configuración de conexión a la base de datos
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         Integer idUsuario = (Integer) request.getSession().getAttribute("id_usuario");
@@ -34,7 +32,6 @@ public class ImagenPerfil extends HttpServlet {
         String password = "AT10220906";
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
-            // Consulta SQL para obtener la imagen del usuario
             String sql = "SELECT imagen FROM ImagenesPerfil WHERE id_usuario = ?";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
                 pstmt.setInt(1, idUsuario);

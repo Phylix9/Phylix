@@ -30,7 +30,6 @@ public class RutinaspersoCreadas extends HttpServlet {
         String[] ejercicios3 = (String[]) session.getAttribute("ejercicios3");
         int[] repeticiones = {10, 10, 10, 10, 10, 10, 10, 10};
 
-        // Juntar todas las listas de ejercicios en una sola
         List<String[]> rutinasList = Arrays.asList(ejercicios1, ejercicios2, ejercicios3);
     }
 

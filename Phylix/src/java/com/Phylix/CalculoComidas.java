@@ -30,7 +30,7 @@ public class CalculoComidas extends HttpServlet {
         String sexo = null;
         String objetivos = null;
         String frecuencia = null;
-        double peso = 0.0;  // Agregado para almacenar el peso
+        double peso = 0.0;
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
@@ -44,8 +44,22 @@ public class CalculoComidas extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, user, password);
 
-            // Modificamos la consulta para incluir el peso_usuario
-            String sqlUsuario = "SELECT edad_usuario, sexo_usuario, peso_usuario FROM Usuario WHERE id_usuario = ?";
+            String sqlIMC = "SELECT peso_usuario FROM IMC WHERE id_usuario = ?";
+            stmt = con.prepareStatement(sqlIMC);
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                peso = rs.getDouble("peso_usuario");  
+                System.out.println("Edad: " + edad + ", Sexo: " + sexo + ", Peso: " + peso);
+            } else {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no encontrado.");
+                return;
+            }
+            rs.close();
+            stmt.close();
+            
+            String sqlUsuario = "SELECT edad_usuario, sexo_usuario FROM Usuario WHERE id_usuario = ?";
             stmt = con.prepareStatement(sqlUsuario);
             stmt.setInt(1, idUsuario);
             rs = stmt.executeQuery();
@@ -53,8 +67,6 @@ public class CalculoComidas extends HttpServlet {
             if (rs.next()) {
                 edad = rs.getInt("edad_usuario");
                 sexo = rs.getString("sexo_usuario");
-                peso = rs.getDouble("peso_usuario");  // Obtenemos el peso
-                System.out.println("Edad: " + edad + ", Sexo: " + sexo + ", Peso: " + peso);
             } else {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Usuario no encontrado.");
                 return;
@@ -87,7 +99,6 @@ public class CalculoComidas extends HttpServlet {
             }
         }
 
-        // Listas para los alimentos (sin cambios)
         List<String> proteinas = new ArrayList<>();
         List<String> carbohidratos = new ArrayList<>();
         List<String> vitaminasMinerales = new ArrayList<>();
@@ -131,7 +142,6 @@ public class CalculoComidas extends HttpServlet {
             }
         }
 
-        // Recogemos los alimentos seleccionados por el usuario (sin cambios)
         String[] proteinasSeleccionadas = new String[5];
         String[] carbohidratosSeleccionados = new String[5];
         String[] vitaminasSeleccionadas = new String[5];
@@ -144,13 +154,11 @@ public class CalculoComidas extends HttpServlet {
             grasasSeleccionadas[i] = request.getParameter("grasa" + (i + 1));
         }
 
-        // Calculamos las porciones, pasando el peso como parámetro
         int porcionProteina = calcularPorcionProteina(edad, sexo, frecuencia, objetivos, peso);
         int porcionCarbohidrato = calcularPorcionCarbohidrato(edad, sexo, frecuencia, objetivos, peso);
         int porcionGrasas = calcularPorcionGrasas(edad, sexo, frecuencia, objetivos, peso);
         int porcionVitaminas = calcularPorcionVitaminas(edad, sexo, frecuencia, objetivos, peso);
 
-        // Seteamos los atributos para la vista (sin cambios)
         request.setAttribute("proteinasComida", proteinasSeleccionadas);
         request.setAttribute("carbohidratosComida", carbohidratosSeleccionados);
         request.setAttribute("vitaminasComida", vitaminasSeleccionadas);
@@ -161,17 +169,14 @@ public class CalculoComidas extends HttpServlet {
         request.setAttribute("porcionGrasasComida", porcionGrasas);
         request.setAttribute("porcionVitaminasComida", porcionVitaminas);
 
-        // Almacenamos los alimentos en la sesión (sin cambios)
         session.setAttribute("proteinas", proteinas);
         session.setAttribute("carbohidratos", carbohidratos);
         session.setAttribute("vitaminasMinerales", vitaminasMinerales);
         session.setAttribute("grasas", grasas);
 
-        // Redirigimos a la página de dietas personalizadas (sin cambios)
         request.getRequestDispatcher("DietaspersoCreadas").forward(request, response);
     }
 
-    // Métodos para calcular las porciones (sin cambios, utilizan el peso obtenido desde la base de datos)
 
     private int calcularPorcionProteina(int edad, String sexo, String frecuencia, String objetivos, double peso) {
         int porcionProteina = 0;

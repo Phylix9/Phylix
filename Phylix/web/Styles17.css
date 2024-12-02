@@ -72,6 +72,14 @@ h2 {
   border-bottom: 2px solid var(--primary-color-extra-light);
 }
 
+h3 {
+  color: var(--secondary-color);
+  font-size: 1.4rem;
+  margin: 2.5rem 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-color-extra-light);
+}
+
 /* Table Styles */
 table {
   width: 100%;

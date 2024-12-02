@@ -59,9 +59,58 @@ public class MisDietas extends HttpServlet {
                 comidasList.add(comida);
             }
 
+            rs.close();
+            
+            String plan = request.getParameter("plan");
+            
+            List<String[]> dietaspredList = new ArrayList<>();
+            List<String> dietas = new ArrayList<>();
+            String dietaselected = null;
+            
+            String planSelect = "SELECT dieta_prest FROM DietaPrest WHERE id_dieta = ?;";
+            stmt = con.prepareStatement(planSelect);
+            stmt.setString(1, plan);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                dietaselected = rs.getString("dieta_prest");
+                dietas.add(dietaselected);
+            }
+            stmt.close();
+            
+            String queryInsert = "INSERT INTO DietaPrestUsuarios (id_dietaselected, dieta_prestusers, id_usuario) VALUES (?,?,?); ";
+            stmt = con.prepareStatement(queryInsert);
+            stmt.setString(1, plan);
+            stmt.setString(2, dietaselected);
+            stmt.setInt(3, idUsuario);
+            stmt.executeUpdate();
+            stmt.close();
+            
+            String querySelect = "SELECT id_dietaselected, dieta_prestusers FROM DietaPrestUsuarios WHERE id_usuario = ?;";
+            stmt = con.prepareStatement(querySelect);
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                session.setAttribute("id_plan", plan);
+                session.setAttribute("dieta",rs.getString("dieta_prestusers"));
+                dietaspredList.add(new String[]{"id_plan", "dieta"});
+            }
+            
+            session.setAttribute("dietaspredet", dietaspredList); 
+            
             request.setAttribute("comidas", comidasList);
 
-            request.getRequestDispatcher("MisDietas.jsp").forward(request, response);
+            String referer = request.getHeader("Referer");
+
+            if (referer != null && referer.endsWith("Perfil")) {
+                request.setAttribute("dietasprest", dietaspredList);
+                request.setAttribute("iddietaprest", plan);
+                request.getRequestDispatcher("MisDietas.jsp").forward(request, response);
+            } else {
+                response.getWriter().println("<script>alert('Rutina creada');</script>");
+                response.sendRedirect("Proyecto.jsp");
+            }
 
         } catch (Exception e) {
             response.getWriter().println("Error al consultar las comidas: " + e.getMessage());

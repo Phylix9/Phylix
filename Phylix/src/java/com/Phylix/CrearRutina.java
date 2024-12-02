@@ -94,9 +94,10 @@ public class CrearRutina extends HttpServlet {
             
             int[] repeticiones = {10, 12, 15, 8, 10, 12, 15, 8};
             crearRegistroRutina(con, idUsuario, ejercicios1, ejercicios2, ejercicios3, repeticiones);
-            
-            if (referer != null && referer.endsWith("Perfil.jsp")) {
+           
+            if (referer != null && referer.endsWith("Perfil")) {
                 request.setAttribute("rutinas", rutinasList);
+                request.setAttribute("idUsuario", idUsuario);
                 request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
             } else {
                 response.getWriter().println("<script>alert('No se puede acceder a MisRutinas.jsp desde la página anterior.');</script>");
@@ -109,48 +110,46 @@ public class CrearRutina extends HttpServlet {
         }
     }
 
-    public void crearRegistroRutina(Connection con, Integer idUsuario, List<String> ejercicios1, List<String> ejercicios2, List<String> ejercicios3, int[] repeticiones) throws SQLException {
-    String query = "INSERT INTO Rutinasper (ejercicio1, ejercicio2, ejercicio3, ejercicio4, ejercicio5, ejercicio6, ejercicio7, ejercicio8, " +
+    public void crearRegistroRutina(Connection con, Integer idUsuario, List<String> ejercicios1, List<String> ejercicios2, 
+                                    List<String> ejercicios3, int[] repeticiones) throws SQLException {
+        String query = "INSERT INTO Rutinasper (ejercicio1, ejercicio2, ejercicio3, ejercicio4, ejercicio5, ejercicio6, ejercicio7, ejercicio8, " +
                    "reps1, reps2, reps3, reps4, reps5, reps6, reps7, reps8, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try (PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-        // Asignación de ejercicios
-        stmt.setString(1, ejercicios1.size() > 0 ? ejercicios1.get(0) : null);
-        stmt.setString(2, ejercicios1.size() > 1 ? ejercicios1.get(1) : null);
-        stmt.setString(3, ejercicios2.size() > 0 ? ejercicios2.get(0) : null);  // Cambié el índice a 0
-        stmt.setString(4, ejercicios2.size() > 1 ? ejercicios2.get(1) : null);  // Cambié el índice a 1
-        stmt.setString(5, ejercicios2.size() > 2 ? ejercicios2.get(2) : null);  // Cambié el índice a 2
-        stmt.setString(6, ejercicios3.size() > 0 ? ejercicios3.get(0) : null);  // Cambié el índice a 0
-        stmt.setString(7, ejercicios3.size() > 1 ? ejercicios3.get(1) : null);  // Cambié el índice a 1
-        stmt.setString(8, ejercicios3.size() > 2 ? ejercicios3.get(2) : null);  // Cambié el índice a 2
+        try (PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, ejercicios1.size() > 0 ? ejercicios1.get(0) : null);
+            stmt.setString(2, ejercicios1.size() > 1 ? ejercicios1.get(1) : null);
+            stmt.setString(3, ejercicios2.size() > 0 ? ejercicios2.get(0) : null);
+            stmt.setString(4, ejercicios2.size() > 1 ? ejercicios2.get(1) : null);
+            stmt.setString(5, ejercicios2.size() > 2 ? ejercicios2.get(2) : null);
+            stmt.setString(6, ejercicios3.size() > 0 ? ejercicios3.get(0) : null);
+            stmt.setString(7, ejercicios3.size() > 1 ? ejercicios3.get(1) : null);
+            stmt.setString(8, ejercicios3.size() > 2 ? ejercicios3.get(2) : null);
 
 
-        // Asignación de repeticiones
-        for (int i = 0; i < 8; i++) {
-            stmt.setInt(9 + i, repeticiones[i]);
-        }
+            for (int i = 0; i < 8; i++) {
+                stmt.setInt(9 + i, repeticiones[i]);
+            }
 
-        // Asignación del ID del usuario
-        stmt.setInt(17, idUsuario);
+            stmt.setInt(17, idUsuario);
 
-        int affectedRows = stmt.executeUpdate();
+            int affectedRows = stmt.executeUpdate();
 
-        if (affectedRows > 0) {
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int idRutina = generatedKeys.getInt(1);
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int idRutina = generatedKeys.getInt(1);
 
-                    String insertRutinapersoQuery = "INSERT INTO RutinapersoCreadas (id_rut, id_usuario) VALUES (?, ?)";
-                    try (PreparedStatement insertStmt = con.prepareStatement(insertRutinapersoQuery)) {
-                        insertStmt.setInt(1, idRutina); // ID de la rutina insertada
-                        insertStmt.setInt(2, idUsuario); // ID del usuario
-                        insertStmt.executeUpdate();
-                    }
+                        String insertRutinapersoQuery = "INSERT INTO RutinapersoCreadas (id_rut, id_usuario) VALUES (?, ?)";
+                        try (PreparedStatement insertStmt = con.prepareStatement(insertRutinapersoQuery)) {
+                            insertStmt.setInt(1, idRutina);
+                            insertStmt.setInt(2, idUsuario);
+                            insertStmt.executeUpdate();
+                        }
+                        }
                     }
                 }
             }
         }
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

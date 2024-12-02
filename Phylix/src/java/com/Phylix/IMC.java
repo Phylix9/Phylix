@@ -65,8 +65,8 @@ public class IMC extends HttpServlet {
                         updateSta.setInt(4, idUsuario);
                         updateSta.executeUpdate();
                     }
-                } else {
-                    // Insertar nuevo registro
+                } 
+                else {
                     try (PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC(imc_usuario, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?);")) {
                         insertSta.setDouble(1, imc);
                         insertSta.setDouble(2, peso);

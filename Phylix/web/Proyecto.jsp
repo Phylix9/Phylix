@@ -18,14 +18,14 @@
   </head>
   <body>
     <button class="back-button" onclick="location.href='index.html'">
-        <i class="ri-arrow-left-line"></i>
+      <i class="ri-arrow-left-line"></i>
     </button>
-
     <nav>
         <div class="nav__logo">
-            <a href="#"><img src="src/LogoFitdata2.png" alt="logo"/></a>
+            <img src="src/LogoFitdata2.png" alt="logo"/>
         </div>
         <ul class="nav__links">
+            <li class="link"><a href="index.html">Phylix</a></li>
             <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
             <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
             <li class="link"><a href="Dietas.jsp">Dietas</a></li>

@@ -150,5 +150,31 @@
         <url-pattern>/ImagenPerfil</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>GestionarRutinas</servlet-name>
+        <servlet-class>com.Phylix.GestionarRutinas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GestionarRutinas</servlet-name>
+        <url-pattern>/GestionarRutinas</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GestionarDieta</servlet-name>
+        <servlet-class>com.Phylix.GestionarDieta</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GestionarDieta</servlet-name>
+        <url-pattern>/GestionarDieta</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>GestionarPerfil</servlet-name>
+        <servlet-class>com.Phylix.GestionarPerfil</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GestionarPerfil</servlet-name>
+        <url-pattern>/GestionarPerfil</url-pattern>
+    </servlet-mapping>
     
 </web-app>

@@ -13,7 +13,7 @@
 <body>
     <nav>
         <div class="nav__logo">
-          <a href="Proyecto.html"><img src="src/LogoFitdata2.png" alt="logo"/></a>
+          <a href="Proyecto.jsp"><img src="src/LogoFitdata2.png" alt="logo"/></a>
         </div>
         <ul class="nav__links">
           <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
@@ -44,7 +44,7 @@
         <div class="header__container">
             <div class="header__content">
                 <header class="section__header">
-                    <h2>Selecciona Tu Plan de Alimentacion<%=session.getAttribute("id_usuario")%></h2>
+                    <h2>Selecciona Tu Plan de Alimentacion</h2>
                     <p class="section__subheader">
                         Elige entre dieta personalizada o una predeterminada para complementar tus resultados.
                     </p>

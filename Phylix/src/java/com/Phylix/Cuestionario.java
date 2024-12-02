@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileInputStream;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -69,6 +71,22 @@ public class Cuestionario extends HttpServlet {
             sta2.setInt(1, id_usuario);
             sta2.setInt(2, id_usuario);
             sta2.executeUpdate();
+            sta2.close();
+            
+            sta2 = con.prepareStatement("INSERT INTO ImagenesPerfil(id_perfil, id_usuario) values (?,?);");
+            sta2.setInt(1, id_usuario);
+            sta2.setInt(2, id_usuario);
+            sta2.executeUpdate();
+            
+            File defaultImageFile = new File("C:\\Users\\macur\\Documents\\Phylix\\Phylix\\web\\src\\perfil.png");
+                            String sqlUpdateImagen = "UPDATE ImagenesPerfil SET imagen = ? WHERE id_usuario = ?";
+                            try (FileInputStream fis = new FileInputStream(defaultImageFile);
+                                 PreparedStatement stmtUpdateImagen = con.prepareStatement(sqlUpdateImagen)) {
+                                stmtUpdateImagen.setBinaryStream(1, fis, (int) defaultImageFile.length());
+                                stmtUpdateImagen.setInt(2, id_usuario);
+                                stmtUpdateImagen.executeUpdate();
+                            }
+                            
             sta2.close();
             
             sta = con.prepareStatement("INSERT INTO Cuestionario (nombre_completo, condicion_usuario, "

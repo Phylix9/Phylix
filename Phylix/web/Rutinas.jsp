@@ -13,7 +13,7 @@
 <body>
     <nav>
         <div class="nav__logo">
-          <a href="Proyecto.html"><img src="src/LogoFitdata2.png" alt="logo"/></a>
+          <a href="Proyecto.jsp"><img src="src/LogoFitdata2.png" alt="logo"/></a>
         </div>
         <ul class="nav__links">
           <li class="link"><a href="Proyecto.jsp">Inicio</a></li>

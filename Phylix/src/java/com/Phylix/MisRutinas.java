@@ -28,7 +28,7 @@ public class MisRutinas extends HttpServlet {
         }
 
         String plan = request.getParameter("plan");
-
+        
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
         String password = "AT10220906";
@@ -41,38 +41,46 @@ public class MisRutinas extends HttpServlet {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(url, user, password);
+
+            List<String> rutina = new ArrayList<>();
+            String rutinaselected = null;
             
-            String queryUpdate = "UPDATE RutPrest SET id_usuario = ? WHERE id_plan = ?";
-            stmt = con.prepareStatement(queryUpdate);
-            stmt.setInt(1, idUsuario);
-            stmt.setString(2, plan);
-            stmt.executeUpdate();
+            String planSelect = "SELECT rutina_prest FROM RutPrest WHERE id_plan = ?;";
+            stmt = con.prepareStatement(planSelect);
+            stmt.setString(1, plan);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                rutinaselected = rs.getString("rutina_prest");
+                rutina.add(rutinaselected);
+            }
             stmt.close();
             
-            
-            String queryInsert = "INSERT INTO Rutina (rutina_usuario, id_usuario) VALUES (?, ?)";
+            String queryInsert = "INSERT INTO RutPrestUsuarios (id_planselected, rutina_prestusers, id_usuario) VALUES (?,?,?); ";
             stmt = con.prepareStatement(queryInsert);
             stmt.setString(1, plan);
-            stmt.setInt(2, idUsuario);
+            stmt.setString(2, rutinaselected);
+            stmt.setInt(3, idUsuario);
             stmt.executeUpdate();
             stmt.close();
             
-            String querySelect = "SELECT id_plan, rutina_prest FROM RutPrest WHERE id_usuario = ? AND id_plan = ?;";
+            String querySelect = "SELECT id_planselected, rutina_prestusers FROM RutPrestUsuarios WHERE id_usuario = ?;";
             stmt = con.prepareStatement(querySelect);
             stmt.setInt(1, idUsuario);
-            stmt.setString(2, plan);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 session.setAttribute("id_plan", plan);
-                session.setAttribute("rutina",rs.getString("rutina_prest"));
-                rutinaspredList.add(new String[]{"id_plan", "rutina_prest"});
+                session.setAttribute("rutina",rs.getString("rutina_prestusers"));
+                rutinaspredList.add(new String[]{"id_plan", "rutina"});
             }
             
+            session.setAttribute("rutinaspredet", rutinaspredList); 
             String referer = request.getHeader("Referer");
 
             if (referer != null && referer.endsWith("Perfil.jsp")) {
-                request.setAttribute("rutinasp", rutinaspredList);
+                request.setAttribute("rutinasperso", rutinaspredList);
+                request.setAttribute("idplanperso", plan);
                 request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
             } else {
                 response.getWriter().println("<script>alert('Rutina creada');</script>");

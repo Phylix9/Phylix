@@ -73,7 +73,7 @@ public class DietaspersoCreadas extends HttpServlet {
         }
     }
 
-    session.setAttribute("comidas", listaComidas); // Añadir la lista de comidas a la sesión
+    session.setAttribute("comidas", listaComidas);
     request.getRequestDispatcher("Menuscreados.jsp").forward(request, response);
 
 } catch (Exception e) {

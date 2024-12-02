@@ -84,7 +84,7 @@ public class AnadirImagen extends HttpServlet {
                     request.getRequestDispatcher("Perfil.jsp").forward(request, response);
                 } catch (SQLException e) {
                     request.setAttribute("error", "Error en la base de datos: " + e.getMessage());
-                    request.getRequestDispatcher("Proyecto.jsp").forward(request, response);
+                    request.getRequestDispatcher("Rutinas.jsp").forward(request, response);
                   }
             } catch (IOException e) {
                 request.setAttribute("error", "Error al guardar la imagen: " + e.getMessage());

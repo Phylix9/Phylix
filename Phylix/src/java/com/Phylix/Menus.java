@@ -23,7 +23,7 @@ public class Menus extends HttpServlet {
         Integer id_usuario = (Integer) session.getAttribute("id_usuario");
 
         if (id_usuario == null) {
-            response.sendRedirect("Login.html");
+            response.sendRedirect("Login.html?error=sesion");
             return;
         }
 
@@ -51,6 +51,8 @@ public class Menus extends HttpServlet {
         } catch (SQLException e) {
             throw new ServletException("Error de conexión a la base de datos", e);
         }
+        
+        
     }
 
     private void cargarAlimentos(Connection conn, String categoria, List<String> lista) throws SQLException {
