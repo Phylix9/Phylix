@@ -22,8 +22,8 @@ import java.sql.SQLException;
  *
  * @author Abraham
  */
-@WebServlet(name = "GestionarRutinas", urlPatterns = {"/GestionarRutinas"})
-public class GestionarRutinas extends HttpServlet {
+@WebServlet(name = "EliminarRutina", urlPatterns = {"/EliminarRutina"})
+public class EliminarRutina extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

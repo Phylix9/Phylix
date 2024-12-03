@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @WebServlet(name = "GestionarDieta", urlPatterns = {"/GestionarDieta"})
-public class GestionarDieta extends HttpServlet {
+public class EliminarDieta extends HttpServlet {
 
     
 

@@ -13,13 +13,13 @@
     </head>
     <body>
         <h1>Hello World!</h1>
-        <form action="GestionarDieta" method="post">
+        <form action="EliminarDieta" method="post">
             <h2> Ingresa el número de plan que quieres eliminar </h2>
-            <input type="text"  name="dietapersoid">
+            <input type="text"  name="dietaprestid">
             <button type="submit">Enviar</button>
         </form>
         
-        <form action="GestionarDieta" method="post">
+        <form action="EliminarDieta" method="post">
             <h2> Ingresa el nombre de la dieta que quieres eliminar </h2>
             <input type="text"  name="dietapersoid">
             <button type="submit">Enviar</button>
