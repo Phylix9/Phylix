@@ -22,7 +22,7 @@
 </head>
 <body>
     <div class="sidebar">
-        <button class="back-button" onclick="location.href='Proyecto.jsp'">
+        <button class="back-button" onclick="location.href='FitData'">
         <i class="ri-arrow-left-line"></i>
     </button>
         <form  id="form-upload" action="AnadirImagen" method="post" enctype="multipart/form-data">

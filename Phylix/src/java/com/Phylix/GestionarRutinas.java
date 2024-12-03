@@ -36,8 +36,8 @@ public class GestionarRutinas extends HttpServlet {
         String user = "root";
         String password = "AT10220906";
         
-        if (idUsuario == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+        if (session == null || session.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Login.html?error=sesion");
             return;
         }
 

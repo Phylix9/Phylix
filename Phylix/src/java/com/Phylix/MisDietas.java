@@ -22,8 +22,8 @@ public class MisDietas extends HttpServlet {
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
-        if (idUsuario == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+        if (session == null || session.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Login.html?error=sesion");
             return;
         }
 
@@ -124,7 +124,7 @@ public class MisDietas extends HttpServlet {
                 request.getRequestDispatcher("MisDietas.jsp").forward(request, response);
             } else {
                 response.getWriter().println("<script>alert('Rutina creada');</script>");
-                response.sendRedirect("Proyecto.jsp");
+                response.sendRedirect("FitData");
             }
 
         } catch (Exception e) {

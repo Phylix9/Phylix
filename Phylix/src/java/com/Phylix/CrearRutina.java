@@ -26,8 +26,8 @@ public class CrearRutina extends HttpServlet {
     HttpSession session = request.getSession();
     Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
-    if (idUsuario == null) {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+    if (session == null || session.getAttribute("id_usuario") == null) {
+        response.sendRedirect("Login.html?error=sesion");
         return;
     }
 
@@ -94,7 +94,7 @@ public class CrearRutina extends HttpServlet {
         crearRegistroRutina(con, idUsuario, ejercicios1, ejercicios2, ejercicios3, repeticiones, nombre_rutina);
 
         response.getWriter().println("<script>alert('Rutina creada exitosamente.');</script>");
-        response.sendRedirect("Proyecto.jsp");
+        response.sendRedirect("FitData");
 
     } catch (Exception e) {
         response.getWriter().print("Error: " + e.getMessage());

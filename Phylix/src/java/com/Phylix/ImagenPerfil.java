@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileInputStream;
 
@@ -20,10 +21,11 @@ public class ImagenPerfil extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        Integer idUsuario = (Integer) request.getSession().getAttribute("id_usuario");
-
-        if (idUsuario == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+        HttpSession session = request.getSession();
+        Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+        
+        if (session == null || session.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Login.html?error=sesion");
             return;
         }
 

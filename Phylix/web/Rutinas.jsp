@@ -13,10 +13,10 @@
 <body>
     <nav>
         <div class="nav__logo">
-          <a href="Proyecto.jsp"><img src="src/LogoFitdata2.png" alt="logo"/></a>
+          <a href="FitData"><img src="src/LogoFitdata2.png" alt="logo"/></a>
         </div>
         <ul class="nav__links">
-          <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
+          <li class="link"><a href="FitData">Inicio</a></li>
           <li class="link"><a href="Dietas.jsp">Dietas</a></li>
           <li class="link"><a href="Informacion.jsp">Informacion</a></li>
         </ul>

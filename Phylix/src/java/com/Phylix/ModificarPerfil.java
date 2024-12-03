@@ -28,6 +28,11 @@ public class ModificarPerfil extends HttpServlet {
 
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
         
+        if (session == null || session.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Login.html?error=sesion");
+            return;
+        }
+        
         session.setAttribute("nombre", request.getParameter("nombre"));
         session.setAttribute("nombre_usuario", request.getParameter("nombre_usuario"));
         session.setAttribute("correo_usuario", request.getParameter("correo_usuario"));

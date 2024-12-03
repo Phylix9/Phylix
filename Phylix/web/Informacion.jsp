@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="Styles10.css">
 </head>
 <body>
-    <button class="back-button" onclick="location.href='Proyecto.jsp'">
+    <button class="back-button" onclick="location.href='FitData'">
         <i class="ri-arrow-left-line"></i>
     </button>
     <main>
@@ -44,7 +44,7 @@
                 }
             } catch (SQLException e) {
                 session.setAttribute("error", "Error en la base de datos: " + e.getMessage());
-                response.sendRedirect("Proyecto.jsp");
+                response.sendRedirect("FitData");
                 return;
             }
         %>

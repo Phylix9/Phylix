@@ -22,7 +22,7 @@
           <a href="Proyecto.html"><img src="src/LogoFitdata2.png" alt="logo"/></a>
         </div>
         <ul class="nav__links">
-          <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
+          <li class="link"><a href="FitData">Inicio</a></li>
           <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
           <li class="link"><a href="Informacion.jsp">Informacion</a></li>
         </ul>

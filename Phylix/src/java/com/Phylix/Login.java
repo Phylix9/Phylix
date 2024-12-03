@@ -1,4 +1,3 @@
-
 package com.Phylix;
 
 import jakarta.servlet.ServletException;
@@ -48,7 +47,7 @@ public class Login extends HttpServlet {
                 session.setAttribute("correo_usuario", correo);
                 session.setAttribute("id_usuario", rs.getInt("id_usuario"));
                 session.setAttribute("nombre_usuario", rs.getString("nombre_usuario"));
-                response.sendRedirect("Proyecto.jsp");
+                response.sendRedirect("FitData");
             } else {
                 response.sendRedirect("Login.html?error=true");
             }

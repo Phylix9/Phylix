@@ -22,11 +22,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             session.invalidate();
         }
         
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // No almacenar en caché
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Expires", "0");
         
-        response.sendRedirect("Proyecto.jsp");
+        response.sendRedirect("FitData");
     }
 
     @Override

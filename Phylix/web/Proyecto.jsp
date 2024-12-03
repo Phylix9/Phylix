@@ -26,7 +26,7 @@
         </div>
         <ul class="nav__links">
             <li class="link"><a href="index.html">Phylix</a></li>
-            <li class="link"><a href="Proyecto.jsp">Inicio</a></li>
+            <li class="link"><a href="FitData">Inicio</a></li>
             <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
             <li class="link"><a href="Dietas.jsp">Dietas</a></li>
             <li class="link"><a href="Informacion.jsp">Informacion</a></li>

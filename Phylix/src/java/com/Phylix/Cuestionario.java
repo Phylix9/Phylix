@@ -30,7 +30,7 @@ public class Cuestionario extends HttpServlet {
         String correo = (String) session.getAttribute("correo_usuario");
 
         if (id_usuario == null || correo == null) {
-            response.sendRedirect("Login.html");
+            response.sendRedirect("Login.html?error=registro");
             return;
         }
 
@@ -113,7 +113,7 @@ public class Cuestionario extends HttpServlet {
             session.setAttribute("restriccion", restriccion);
             session.setAttribute("nombre", nombre);
          
-            response.sendRedirect("Proyecto.jsp");
+            response.sendRedirect("FitData");
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             response.getWriter().print("Error: " + e.getMessage());

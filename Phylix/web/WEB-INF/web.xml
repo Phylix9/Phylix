@@ -87,14 +87,6 @@
         <url-pattern>/RutinaspersoCreadas</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>RutinasprestCreadas</servlet-name>
-        <servlet-class>com.Phylix.RutinasprestCreadas</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RutinasprestCreadas</servlet-name>
-        <url-pattern>/RutinasprestCreadas</url-pattern>
-    </servlet-mapping>
     
     <servlet>
         <servlet-name>DietaspersoCreadas</servlet-name>
@@ -103,15 +95,6 @@
     <servlet-mapping>
         <servlet-name>DietaspersoCreadas</servlet-name>
         <url-pattern>/DietaspersoCreadas</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>DietasprestCreadas</servlet-name>
-        <servlet-class>com.Phylix.DietasprestCreadas</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DietasprestCreadas</servlet-name>
-        <url-pattern>/DietasprestCreadas</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -175,6 +158,15 @@
     <servlet-mapping>
         <servlet-name>GestionarPerfil</servlet-name>
         <url-pattern>/GestionarPerfil</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ModificarPerfil</servlet-name>
+        <servlet-class>com.Phylix.ModificarPerfil</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModificarPerfil</servlet-name>
+        <url-pattern>/ModificarPerfil</url-pattern>
     </servlet-mapping>
     
 </web-app>

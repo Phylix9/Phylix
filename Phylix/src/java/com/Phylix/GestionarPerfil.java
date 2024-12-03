@@ -35,8 +35,8 @@ public class GestionarPerfil extends HttpServlet {
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
-        if (idUsuario == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+        if (session == null || session.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Login.html?error=sesion");
             return;
         }
 
@@ -57,7 +57,7 @@ public class GestionarPerfil extends HttpServlet {
             response.getWriter().print("Error de conexión a la base de datos: " + e.getMessage());
             e.printStackTrace();
         }
-        request.getRequestDispatcher("Proyecto.jsp").forward(request, response);
+        request.getRequestDispatcher("FitData").forward(request, response);
     }
 
     private void eliminartodo(Connection conn, int idUsuario) throws SQLException {

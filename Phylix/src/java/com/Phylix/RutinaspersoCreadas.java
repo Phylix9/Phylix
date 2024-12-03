@@ -25,6 +25,11 @@ public class RutinaspersoCreadas extends HttpServlet {
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
+        if (session == null || session.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Login.html?error=sesion");
+            return;
+        }
+        
         String[] ejercicios1 = (String[]) session.getAttribute("ejercicios1");
         String[] ejercicios2 = (String[]) session.getAttribute("ejercicios2");
         String[] ejercicios3 = (String[]) session.getAttribute("ejercicios3");

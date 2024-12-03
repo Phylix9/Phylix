@@ -22,8 +22,8 @@ public class MisRutinas extends HttpServlet {
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
-        if (idUsuario == null) {
-            response.sendRedirect("Login.html?mensaje=sesionExpirada");
+        if (session == null || session.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Login.html?error=sesion");
             return;
         }
 
@@ -88,7 +88,7 @@ public class MisRutinas extends HttpServlet {
                 request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
             } else {
                 response.getWriter().println("<script>alert('Rutina creada');</script>");
-                response.sendRedirect("Proyecto.jsp");
+                response.sendRedirect("FitData");
             }
 
         } catch (Exception e) {
