@@ -20,31 +20,62 @@ import java.sql.*;
 public class CrearRutina extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
 
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+    response.setContentType("text/html;charset=UTF-8");
+    HttpSession session = request.getSession();
+    Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
-        if (idUsuario == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
-            return;
+    if (idUsuario == null) {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+        return;
+    }
+
+    String referer = request.getHeader("Referer");
+
+    String url = "jdbc:mysql://localhost/FitData";
+    String user = "root";
+    String password = "AT10220906";
+
+    String currentRoutine = "";
+    List<String[]> nombres = new ArrayList<>();
+    List<String[]> rutinasList = new ArrayList<>();
+
+    try (Connection con = DriverManager.getConnection(url, user, password)) {
+        String query = "SELECT * FROM Rutinasper WHERE id_usuario = ?";
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, idUsuario);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    String nombreRutina = rs.getString("nombre_rutina");
+
+                    if (!nombreRutina.equals(currentRoutine)) {
+                        currentRoutine = nombreRutina;
+                        nombres.add(new String[]{currentRoutine});
+                    }
+
+                    String[] rutina = new String[16];
+                    for (int i = 1; i <= 8; i++) {
+                        rutina[(i - 1) * 2] = rs.getString("ejercicio" + i);
+                        rutina[(i - 1) * 2 + 1] = String.valueOf(rs.getInt("reps" + i));
+                    }
+                    rutinasList.add(rutina);
+                }
+            }
         }
 
-        String url = "jdbc:mysql://localhost/FitData";
-        String user = "root";
-        String password = "AT10220906";
-
-        int edad = 0;
-        String sexo = null;
-        String objetivos = null;
-        String frecuencia = null;
+        // Si el referer termina con "Perfil", solo realiza el forward al JSP
+        if (referer != null && referer.endsWith("Perfil")) {
+            request.setAttribute("rutinas", rutinasList);
+            request.setAttribute("nombres", nombres);
+            request.setAttribute("idUsuario", idUsuario);
+            request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
+            return; // Termina aquí para no continuar con la lógica de inserción
+        }
 
         List<String> ejercicios1 = new ArrayList<>();
         List<String> ejercicios2 = new ArrayList<>();
         List<String> ejercicios3 = new ArrayList<>();
-        List<String> gruposEjercicios = new ArrayList<>();
-
         for (int i = 1; i <= 5; i++) {
             String ejercicio = request.getParameter("ejercicio1_" + i);
             if (ejercicio != null) ejercicios1.add(ejercicio);
@@ -57,99 +88,62 @@ public class CrearRutina extends HttpServlet {
             String ejercicio = request.getParameter("ejercicio3_" + i);
             if (ejercicio != null) ejercicios3.add(ejercicio);
         }
-        for (int i = 0; i < 3; i++) {
-            String grupo = request.getParameter("grupoEjercicio" + i);
-            if (grupo != null) gruposEjercicios.add(grupo);
+
+        String nombre_rutina = (String) request.getParameter("nombreRutina");
+        int[] repeticiones = {10, 12, 15, 8, 10, 12, 15, 8};
+        crearRegistroRutina(con, idUsuario, ejercicios1, ejercicios2, ejercicios3, repeticiones, nombre_rutina);
+
+        response.getWriter().println("<script>alert('Rutina creada exitosamente.');</script>");
+        response.sendRedirect("Proyecto.jsp");
+
+    } catch (Exception e) {
+        response.getWriter().print("Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
+
+
+    public void crearRegistroRutina(Connection con, Integer idUsuario, 
+                                List<String> ejercicios1, List<String> ejercicios2, 
+                                List<String> ejercicios3, int[] repeticiones, 
+                                String nombre_rutina) throws SQLException {
+    String query = "INSERT INTO Rutinasper (ejercicio1, ejercicio2, ejercicio3, ejercicio4, ejercicio5, ejercicio6, ejercicio7, ejercicio8, ejercicio9," +
+                   "reps1, reps2, reps3, reps4, reps5, reps6, reps7, reps8, reps9, nombre_rutina, id_usuario) " +
+                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    try (PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        List<String> todosEjercicios = new ArrayList<>();
+        todosEjercicios.addAll(ejercicios1);
+        todosEjercicios.addAll(ejercicios2);
+        todosEjercicios.addAll(ejercicios3);
+
+        for (int i = 0; i < 9; i++) {
+            if (i < todosEjercicios.size()) {
+                stmt.setString(i + 1, todosEjercicios.get(i));
+            } else {
+                stmt.setNull(i + 1, java.sql.Types.VARCHAR);
+            }
         }
 
-        session.setAttribute("edad", edad);
-        session.setAttribute("sexo", sexo);
-        session.setAttribute("objetivos", objetivos);
-        session.setAttribute("frecuencia", frecuencia);
-        session.setAttribute("ejercicios1", ejercicios1.toArray(new String[0]));
-        session.setAttribute("ejercicios2", ejercicios2.toArray(new String[0]));
-        session.setAttribute("ejercicios3", ejercicios3.toArray(new String[0]));
-        session.setAttribute("gruposEjercicios", gruposEjercicios.toArray(new String[0]));
-
-        
-        String referer = request.getHeader("Referer");
-
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            String query = "SELECT * FROM Rutinasper WHERE id_usuario = ?";
-            List<String[]> rutinasList = new ArrayList<>();
-            try (PreparedStatement stmt = con.prepareStatement(query)) {
-                stmt.setInt(1, idUsuario);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        String[] rutina = new String[16];
-                        for (int i = 1; i <= 8; i++) {
-                            rutina[(i - 1) * 2] = rs.getString("ejercicio" + i);
-                            rutina[(i - 1) * 2 + 1] = String.valueOf(rs.getInt("reps" + i));
-                        }
-                        rutinasList.add(rutina);
-                    }
-                }
-            }
-            
-            
-            int[] repeticiones = {10, 12, 15, 8, 10, 12, 15, 8};
-            crearRegistroRutina(con, idUsuario, ejercicios1, ejercicios2, ejercicios3, repeticiones);
-           
-            if (referer != null && referer.endsWith("Perfil")) {
-                request.setAttribute("rutinas", rutinasList);
-                request.setAttribute("idUsuario", idUsuario);
-                request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
+        for (int i = 0; i < 9; i++) {
+            if (i < repeticiones.length) {
+                stmt.setInt(10 + i, repeticiones[i]);
             } else {
-                response.getWriter().println("<script>alert('No se puede acceder a MisRutinas.jsp desde la página anterior.');</script>");
-                response.sendRedirect("Proyecto.jsp");
+                stmt.setNull(10 + i, java.sql.Types.INTEGER);
             }
+        }
 
-        } catch (Exception e) {
-            response.getWriter().print("Error: " + e.getMessage());
-            e.printStackTrace();
+        stmt.setString(19, nombre_rutina);
+        stmt.setInt(20, idUsuario);
+
+        int affectedRows = stmt.executeUpdate();
+
+        if (affectedRows == 0) {
+            throw new SQLException("No se pudo insertar la rutina, no se afectaron filas.");
         }
     }
+}
 
-    public void crearRegistroRutina(Connection con, Integer idUsuario, List<String> ejercicios1, List<String> ejercicios2, 
-                                    List<String> ejercicios3, int[] repeticiones) throws SQLException {
-        String query = "INSERT INTO Rutinasper (ejercicio1, ejercicio2, ejercicio3, ejercicio4, ejercicio5, ejercicio6, ejercicio7, ejercicio8, " +
-                   "reps1, reps2, reps3, reps4, reps5, reps6, reps7, reps8, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, ejercicios1.size() > 0 ? ejercicios1.get(0) : null);
-            stmt.setString(2, ejercicios1.size() > 1 ? ejercicios1.get(1) : null);
-            stmt.setString(3, ejercicios2.size() > 0 ? ejercicios2.get(0) : null);
-            stmt.setString(4, ejercicios2.size() > 1 ? ejercicios2.get(1) : null);
-            stmt.setString(5, ejercicios2.size() > 2 ? ejercicios2.get(2) : null);
-            stmt.setString(6, ejercicios3.size() > 0 ? ejercicios3.get(0) : null);
-            stmt.setString(7, ejercicios3.size() > 1 ? ejercicios3.get(1) : null);
-            stmt.setString(8, ejercicios3.size() > 2 ? ejercicios3.get(2) : null);
-
-
-            for (int i = 0; i < 8; i++) {
-                stmt.setInt(9 + i, repeticiones[i]);
-            }
-
-            stmt.setInt(17, idUsuario);
-
-            int affectedRows = stmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int idRutina = generatedKeys.getInt(1);
-
-                        String insertRutinapersoQuery = "INSERT INTO RutinapersoCreadas (id_rut, id_usuario) VALUES (?, ?)";
-                        try (PreparedStatement insertStmt = con.prepareStatement(insertRutinapersoQuery)) {
-                            insertStmt.setInt(1, idRutina);
-                            insertStmt.setInt(2, idUsuario);
-                            insertStmt.executeUpdate();
-                        }
-                        }
-                    }
-                }
-            }
-        }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

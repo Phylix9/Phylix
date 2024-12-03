@@ -11,7 +11,6 @@ public class Comidas {
     private int porcionVitamina;
     private int porcionGrasa;
 
-    // Constructor
     public Comidas(int idComida, String proteina, String carbohidrato, String vitamina, String grasa, int porcionProteina, int porcionCarbohidrato, int porcionVitamina, int porcionGrasa) {
         this.idComida = idComida;
         this.proteina = proteina;
@@ -24,7 +23,6 @@ public class Comidas {
         this.porcionGrasa = porcionGrasa;
     }
 
-    // Getters
     public int getIdComida() { return idComida; }
     public String getProteina() { return proteina; }
     public String getCarbohidrato() { return carbohidrato; }

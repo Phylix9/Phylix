@@ -32,9 +32,13 @@
             <input type="file" accept="image/*" name="archivo" id="file-input" style="display: none;" />
             <!-- <button type="submit">Subir Imagen</button> -->
         </form>
-        <a href="Perfil.jsp"><i data-lucide="user"></i> Perfil</a>
+        
         <a href="MisDietas"><i data-lucide="cookie"></i> Mis Dietas</a>
+        <a href="Eliminardieta.jsp"><i data-lucide="person-standing"></i> Gestionar Dieta</a>
         <a href="CrearRutina"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
+        <a href="Eliminarrutina.jsp"><i data-lucide="utensils-crossed"></i> Gestionar Rutina</a>
+        <a href="#" onclick="habilitarEdicion(event)"><i data-lucide="user-round-pen"></i> Modificar perfil</a>
+        <a href="GestionarPerfil"><i data-lucide="user-round-x"></i> Eliminar perfil</a>
         <a href="Logout"><i data-lucide="log-out"></i> Cerrar Sesión</a>
     </div>
 
@@ -42,115 +46,129 @@
          List<Medidas> medidas = (List<Medidas>) request.getAttribute("medidas");
          String username = (String) session.getAttribute("nombre_usuario");
          Double altura = null;
-         for (Medidas medida : medidas) {
-            altura = medida.getAltura();
+         if (medidas != null){
+            for (Medidas medida : medidas) {
+                altura = medida.getAltura();
+            }
         }
     %>
     <div class="container">
         <h1>Perfil de <%= username %></h1>
 
-        <div class="info-section">
-            <h2>Información de Usuario </h2>
-            <div class="info">
-                <label>Nombre: <%= session.getAttribute("nombre") %></label>
-                <span></span>
-            </div>
-            <div class="info">
-                <label>Nombre de Usuario: <%= session.getAttribute("nombre_usuario") %></label>
-                <span></span>
-            </div>
-            <div class="info">
-                <label>Correo Electrónico: <%= session.getAttribute("correo_usuario") %></label>
-                <span></span>
-            </div>
-        </div>
-
-        <div class="info-section">
-            <h2>Información Básica</h2>
-            <div class="info">
-                <label>Edad: <%= session.getAttribute("edad") %></label>
-                <span></span>
-            </div>
-            <div class="info">
-                <label>Género: <%= session.getAttribute("genero") %></label>
-                <span></span>
-            </div>
-        </div>
-
-        <div class="info-section">
-            
-            <h2>Información de Salud</h2>
-            
-            <% if(altura>0){
-                for (Medidas medida : medidas) { %>
+        <form id="form-modificar-perfil" action="ModificarPerfil" method="post">
+            <div class="info-section">
+                <h2>Información de Usuario</h2>
                 <div class="info">
-                    <label>Estatura: <%= medida.getAltura() %> metros</label>
-                    <span</span>
+                    <label>Nombre:</label>
+                    <input type="text" name="nombre" id="nombre" value="<%= session.getAttribute("nombre") %>" disabled required />
                 </div>
                 <div class="info">
-                    <label>Peso: <%= medida.getPeso() %> kg</label>
-                    <span></span>
+                    <label>Nombre de Usuario:</label>
+                    <input type="text" name="nombre_usuario" id="usuario" value="<%= session.getAttribute("nombre_usuario") %>" disabled required/>
                 </div>
                 <div class="info">
-                    <label>IMC: <%= medida.getImc() %> </label>
-                    <span></span>
+                    <label>Correo Electrónico:</label>
+                    <input type="email" name="correo_usuario" id="email" value="<%= session.getAttribute("correo_usuario") %>" disabled readonly />
                 </div>
-            <%  } 
-               } 
-            %>
-            <div class="info">
-                <label>Condiciones Médicas: <%= session.getAttribute("condiciones") %></label>
-                <span></span>
             </div>
-            <div class="info">
-                <label>Medicamentos: <%= session.getAttribute("medicamentos") %></label>
-                <span></span>
-            </div>
-        </div>
 
-        <div class="info-section">
-            <h2>Nivel de Actividad Física</h2>
-            <div class="info">
-                <label>Frecuencia de Actividad: <%= session.getAttribute("actividad") %></label>
-                <span></span>
+            <div class="info-section">
+                <h2>Información Básica</h2>
+                <div class="info">
+                    <label>Edad:</label>
+                    <input type="number" name="edad" id="edad" value="<%= session.getAttribute("edad") %>" disabled required/>
+                </div>
+                <div class="info">
+                    <label>Género:</label>
+                    <input type="text" name="genero" id="genero" value="<%= session.getAttribute("genero") %>" disabled required/>
+                </div>
             </div>
-        </div>
 
-        <div class="info-section">
-            <h2>Objetivos Personales</h2>
-            <div class="info">
-                <label>Objetivo de Salud: <%= session.getAttribute("objetivos") %></label>
-                <span></span>
+            <div class="info-section">
+                <h2>Información de Salud</h2>
+                <% if (altura != null && altura > 0) { 
+                    for (Medidas medida : medidas) { %>
+                    <div class="info">
+                        <label>Estatura (m):</label>
+                        <input type="number" step="0.01" name="altura" id="altura" value="<%= medida.getAltura() %>" disabled required/>
+                    </div>
+                    <div class="info">
+                        <label>Peso (kg):</label>
+                        <input type="number" step="0.1" name="peso" id="peso" value="<%= medida.getPeso() %>" disabled required/>
+                    </div>
+                    
+                    <div class="info">
+                        <label>IMC :</label>
+                        <input type="number" name="Imc" id="Imc" value="<%= medida.getImc() %>" disabled required readonly/>
+                    </div>
+                <% } 
+                } %>
+                <div class="info">
+                    <label>Condiciones Médicas:</label>
+                    <input type="text" name="condiciones" id="condiciones" value="<%= session.getAttribute("condiciones") %>" disabled required/>
+                </div>
+                <div class="info">
+                    <label>Medicamentos:</label>
+                    <input type="text" name="medicamentos" id="medicamentos" value="<%= session.getAttribute("medicamentos") %>" disabled required/>
+                </div>
             </div>
-        </div>
 
-        <div class="info-section">
-            <h2>Alergias y Restricciones</h2>
-            <div class="info">
-                <label>Alergias: <%= session.getAttribute("alergias") %></label>
-                <span></span>
+            <div class="info-section">
+                <h2>Nivel de Actividad Física</h2>
+                <div class="info">
+                    <label>Frecuencia de Actividad:</label>
+                    <input type="text" name="actividad" id="actividad" value="<%= session.getAttribute("actividad") %>" disabled required/>
+                </div>
             </div>
-            <div class="info">
-                <label>Restricciones Alimenticias: <%= session.getAttribute("restricciones") %></label>
-                <span></span>
-            </div>
-        </div>
 
-        <div class="info-section">
-            <h2>Otros Factores</h2>
-            <div class="info">
-                <label>Nivel de Estrés: <%= session.getAttribute("estres") %></label>
-                <span></span>
+            <div class="info-section">
+                <h2>Objetivos Personales</h2>
+                <div class="info">
+                    <label>Objetivo de Salud:</label>
+                    <input type="text" name="objetivos" id="objetivos" value="<%= session.getAttribute("objetivos") %>" disabled required/>
+                </div>
             </div>
-            <div class="info">
-                <label>Horas de Sueño: <%= session.getAttribute("suenio") %></label>
-                <span></span>
-            </div>
-        </div>
 
+            <div class="info-section">
+                <h2>Alergias y Restricciones</h2>
+                <div class="info">
+                    <label>Alergias:</label>
+                    <input type="text" name="alergias" id="alergias" value="<%= session.getAttribute("alergias") %>" disabled required/>
+                </div>
+                <div class="info">
+                    <label>Restricciones Alimenticias:</label>
+                    <input type="text" name="restricciones" id="restriccones" value="<%= session.getAttribute("restricciones") %>" disabled required/>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>Otros Factores</h2>
+                <div class="info">
+                    <label>Nivel de Estrés:</label>
+                    <input type="text" name="estres" id="estres" value="<%= session.getAttribute("estres") %>" disabled required/>
+                </div>
+                <div class="info">
+                    <label>Horas de Sueño:</label>
+                    <input name="suenio" id="suenio" value="<%= session.getAttribute("suenio") %>" disabled required/>
+                </div>
+            </div>
+
+            <button id="guardar-cambios" type="submit" style="display:none;">Guardar Cambios</button>
+        </form>
     </div>
 
     <script>
+        function habilitarEdicion(event) {
+            event.preventDefault();
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                if(input.id !== "email" ){
+                    input.disabled = false;
+                }
+            });
+            document.getElementById('guardar-cambios').style.display = 'block';
+        }
+        
         lucide.createIcons();
         
         
@@ -159,7 +177,6 @@
             document.getElementById('form-upload').submit(); 
         }
     });
-        
     </script>
 </body>
 </html>

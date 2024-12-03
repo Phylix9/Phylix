@@ -15,9 +15,7 @@ import java.sql.SQLException;
 @WebServlet(name = "GestionarDieta", urlPatterns = {"/GestionarDieta"})
 public class GestionarDieta extends HttpServlet {
 
-    String url = "jdbc:mysql://localhost/FitData";
-    String user = "root";
-    String password = "AT10220906";
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -26,54 +24,48 @@ public class GestionarDieta extends HttpServlet {
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
+        String url = "jdbc:mysql://localhost/FitData";
+        String user = "root";
+        String password = "AT10220906";
+        
         if (idUsuario == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
             return;
         }
 
-        try (Connection con = DriverManager.getConnection(url, user, password)) {
-            con.setAutoCommit(false);
+        String idDietaPrest = request.getParameter("dietaprestid");
+        String idDietaPerso = request.getParameter("dietapersoid");
 
-            try {
-                eliminartodo(con, idUsuario);
-                con.commit();
-                response.getWriter().print("Usuario eliminado correctamente.");
-            } catch (SQLException e) {
-                con.rollback();
-                response.getWriter().print("Error al eliminar usuario: " + e.getMessage());
-                e.printStackTrace();
+        if (idDietaPrest == null && idDietaPerso == null) {
+            response.getWriter().print("Error: No se proporcionó información de la dieta para eliminar.");
+            return;
+        }
+
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            if (idDietaPrest != null) {
+                String idDietaFinal = "plan" + idDietaPrest;
+                String query = "DELETE FROM DietaPrestUsuarios WHERE id_dietaselected = ? AND id_usuario = ?";
+                try (PreparedStatement stmt = con.prepareStatement(query)) {
+                    stmt.setString(1, idDietaFinal);
+                    stmt.setInt(2, idUsuario);
+                    int rowsAffected = stmt.executeUpdate();
+                    response.getWriter().print("Dieta eliminada correctamente. Registros afectados: " + rowsAffected);
+                }
             }
+            
+            if (idDietaPerso != null) {
+                String query = "DELETE FROM Comidas WHERE nombre_dieta = ? AND id_usuario = ?";
+                try (PreparedStatement stmt = con.prepareStatement(query)) {
+                    stmt.setString(1, idDietaPerso);
+                    stmt.setInt(2, idUsuario);
+                    int rowsAffected = stmt.executeUpdate();
+                    response.getWriter().print("Dieta personalizada eliminada correctamente. Registros afectados: " + rowsAffected);
+                }
+            }
+            request.getRequestDispatcher("Perfil").forward(request, response);
         } catch (SQLException e) {
             response.getWriter().print("Error de conexión a la base de datos: " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    private void eliminartodo(Connection conn, int idUsuario) throws SQLException {
-        String[] tablas = {
-            "Cuestionario", 
-            "DietaPrestUsuarios", 
-            "DietaPrest", 
-            "RutPrestUsuarios", 
-            "RutPrest", 
-            "RutinapersoCreadas", 
-            "Rutinasper", 
-            "DietapersoCreadas", 
-            "Comidas", 
-            "Progreso", 
-            "IMC", 
-            "Dieta", 
-            "Rutina", 
-            "ImagenesPerfil", 
-            "Usuarios"
-        };
-
-        for (String tabla : tablas) {
-            String query = "DELETE FROM " + tabla + " WHERE id_usuario = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(query)) {
-                stmt.setInt(1, idUsuario);
-                stmt.executeUpdate();
-            }
         }
     }
 
@@ -91,6 +83,6 @@ public class GestionarDieta extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "Gestiona la eliminación en cascada de un usuario y sus datos relacionados.";
+        return "Gestiona la eliminación de dietas prestadas o personalizadas.";
     }
 }

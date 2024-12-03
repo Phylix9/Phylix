@@ -118,6 +118,7 @@ input[type = "file"]{
     background-color: var(--secondary);
 }
 
+
 .sidebar a:last-child {
     margin-top: auto;
     background-color: var(--danger);
@@ -160,11 +161,11 @@ input[type = "file"]{
 
 .info {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 0.75rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    justify-content: space-between;
-    align-items: center;
 }
 
 .info:last-child {
@@ -174,14 +175,25 @@ input[type = "file"]{
 }
 
 .info label {
-    width: 50%;
+    width: auto;
     color: var(--text-light);
-    font-size: 0.95rem;
+    font-size: 1rem;
+    margin-right: 0.25rem;
 }
 
-.info span {
+.info input {
+    width: 100%;
+    border: none;
+    background: none;
     color: var(--white);
-    flex: 1;
+    font-size: 1rem;
+    padding: 0;
+    outline: none;
+    flex: 1; 
+}
+
+.info input:disabled {
+    color: var(--text-light); 
 }
 
 @media (max-width: 768px) {

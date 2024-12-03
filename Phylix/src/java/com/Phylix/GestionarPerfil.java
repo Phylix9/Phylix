@@ -9,8 +9,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  *
@@ -19,19 +24,67 @@ import java.io.PrintWriter;
 @WebServlet(name = "GestionarPerfil", urlPatterns = {"/GestionarPerfil"})
 public class GestionarPerfil extends HttpServlet {
 
+    String url = "jdbc:mysql://localhost/FitData";
+    String user = "root";
+    String password = "AT10220906";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet GestionarPerfil</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet GestionarPerfil at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+        HttpSession session = request.getSession();
+        Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+
+        if (idUsuario == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+            return;
+        }
+
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            con.setAutoCommit(false);
+
+            try {
+                eliminartodo(con, idUsuario);
+                con.commit();
+                session.invalidate();
+                response.getWriter().print("Usuario eliminado correctamente.");
+            } catch (SQLException e) {
+                con.rollback();
+                response.getWriter().print("Error al eliminar usuario: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            response.getWriter().print("Error de conexión a la base de datos: " + e.getMessage());
+            e.printStackTrace();
+        }
+        request.getRequestDispatcher("Proyecto.jsp").forward(request, response);
+    }
+
+    private void eliminartodo(Connection conn, int idUsuario) throws SQLException {
+        String[] tablas = {
+            "Cuestionario", 
+            "DietaPrestUsuarios", 
+            "DietaPrest", 
+            "RutPrestUsuarios", 
+            "RutPrest", 
+            "RutinapersoCreadas", 
+            "Rutinasper", 
+            "DietapersoCreadas", 
+            "Comidas", 
+            "Progreso", 
+            "IMC", 
+            "Dieta", 
+            "Rutina", 
+            "ImagenesPerfil", 
+            "Usuario"
+        };
+
+        for (String tabla : tablas) {
+            String query = "DELETE FROM " + tabla + " WHERE id_usuario = ?;";
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, idUsuario);
+                stmt.executeUpdate();
+            }
         }
     }
 

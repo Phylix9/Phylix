@@ -20,6 +20,8 @@ public class CalculoComidas extends HttpServlet {
         HttpSession session = request.getSession();
 
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+        String nombredieta = (String) request.getParameter("nombreDieta");
+        
 
         if (idUsuario == null) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
@@ -174,6 +176,7 @@ public class CalculoComidas extends HttpServlet {
         session.setAttribute("vitaminasMinerales", vitaminasMinerales);
         session.setAttribute("grasas", grasas);
 
+        request.setAttribute("nombreDieta", nombredieta);
         request.getRequestDispatcher("DietaspersoCreadas").forward(request, response);
     }
 

@@ -24,7 +24,9 @@
 
     <h2>Elige tus Ejercicios</h2>
     
-    <form action="CrearRutina" method="post">
+    <form action="CrearRutina" method="post">      
+        <h3>Ingresa el nombre de tu rutina</h3>
+        <input type="text" name="nombreRutina" id="nombreRutina">
     <div class="checkbox-container">
     
     <div class="checkbox-group" id="Espalda">

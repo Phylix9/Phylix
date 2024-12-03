@@ -41,7 +41,11 @@
                 rs = stmt.executeQuery();
 
                 while (rs.next()) {
+                    if(rs.getString("id_planselected")!=null){
                     rutinaspredList.add(new String[]{rs.getString("id_planselected"), rs.getString("rutina_prestusers")});
+                    }else{
+                        rutinaspredList.clear();
+                     }
                 }
             }
         } catch (Exception e) {
@@ -86,56 +90,60 @@
     <% } %>
     
     <%
-        List<String[]> rutinasList = (List<String[]>) request.getAttribute("rutinas");
+    List<String[]> rutinasList = (List<String[]>) request.getAttribute("rutinas");
+    List<String[]> nombres = (List<String[]>) request.getAttribute("nombres");
 
-        if (rutinasList != null && !rutinasList.isEmpty()) {
-            int rutinaIndex = 1;
+    if (rutinasList != null && !rutinasList.isEmpty()) {
+        int rutinaIndex = -1;
 
-            for (String[] rutina : rutinasList) {
-                boolean rutinaVacia = true;
-                for (int i = 0; i < rutina.length; i += 2) {
-                    if (rutina[i] != null) {
-                        rutinaVacia = false;
-                        break;
-                    }
+        for (String[] rutina : rutinasList) {
+            boolean rutinaVacia = true;
+            
+            for (int i = 0; i < rutina.length; i += 2) {
+                if (rutina[i] != null && !rutina[i].isEmpty()) {
+                    rutinaVacia = false;
+                    break;
                 }
-                if (rutinaVacia) {
-                    continue;
-                }
-
-    %>
-                <h3>Rutina  Personalizada <%= rutinaIndex++ %></h3>
-                <table border="1">
-                    <tr>
-                        <th>Ejercicio</th>
-                        <th>Repeticiones</th>
-                    </tr>
-
-                    <%
-                        for (int i = 0; i < rutina.length; i += 2) {
-                            String ejercicio = rutina[i];
-                            String repeticiones = rutina[i + 1];
-
-                            if (ejercicio != null && !ejercicio.isEmpty()) {
-                    %>
-                        <tr>
-                            <td><%= ejercicio %></td>
-                            <td><%= repeticiones %></td>
-                        </tr>
-                    <%
-                            }
-                        }
-                    %>
-                </table>
-                <br>
-    <%
             }
-        } else {
-    %>
-        <p>No se han encontrado rutinas para este usuario.</p>
-    <%
+            if (rutinaVacia) {
+                continue;
+            }
+            rutinaIndex++;
+
+%>
+            <h3><%=nombres.get(rutinaIndex)[0]%></h3>
+            <table border="1">
+                <tr>
+                    <th>Ejercicio</th>
+                    <th>Repeticiones</th>
+                </tr>
+
+                <%
+                    for (int i = 0; i < rutina.length; i += 2) {
+                        String ejercicio = rutina[i];
+                        String repeticiones = i + 1 < rutina.length ? rutina[i + 1] : null;
+                        
+                        if (ejercicio != null && !ejercicio.isEmpty()) {
+                %>
+                    <tr>
+                        <td><%= ejercicio %></td>
+                        <td><%= (repeticiones != null && !repeticiones.isEmpty()) ? repeticiones : "N/A" %></td>
+                    </tr>
+                <%
+                        }
+                    }
+                %>
+            </table>
+            <br>
+<%
         }
-    %>
+    } else {
+%>
+    <p>No se han encontrado rutinas personalizadas para este usuario.</p>
+<%
+    }
+%>
+
         
 </body>
 </html>

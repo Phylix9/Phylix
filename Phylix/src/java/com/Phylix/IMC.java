@@ -96,10 +96,10 @@ public class IMC extends HttpServlet {
             }
         } catch (NumberFormatException e) {
             session.setAttribute("error", "Por favor ingresa valores válidos para peso y estatura.");
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("Informacion.jsp");
         } catch (SQLException e) {
             session.setAttribute("error", "Error en la base de datos: " + e.getMessage());
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("Informacion.jsp");
         }
     }
 

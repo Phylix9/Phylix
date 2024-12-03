@@ -51,8 +51,10 @@ public class MisRutinas extends HttpServlet {
             rs = stmt.executeQuery();
             
             while (rs.next()) {
+                if(rs.getString("rutina_prest") != null){
                 rutinaselected = rs.getString("rutina_prest");
                 rutina.add(rutinaselected);
+                }
             }
             stmt.close();
             
@@ -70,9 +72,11 @@ public class MisRutinas extends HttpServlet {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                session.setAttribute("id_plan", plan);
-                session.setAttribute("rutina",rs.getString("rutina_prestusers"));
-                rutinaspredList.add(new String[]{"id_plan", "rutina"});
+                if(rs.getString("rutina_prestusers")!=null){
+                    session.setAttribute("id_plan", plan);
+                    session.setAttribute("rutina",rs.getString("rutina_prestusers"));
+                    rutinaspredList.add(new String[]{"id_plan", "rutina"});
+                }
             }
             
             session.setAttribute("rutinaspredet", rutinaspredList); 

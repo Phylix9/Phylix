@@ -29,7 +29,7 @@
     String[] grasasSeleccionadas = (String[]) request.getAttribute("grasasComida");
     Integer porcionGrasa = (Integer) request.getAttribute("porcionGrasasComida");
     
-    int numComidas = 5;  // Ajusta según la cantidad de comidas que deseas mostrar
+    int numComidas = 5;
 %>
 
 <% for (int i = 0; i < numComidas; i++) { %>

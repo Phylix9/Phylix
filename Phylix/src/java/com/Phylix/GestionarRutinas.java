@@ -31,72 +31,49 @@ public class GestionarRutinas extends HttpServlet {
 
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
-    
-        if (idUsuario == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
-            return;
-        }
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
         String password = "AT10220906";
         
-        String idDieta = request.getParameter("dietaperso");
-        String numDieta = request.getParameter("dietaperso");
+        if (idUsuario == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No se ha encontrado el id del usuario en la sesión.");
+            return;
+        }
+
+        String idDietaPrest = request.getParameter("rutinaprestid");
+        String idDietaPerso = request.getParameter("rutinapersoid");
+
+        if (idDietaPrest == null && idDietaPerso == null) {
+            response.getWriter().print("Error: No se proporcionó información de la dieta para eliminar.");
+            return;
+        }
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
+            if (idDietaPrest != null) {
+                String idDietaFinal = "plan" + idDietaPrest;
+                String query = "DELETE FROM RutinaPrestUsuarios WHERE id_rutinaaselected = ? AND id_usuario = ?";
+                try (PreparedStatement stmt = con.prepareStatement(query)) {
+                    stmt.setString(1, idDietaFinal);
+                    stmt.setInt(2, idUsuario);
+                    int rowsAffected = stmt.executeUpdate();
+                    response.getWriter().print("Rutina eliminada correctamente. Registros afectados: " + rowsAffected);
+                }
+            }
             
-            if(idDieta !=null){
-                String query = "DELETE FROM DietaPrestUsuarios WHERE id_dietaselected= ? id_usuario = ?";
+            if (idDietaPerso != null) {
+                String query = "DELETE FROM Rutinasper WHERE nombre_rutina = ? AND id_usuario = ?";
                 try (PreparedStatement stmt = con.prepareStatement(query)) {
-                    stmt.setString(1, idDieta);
+                    stmt.setString(1, idDietaPerso);
                     stmt.setInt(2, idUsuario);
-                    stmt.executeUpdate();
-                }
-                catch (SQLException e) {
-                    response.getWriter().print("Error al eliminar rutina: " + e.getMessage());
-                    e.printStackTrace();
+                    int rowsAffected = stmt.executeUpdate();
+                    response.getWriter().print("Rutina personalizada eliminada correctamente. Registros afectados: " + rowsAffected);
                 }
             }
-            else{
-                String query = "DELETE FROM Comidas WHERE id_dietaselected= ? id_usuario = ?";
-                try (PreparedStatement stmt = con.prepareStatement(query)) {
-                    stmt.setString(1, numDieta);
-                    stmt.setInt(2, idUsuario);
-                    stmt.executeUpdate();
-                }
-                catch (SQLException e) {
-                    response.getWriter().print("Error al eliminar rutina: " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
+            request.getRequestDispatcher("Perfil").forward(request, response);
         } catch (SQLException e) {
             response.getWriter().print("Error de conexión a la base de datos: " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    private void eliminartodo(Connection conn, int idUsuario) throws SQLException {
-        String[] tablas = {
-            "Cuestionario", 
-            "DietaPrestUsuarios", 
-            "DietaPrest", 
-            "RutPrestUsuarios", 
-            "RutPrest", 
-            "RutinapersoCreadas", 
-            "Rutinasper", 
-            "DietapersoCreadas", 
-            "Comidas", 
-            "Progreso", 
-            "IMC", 
-            "Dieta", 
-            "Rutina", 
-            "ImagenesPerfil", 
-            "Usuarios"
-        };
-
-        for (String tabla : tablas) {
-            
         }
     }
 

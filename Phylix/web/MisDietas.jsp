@@ -42,7 +42,9 @@
                 rs = stmt.executeQuery();
 
                 while (rs.next()) {
-                    dietaspredList.add(new String[]{rs.getString("id_dietaselected"), rs.getString("dieta_prestusers")});
+                    if(rs.getString("id_dietaselected") != null){
+                        dietaspredList.add(new String[]{rs.getString("id_dietaselected"), rs.getString("dieta_prestusers")});
+                    }
                 }
             }
         } catch (Exception e) {
@@ -58,7 +60,9 @@
         }
     %>
 
-    <% if (!dietaspredList.isEmpty()) { %>
+    <%
+        if (dietaspredList != null && !dietaspredList.isEmpty()) {
+    %>
         <h3>Dietas Preestablecidas</h3>
         <table border="1">
             <tr>
@@ -88,10 +92,11 @@
     
     <%
         List<String[]> comidasList = (List<String[]>) request.getAttribute("comidas");
+        List<String[]> nombres = (List<String[]>) request.getAttribute("nombres");
 
         if (comidasList != null && !comidasList.isEmpty()) {
-            int dietaIndex = 1;
-            int comidaIndex = 1; // Inicializar el contador de comidas
+            int dietaIndex = 0;
+            int comidaIndex = 1;
     %>
 
     <%
@@ -99,13 +104,14 @@
             if (i % 5 == 0) { 
                 comidaIndex = 1; 
                 if (i > 0) {
+                    dietaIndex++;
     %>
                     </table>
-                <%
+    <%
                 }
     %>
-                <h2>Dieta Personalizada <%= dietaIndex++ %></h2>
                 <table border="1">
+                    <h3><%=nombres.get(dietaIndex)[0]%></h3>
                     <tr>
                         <th>No. de Comida</th>
                         <th>Proteína</th>
@@ -114,7 +120,7 @@
                         <th>Porción Carbohidrato</th>
                         <th>Grasa</th>
                         <th>Porción Grasa</th>
-                        <th> Vitamina </th>
+                        <th>Vitamina</th>
                         <th>Porción Vitamina</th>
                     </tr>
     <%
@@ -123,14 +129,14 @@
     %>
             <tr>
                 <td><%= comidaIndex++ %></td> 
-                <td><%= comida[0] %></td>
                 <td><%= comida[1] %></td>
                 <td><%= comida[2] %></td>
                 <td><%= comida[3] %></td>
                 <td><%= comida[4] %></td>
                 <td><%= comida[5] %></td>
-                <td><%= (comida.length > 6 ? comida[6] : "") %></td>
+                <td><%= comida[6] %></td>
                 <td><%= (comida.length > 7 ? comida[7] : "") %></td>
+                <td><%= (comida.length > 8 ? comida[8] : "") %></td>
             </tr>
     <%
         }

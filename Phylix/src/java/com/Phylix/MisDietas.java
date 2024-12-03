@@ -35,6 +35,8 @@ public class MisDietas extends HttpServlet {
         ResultSet rs = null;
 
         List<String[]> comidasList = new ArrayList<>();
+        String currentDiet = "";
+        List<String[]> nombres = new ArrayList<>();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -46,6 +48,14 @@ public class MisDietas extends HttpServlet {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
+                
+                String nombreDieta = rs.getString("nombre_dieta");
+
+                if (!nombreDieta.equals(currentDiet)) {
+                    currentDiet = nombreDieta;
+                    nombres.add(new String[] {currentDiet});
+                }
+                
                 String[] comida = new String[9];
                 comida[0] = String.valueOf(rs.getInt("id_comida"));
                 comida[1] = rs.getString("proteina");
@@ -63,6 +73,7 @@ public class MisDietas extends HttpServlet {
             
             String plan = request.getParameter("plan");
             
+            
             List<String[]> dietaspredList = new ArrayList<>();
             List<String> dietas = new ArrayList<>();
             String dietaselected = null;
@@ -78,13 +89,16 @@ public class MisDietas extends HttpServlet {
             }
             stmt.close();
             
-            String queryInsert = "INSERT INTO DietaPrestUsuarios (id_dietaselected, dieta_prestusers, id_usuario) VALUES (?,?,?); ";
-            stmt = con.prepareStatement(queryInsert);
-            stmt.setString(1, plan);
-            stmt.setString(2, dietaselected);
-            stmt.setInt(3, idUsuario);
-            stmt.executeUpdate();
-            stmt.close();
+            
+            if(dietaselected != null){
+                String queryInsert = "INSERT INTO DietaPrestUsuarios (id_dietaselected, dieta_prestusers, id_usuario) VALUES (?,?,?); ";
+                stmt = con.prepareStatement(queryInsert);
+                stmt.setString(1, plan);
+                stmt.setString(2, dietaselected);
+                stmt.setInt(3, idUsuario);
+                stmt.executeUpdate();
+                stmt.close();
+            }
             
             String querySelect = "SELECT id_dietaselected, dieta_prestusers FROM DietaPrestUsuarios WHERE id_usuario = ?;";
             stmt = con.prepareStatement(querySelect);
@@ -98,12 +112,13 @@ public class MisDietas extends HttpServlet {
             }
             
             session.setAttribute("dietaspredet", dietaspredList); 
-            
             request.setAttribute("comidas", comidasList);
+            request.setAttribute("nombres", nombres);
 
             String referer = request.getHeader("Referer");
 
             if (referer != null && referer.endsWith("Perfil")) {
+                request.setAttribute("nombres", nombres);
                 request.setAttribute("dietasprest", dietaspredList);
                 request.setAttribute("iddietaprest", plan);
                 request.getRequestDispatcher("MisDietas.jsp").forward(request, response);

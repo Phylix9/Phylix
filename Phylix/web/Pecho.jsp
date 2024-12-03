@@ -24,7 +24,9 @@
     <h2>Elige tus Ejercicios</h2>
     
     <form action="CrearRutina" method="post">
-        <div class="checkbox-container">
+        <h3>Ingresa el nombre de tu rutina</h3>
+        <input type="text" name="nombreRutina" id="nombreRutina">
+    <div class="checkbox-container">
     <div class="checkbox-group" id="Triceps">
         <input type="hidden" name="grupoEjercicio0" value="Triceps">
         <label>Elige 3 Ejercicios para Triceps</label>

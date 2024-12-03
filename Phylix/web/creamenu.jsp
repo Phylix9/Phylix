@@ -13,8 +13,11 @@
 </head>
 <body>
 
-    <h1>Crear tu Menú <%=session.getAttribute("id_usuario")%></h1>
+    <h1>Crear tu Menú <%=session.getAttribute("nombre_usuario")%></h1>
 <form action="CalculoComidas" method="post">
+    
+    <h3>Asigna nombre a tu dieta</h3>
+    <input type="text" name="nombreDieta" id="nombreDieta">
 
     <% 
         List<String> proteinas = (List<String>) request.getAttribute("proteinas");
