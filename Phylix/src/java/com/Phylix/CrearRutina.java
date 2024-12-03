@@ -64,13 +64,12 @@ public class CrearRutina extends HttpServlet {
             }
         }
 
-        // Si el referer termina con "Perfil", solo realiza el forward al JSP
         if (referer != null && referer.endsWith("Perfil")) {
             request.setAttribute("rutinas", rutinasList);
             request.setAttribute("nombres", nombres);
             request.setAttribute("idUsuario", idUsuario);
             request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);
-            return; // Termina aquí para no continuar con la lógica de inserción
+            return; 
         }
 
         List<String> ejercicios1 = new ArrayList<>();
