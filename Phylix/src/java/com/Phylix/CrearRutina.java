@@ -47,12 +47,6 @@ public class CrearRutina extends HttpServlet {
             stmt.setInt(1, idUsuario);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    String nombreRutina = rs.getString("nombre_rutina");
-
-                    if (!nombreRutina.equals(currentRoutine)) {
-                        currentRoutine = nombreRutina;
-                        nombres.add(new String[]{currentRoutine});
-                    }
 
                     String[] rutina = new String[16];
                     for (int i = 1; i <= 8; i++) {
@@ -60,6 +54,13 @@ public class CrearRutina extends HttpServlet {
                         rutina[(i - 1) * 2 + 1] = String.valueOf(rs.getInt("reps" + i));
                     }
                     rutinasList.add(rutina);
+                    
+                    String nombreRutina = rs.getString("nombre_rutina");
+
+                    if (nombreRutina!= null && !nombreRutina.equals(currentRoutine)) {
+                        currentRoutine = nombreRutina;
+                        nombres.add(new String[]{currentRoutine});
+                    }
                 }
             }
         }

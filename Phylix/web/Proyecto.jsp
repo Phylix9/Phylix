@@ -26,7 +26,12 @@
         </div>
         <ul class="nav__links">
             <li class="link"><a href="index.html">Phylix</a></li>
+            <% 
+                String currentPage = request.getRequestURI();
+                if (currentPage.endsWith("FitData")) { 
+            %>
             <li class="link"><a href="FitData">Inicio</a></li>
+            <% } %>
             <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
             <li class="link"><a href="Dietas.jsp">Dietas</a></li>
             <li class="link"><a href="Informacion.jsp">Informacion</a></li>
@@ -45,7 +50,7 @@
                 </div>
               </div>
             <% } else { %>
-              <button class="btn" onclick="location.href='Login.html'">Login</button>
+              <button class="btn" onclick="location.href='Login.html'">Login/Registro</button>
             <% } %>
           </div>
     </nav>
@@ -59,7 +64,9 @@
             <p>
                 FitData es una Aplicacion que tiene como objetivo mejorar y dar soluciones a la salud de las personas mediante rutinas de ejercicios y planes de alimentacion.
             </p>
-            <button class="btn" onclick="location.href='Login.html'">Inicia Ahora</button>
+            <% if (username == null) { %>
+                <button class="btn" onclick="location.href='Login.html'">Inicia Ahora</button>
+            <% } %>
         </div>
         <div class="header__image">
             <img src="src/header.png" alt="header" />

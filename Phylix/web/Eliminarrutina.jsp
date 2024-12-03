@@ -14,14 +14,14 @@
     <body>
         <h1>Hello World!</h1>
         <form action="EliminarRutina" method="post">
-            <h2> Ingresa el número de plan que quieres eliminar </h2>
-            <input type="text"  name="dietaprestid">
+            <h2> Ingresa el número de plan de ejercicio que quieres eliminar </h2>
+            <input type="text"  name="rutinaprestid">
             <button type="submit">Enviar</button>
         </form>
         
         <form action="EliminarRutina" method="post">
-            <h2> Ingresa el nombre de la dieta que quieres eliminar </h2>
-            <input type="text"  name="dietapersoid">
+            <h2> Ingresa el nombre de la dieta personalizada que quieres eliminar </h2>
+            <input type="text"  name="rutinapersoid">
             <button type="submit">Enviar</button>
         </form>
     </body>

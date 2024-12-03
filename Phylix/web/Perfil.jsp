@@ -67,9 +67,10 @@
                     <input type="text" name="nombre_usuario" id="usuario" value="<%= session.getAttribute("nombre_usuario") %>" disabled required/>
                 </div>
                 <div class="info">
-                    <label>Correo Electrónico:</label>
-                    <input type="email" name="correo_usuario" id="email" value="<%= session.getAttribute("correo_usuario") %>" disabled readonly />
+                    <label>Correo Electrónico: <%= session.getAttribute("correo_usuario") %></label>
+                    <input type="hidden" name="correo_usuario" value="<%= session.getAttribute("correo_usuario") %>" />
                 </div>
+
             </div>
 
             <div class="info-section">

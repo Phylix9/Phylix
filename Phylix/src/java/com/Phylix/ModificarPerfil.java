@@ -88,22 +88,24 @@ public class ModificarPerfil extends HttpServlet {
                 statement.executeUpdate();
                 statement.close();
                 
-                double altura = Double.parseDouble(request.getParameter("altura"));
-                double peso = Double.parseDouble(request.getParameter("peso"));
-                double imc = peso / (altura * altura); 
-                imc = Math.round(imc * 100.0) / 100.0;
-                
-                
-                if(altura>0){
-                statement = connection.prepareStatement("UPDATE IMC SET imc_usuario= ?, peso_usuario= ?, altura_usuario= ? WHERE id_usuario = ?;");
-           
-                    statement.setDouble(1, imc);
-                    statement.setDouble(2, peso);
-                    statement.setDouble(3, altura);
-                    statement.setInt(4, idUsuario);
-                
-                statement.executeUpdate();
-                statement.close();
+                if (request.getParameter("altura") != null){
+                    double altura = Double.parseDouble(request.getParameter("altura"));
+                    double peso = Double.parseDouble(request.getParameter("peso"));
+                    double imc = peso / (altura * altura); 
+                    imc = Math.round(imc * 100.0) / 100.0;
+
+
+                    if(altura>0){
+                    statement = connection.prepareStatement("UPDATE IMC SET imc_usuario= ?, peso_usuario= ?, altura_usuario= ? WHERE id_usuario = ?;");
+
+                        statement.setDouble(1, imc);
+                        statement.setDouble(2, peso);
+                        statement.setDouble(3, altura);
+                        statement.setInt(4, idUsuario);
+
+                    statement.executeUpdate();
+                    statement.close();
+                    }
                 }
               request.getRequestDispatcher("Perfil").forward(request, response);
         } 
