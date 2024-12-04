@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="Styles5.css">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_ES/sdk.js"></script>
 </head>
+
 <body>
     <div class="auth-container">
         <button onclick="history.back()" class="back-button">
@@ -21,8 +24,9 @@
                 <form action="Registro" method="post">
                     <h1>Crea Una Cuenta</h1>
                     <div class="social-container">
-                        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social" onclick="handleFacebookLogin();"><i class="fab fa-facebook-f"></i></a>
+                        <!-- Aquí usas tu propio botón -->
+                        <a href="#" class="social" id="google-login-button" onclick="handleGoogleLogin();"><i class="fab fa-google"></i></a>
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>O usa tu email para registrarte</span>
@@ -38,8 +42,9 @@
                 <form action="Login" method="post">
                     <h1>Iniciar Sesion</h1>
                     <div class="social-container">
-                        <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social" onclick="handleFacebookLogin();"><i class="fab fa-facebook-f"></i></a>
+                        <!-- Aquí usas tu propio botón -->
+                        <a href="#" class="social" id="google-login-button" onclick="handleGoogleLogin();"><i class="fab fa-google"></i></a>
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>O usa tu cuenta</span>
@@ -78,6 +83,50 @@
         signInButton.addEventListener('click', () => {
             container.classList.remove('right-panel-active');
         });
+    </script>
+    
+    <!-- Facebook login -->
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: '1255977565718063', 
+                cookie: true,       
+                xfbml: true,        
+                version: 'v21.0'
+            });
+
+            FB.AppEvents.logPageView(); 
+        };
+
+        function handleFacebookLogin() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    FB.api('/me', { fields: 'name,email' }, function(user) {
+                        console.log('Usuario conectado:', user);
+                        alert(`Hola ${user.name}, tu correo es ${user.email}`);
+                    });
+                } else {
+                    console.log('El usuario canceló el inicio de sesión.');
+                }
+            }, { scope: 'public_profile,email' });
+        }
+    </script>
+    
+    <script>
+        function handleGoogleLogin(response) {
+            const user = response.credential;
+            const userName = user.name;
+            const userEmail = user.email;
+            console.log('Usuario de Google:', user);
+            alert(`¡Hola ${userName}! Tu correo es ${userEmail}`);
+        }
+
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: "25888454819-c4oc54e9nhi19ngdginimgrhjj0m4fu6.apps.googleusercontent.com", // Reemplaza con tu client ID de Google
+                callback: handleGoogleLogin
+            });
+        };
     </script>
 </body>
 </html>

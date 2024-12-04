@@ -35,7 +35,7 @@ public class CalculoComidas extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "AT10220906";
+        String password = "n0m3l0";
 
         Connection con = null;
         PreparedStatement stmt = null;
