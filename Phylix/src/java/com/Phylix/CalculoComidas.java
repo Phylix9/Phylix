@@ -180,129 +180,145 @@ public class CalculoComidas extends HttpServlet {
     }
 
 
-    private int calcularPorcionProteina(int edad, String sexo, String frecuencia, String objetivos, double peso) {
-        int porcionProteina = 0;
-        
-        if (objetivos.equals("bajar_peso")) {
-            porcionProteina = (int) (peso * 1.6); 
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcionProteina = (int) (peso * 2.2); 
-        } else if (objetivos.equals("mejorar_resistencia")) {
-            porcionProteina = (int) (peso * 1.8); 
-        } else {
-            return porcionProteina; 
-        }
+   private int calcularPorcionProteina(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+    int porcionProteina = 0;
 
-        if ("mujer".equals(sexo)) {
-            porcionProteina = (int) (porcionProteina * 0.9); 
-        }
-
-        if ("baja".equals(frecuencia)) {
-            porcionProteina = (int) (porcionProteina * 1.2);
-        } else if ("moderada".equals(frecuencia)) {
-            porcionProteina = (int) (porcionProteina * 1.4);
-        } else if ("alta".equals(frecuencia)) {
-            porcionProteina = (int) (porcionProteina * 1.6);
-        }
-
-        return porcionProteina;
+    // Ajuste base según objetivos
+    if (objetivos.equals("bajar de peso")) {
+        porcionProteina = (int) (peso * 1.6); 
+    } else if (objetivos.equals("ganar musculo")) {
+        porcionProteina = (int) (peso * 2.2); 
+    } else if (objetivos.equals("mejorar resistencia")) {
+        porcionProteina = (int) (peso * 1.8); 
+    } else if (objetivos.equals("mantener salud")) {
+        porcionProteina = (int) (peso * 1.4); 
+    } else {
+        return porcionProteina; 
+    }
+    
+    if ("femenino".equals(sexo)) {
+        porcionProteina = (int) (porcionProteina * 0.9); 
     }
 
-    private int calcularPorcionCarbohidrato(int edad, String sexo, String frecuencia, String objetivos, double peso) {
-        int porcionCarbohidratos = 0;
+    if ("baja".equals(frecuencia)) {
+        porcionProteina = (int) (porcionProteina * 1.2);
+    } else if ("moderada".equals(frecuencia)) {
+        porcionProteina = (int) (porcionProteina * 1.4);
+    } else if ("alta".equals(frecuencia)) {
+        porcionProteina = (int) (porcionProteina * 1.6);
+    }
 
-        if (objetivos.equals("bajar_peso")) {
-            porcionCarbohidratos = (int) (peso * 2.0);
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcionCarbohidratos = (int) (peso * 3.0);
-        } else if (objetivos.equals("mejorar_resistencia")) {
-            porcionCarbohidratos = (int) (peso * 2.5);
-        } else {
-            return porcionCarbohidratos;
-        }
+    if (edad < 18) {
+        porcionProteina = (int) (porcionProteina * 1.1); 
+    } else if (edad > 50) {
+        porcionProteina = (int) (porcionProteina * 1.2);
+    }
 
-        if ("mujer".equals(sexo)) {
-            porcionCarbohidratos = (int) (porcionCarbohidratos * 0.9);
-        }
+    return porcionProteina;
+}
 
-        if ("baja".equals(frecuencia)) {
-            porcionCarbohidratos = (int) (porcionCarbohidratos * 1.2);
-        } else if ("moderada".equals(frecuencia)) {
-            porcionCarbohidratos = (int) (porcionCarbohidratos * 1.4);
-        } else if ("alta".equals(frecuencia)) {
-            porcionCarbohidratos = (int) (porcionCarbohidratos * 1.6);
-        }
+private int calcularPorcionCarbohidrato(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+    int porcionCarbohidratos = 0;
 
+    if (objetivos.equals("bajar de peso")) {
+        porcionCarbohidratos = (int) (peso * 2.0);
+    } else if (objetivos.equals("ganar musculo")) {
+        porcionCarbohidratos = (int) (peso * 3.0);
+    } else if (objetivos.equals("mejorar resistencia")) {
+        porcionCarbohidratos = (int) (peso * 2.5);
+    } else if (objetivos.equals("mantener salud")) {
+        porcionCarbohidratos = (int) (peso * 2.2); 
+    } else {
         return porcionCarbohidratos;
     }
 
-    private int calcularPorcionGrasas(int edad, String sexo, String frecuencia, String objetivos, double peso) {
-        int porcionGrasas = 0;
+    if ("femenino".equals(sexo)) {
+        porcionCarbohidratos = (int) (porcionCarbohidratos * 0.9);
+    }
 
-        if (objetivos.equals("bajar_peso")) {
-            porcionGrasas = (int) (peso * 0.8);
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcionGrasas = (int) (peso * 1.0);
-        } else if (objetivos.equals("mejorar_resistencia")) {
-            porcionGrasas = (int) (peso * 0.9);
-        } else {
-            return porcionGrasas;
-        }
+    if ("baja".equals(frecuencia)) {
+        porcionCarbohidratos = (int) (porcionCarbohidratos * 1.2);
+    } else if ("moderada".equals(frecuencia)) {
+        porcionCarbohidratos = (int) (porcionCarbohidratos * 1.4);
+    } else if ("alta".equals(frecuencia)) {
+        porcionCarbohidratos = (int) (porcionCarbohidratos * 1.6);
+    }
 
-        if (edad < 18) {
-            porcionGrasas = (int) (porcionGrasas * 1.2);
-        } else if (edad > 50) {
-            porcionGrasas = (int) (porcionGrasas * 0.9);
-        }
+    return porcionCarbohidratos;
+}
 
-        if ("mujer".equals(sexo)) {
-            porcionGrasas = (int) (porcionGrasas * 0.9);
-        }
+private int calcularPorcionGrasas(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+    int porcionGrasas = 0;
 
-        if ("baja".equals(frecuencia)) {
-            porcionGrasas = (int) (porcionGrasas * 1.2);
-        } else if ("moderada".equals(frecuencia)) {
-            porcionGrasas = (int) (porcionGrasas * 1.4);
-        } else if ("alta".equals(frecuencia)) {
-            porcionGrasas = (int) (porcionGrasas * 1.6);
-        }
-
+    if (objetivos.equals("bajar de peso")) {
+        porcionGrasas = (int) (peso * 0.8);
+    } else if (objetivos.equals("ganar musculo")) {
+        porcionGrasas = (int) (peso * 1.0);
+    } else if (objetivos.equals("mejorar resistencia")) {
+        porcionGrasas = (int) (peso * 0.9);
+    } else if (objetivos.equals("mantener salud")) {
+        porcionGrasas = (int) (peso * 0.85); 
+    } else {
         return porcionGrasas;
     }
 
-    private int calcularPorcionVitaminas(int edad, String sexo, String frecuencia, String objetivos, double peso) {
-        int porcionVitaminas = 0;
+    if (edad < 18) {
+        porcionGrasas = (int) (porcionGrasas * 1.2);
+    } else if (edad > 50) {
+        porcionGrasas = (int) (porcionGrasas * 0.9);
+    }
 
-        if (objetivos.equals("bajar_peso")) {
-            porcionVitaminas = (int) (peso * 0.8);
-        } else if (objetivos.equals("ganar_musculo")) {
-            porcionVitaminas = (int) (peso * 1.0);
-        } else if (objetivos.equals("mejorar_resistencia")) {
-            porcionVitaminas = (int) (peso * 0.9);
-        } else {
-            return porcionVitaminas;
-        }
+    if ("femenino".equals(sexo)) {
+        porcionGrasas = (int) (porcionGrasas * 0.9);
+    }
 
-        if (edad < 18) {
-            porcionVitaminas = (int) (porcionVitaminas * 1.2);
-        } else if (edad > 50) {
-            porcionVitaminas = (int) (porcionVitaminas * 0.9);
-        }
+    if ("baja".equals(frecuencia)) {
+        porcionGrasas = (int) (porcionGrasas * 1.2);
+    } else if ("moderada".equals(frecuencia)) {
+        porcionGrasas = (int) (porcionGrasas * 1.4);
+    } else if ("alta".equals(frecuencia)) {
+        porcionGrasas = (int) (porcionGrasas * 1.6);
+    }
 
-        if ("mujer".equals(sexo)) {
-            porcionVitaminas = (int) (porcionVitaminas * 0.9);
-        }
+    return porcionGrasas;
+}
 
-        if ("baja".equals(frecuencia)) {
-            porcionVitaminas = (int) (porcionVitaminas * 1.2);
-        } else if ("moderada".equals(frecuencia)) {
-            porcionVitaminas = (int) (porcionVitaminas * 1.4);
-        } else if ("alta".equals(frecuencia)) {
-            porcionVitaminas = (int) (porcionVitaminas * 1.6);
-        }
+private int calcularPorcionVitaminas(int edad, String sexo, String frecuencia, String objetivos, double peso) {
+    int porcionVitaminas = 0;
 
+    if (objetivos.equals("bajar de peso")) {
+        porcionVitaminas = (int) (peso * 0.8);
+    } else if (objetivos.equals("ganar musculo")) {
+        porcionVitaminas = (int) (peso * 1.0);
+    } else if (objetivos.equals("mejorar resistencia")) {
+        porcionVitaminas = (int) (peso * 0.9);
+    } else if (objetivos.equals("mantener salud")) {
+        porcionVitaminas = (int) (peso * 0.85); 
+    } else {
         return porcionVitaminas;
     }
+
+    if (edad < 18) {
+        porcionVitaminas = (int) (porcionVitaminas * 1.2);
+    } else if (edad > 50) {
+        porcionVitaminas = (int) (porcionVitaminas * 0.9);
+    }
+
+    if ("femenino".equals(sexo)) {
+        porcionVitaminas = (int) (porcionVitaminas * 0.9);
+    }
+
+    if ("baja".equals(frecuencia)) {
+        porcionVitaminas = (int) (porcionVitaminas * 1.2);
+    } else if ("moderada".equals(frecuencia)) {
+        porcionVitaminas = (int) (porcionVitaminas * 1.4);
+    } else if ("alta".equals(frecuencia)) {
+        porcionVitaminas = (int) (porcionVitaminas * 1.6);
+    }
+
+    return porcionVitaminas;
+}
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

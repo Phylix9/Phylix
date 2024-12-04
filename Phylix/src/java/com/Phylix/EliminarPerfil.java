@@ -21,8 +21,8 @@ import java.sql.SQLException;
  *
  * @author Abraham
  */
-@WebServlet(name = "GestionarPerfil", urlPatterns = {"/GestionarPerfil"})
-public class GestionarPerfil extends HttpServlet {
+@WebServlet(name = "EliminarPerfil", urlPatterns = {"/EliminarPerfil"})
+public class EliminarPerfil extends HttpServlet {
 
     String url = "jdbc:mysql://localhost/FitData";
     String user = "root";
@@ -57,7 +57,8 @@ public class GestionarPerfil extends HttpServlet {
             response.getWriter().print("Error de conexión a la base de datos: " + e.getMessage());
             e.printStackTrace();
         }
-        request.getRequestDispatcher("FitData").forward(request, response);
+        
+        response.sendRedirect("FitData");
     }
 
     private void eliminartodo(Connection conn, int idUsuario) throws SQLException {
@@ -67,9 +68,7 @@ public class GestionarPerfil extends HttpServlet {
             "DietaPrest", 
             "RutPrestUsuarios", 
             "RutPrest", 
-            "RutinapersoCreadas", 
             "Rutinasper", 
-            "DietapersoCreadas", 
             "Comidas", 
             "Progreso", 
             "IMC", 

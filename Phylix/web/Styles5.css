@@ -109,7 +109,7 @@ body {
 
 form {
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(8px);
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -132,7 +132,7 @@ h1 {
 span {
   color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
-  margin: 15px 0;
+  margin: 5px 0;
 }
 
 input {
@@ -217,6 +217,28 @@ button.ghost:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: scale(1.1);
 }
+
+.password-requirements {
+    display: none;
+    font-size: 0.8rem;
+    color: gray;
+    margin-top: 5px;
+    padding: 10px;
+    background-color: transparent;
+    text-align: left;
+}
+
+.password-requirements ul {
+    display: flex;
+    grid-template-columns: repeat(4, 1.2fr);
+    gap: 1rem;
+}
+
+.password-requirements li {
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
 
 form a {
   color: rgba(255, 255, 255, 0.7);

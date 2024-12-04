@@ -19,9 +19,10 @@
             Volver
         </button>
 
+        
         <div class="container" id="container">
             <div class="form-container sign-up-container">
-                <form action="Registro" method="post">
+                <form action="Registro" method="post" id="signupForm">
                     <h1>Crea Una Cuenta</h1>
                     <div class="social-container">
                         <a href="#" class="social" onclick="handleFacebookLogin();"><i class="fab fa-facebook-f"></i></a>
@@ -31,15 +32,21 @@
                     </div>
                     <span>O usa tu email para registrarte</span>
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre" required />
-                    <input type="email" id="email" name="email" placeholder="Email" required />
+                        <input type="email" id="signup-email" name="email" placeholder="Email" required />
+                        <span class="email-error" id="signup-email-error" style="display: none; color: #f5f5f5; font-size: 0.8rem;"></span>
                     <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required 
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]+" minlength="8"/>
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]+" minlength="8"/>
+                     <div class="password-requirements"  id="password-requirements" >
+                        <ul>
+                            <li>Mínimo 8 caracteres, sin espacios. Al menos una letra mayúscula, una minuscula y un número.</li>
+                        </ul>
+                    </div>
                     <button type="submit">Registrarse</button>
                 </form>
             </div>
 
             <div class="form-container sign-in-container">
-                <form action="Login" method="post">
+                <form action="Login" method="post" id="signinForm">
                     <h1>Iniciar Sesion</h1>
                     <div class="social-container">
                         <a href="#" class="social" onclick="handleFacebookLogin();"><i class="fab fa-facebook-f"></i></a>
@@ -83,6 +90,119 @@
         signInButton.addEventListener('click', () => {
             container.classList.remove('right-panel-active');
         });
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const passwordInput = document.getElementById("pswd");
+            const requirementsDiv = document.getElementById("password-requirements");
+
+            passwordInput.addEventListener("focus", function () {
+                requirementsDiv.style.display = "block"; 
+            });
+
+            passwordInput.addEventListener("blur", function () {
+                requirementsDiv.style.display = "none"; 
+            });
+        });
+        
+        const VALID_DOMAINS = [
+            'gmail.com',
+            'yahoo.com',
+            'yahoo.com.mx',
+            'hotmail.com',
+            'outlook.com',
+            'live.com',
+            'aol.com',
+            'icloud.com',
+            'proton.me',
+            'protonmail.com',
+            'zoho.com',
+            'gmx.com',
+            'yandex.com',
+            'mail.com',
+            'me.com',
+            'msn.com',
+            'comcast.net',
+            'att.net',
+            'verizon.net',
+            'cox.net',
+            'rocketmail.com',
+            'fastmail.com',
+            'rediffmail.com',
+            'tutanota.com',
+            'hushmail.com',
+            'op.pl',
+            'web.de',
+            'qq.com',
+            '163.com',
+            '126.com',
+            'sina.com',
+            'yeah.net',
+            'naver.com',
+            'daum.net',
+            'uol.com.br',
+            'terra.com.br',
+            'bol.com.br',
+            'orange.fr',
+            'wanadoo.fr'
+        ];
+
+
+        function validateEmail(email) {
+            const basicEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!basicEmailRegex.test(email)) {
+                return { isValid: false, error: 'Por favor ingrese un email válido' };
+            }
+
+            const domain = email.split('@')[1];
+            const domainParts = domain.split('.');
+            const uniqueParts = new Set(domainParts);
+            if (domainParts.length !== uniqueParts.size) {
+                return { isValid: false, error: 'El email contiene partes de dominio repetidas' };
+            }
+
+            if (!VALID_DOMAINS.includes(domain.toLowerCase())) {
+                return { 
+                    isValid: false, 
+                    error: 'Por favor use un proveedor de correo válido' 
+                };
+            }
+
+            return { isValid: true };
+        }
+
+        function setupEmailValidation(formId, emailId, errorId) {
+            const form = document.getElementById(formId);
+            const emailInput = document.getElementById(emailId);
+            const errorSpan = document.getElementById(errorId);
+
+            form.addEventListener('submit', function(e) {
+                const validation = validateEmail(emailInput.value);
+                if (!validation.isValid) {
+                    e.preventDefault();
+                    errorSpan.textContent = validation.error;
+                    errorSpan.style.display = 'block';
+                    emailInput.style.borderColor = 'red';
+                } else {
+                    errorSpan.style.display = 'none';
+                    emailInput.style.borderColor = '';
+                }
+            });
+
+            emailInput.addEventListener('input', function() {
+                const validation = validateEmail(this.value);
+                if (!validation.isValid) {
+                    errorSpan.textContent = validation.error;
+                    errorSpan.style.display = 'block';
+                    emailInput.style.borderColor = 'red';
+                } else {
+                    errorSpan.style.display = 'none';
+                    emailInput.style.borderColor = 'green';
+                }
+            });
+        }
+
+        setupEmailValidation('signupForm', 'signup-email', 'signup-email-error');
+        setupEmailValidation('signinForm', 'signin-email', 'signin-email-error');
     </script>
     
     <!-- Facebook login -->
