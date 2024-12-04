@@ -35,14 +35,16 @@
                 <input type="text" id="nombre" name="nombrecompleto" required>
 
                 <label for="edad">Edad:</label>
-                <input type="number" id="edad" name="edad" required>
+                <input type="number" id="edad" name="edad" min="0" max="110" required>
 
                 <label for="genero">Género:</label>
-                <select id="genero" name="genero">
+                <select id="genero" name="genero" onchange="toggleExtraField('genero', 'generoOtro')">
                     <option value="femenino">Femenino</option>
                     <option value="masculino">Masculino</option>
                     <option value="otro">Otro</option>
                 </select>
+                <input type="text" id="generoOtro" name="generoOtro" placeholder="Especifica otro género" class="extra-field">
+
             </div>
 
             <div class="section">
@@ -92,10 +94,10 @@
                 </div>
                 <label>¿Cuáles son tus objetivos de salud?</label>
                 <select id="objetivos" name="objetivos" onchange="toggleExtraField('objetivos', 'objetivosOtro')">
-                    <option value="bajar_peso">Bajar de peso</option>
-                    <option value="ganar_musculo">Ganar músculo</option>
-                    <option value="mejorar_resistencia">Mejorar resistencia</option>
-                    <option value="mantener_salud">Mantener la salud</option>
+                    <option value="bajar de peso">Bajar de peso</option>
+                    <option value="ganar musculo">Ganar músculo</option>
+                    <option value="mejorar resistencia">Mejorar resistencia</option>
+                    <option value="mantener la salud">Mantener la salud</option>
                 </select>
                 <input type="text" id="objetivosOtro" name="objetivosOtro" placeholder="Especifica otro objetivo" class="extra-field">
             </div>
@@ -159,11 +161,19 @@
         function toggleExtraField(selectId, fieldId) {
             const selectElement = document.getElementById(selectId);
             const fieldElement = document.getElementById(fieldId);
-            fieldElement.style.display = selectElement.value === 'otro' ? 'block' : 'none';
+
             if (selectElement.value === 'otro') {
+                fieldElement.style.display = 'block';
                 fieldElement.classList.add('visible');
+                fieldElement.addEventListener('input', () => {
+                    selectElement.setAttribute('name', '');
+                    fieldElement.setAttribute('name', selectId);
+                });
             } else {
+                fieldElement.style.display = 'none';
                 fieldElement.classList.remove('visible');
+                selectElement.setAttribute('name', selectId);
+                fieldElement.setAttribute('name', '');
             }
         }
     </script>

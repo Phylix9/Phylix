@@ -145,12 +145,12 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>GestionarPerfil</servlet-name>
-        <servlet-class>com.Phylix.GestionarPerfil</servlet-class>
+        <servlet-name>EliminarPerfil</servlet-name>
+        <servlet-class>com.Phylix.EliminarPerfil</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>GestionarPerfil</servlet-name>
-        <url-pattern>/GestionarPerfil</url-pattern>
+        <servlet-name>EliminarPerfil</servlet-name>
+        <url-pattern>/EliminarPerfil</url-pattern>
     </servlet-mapping>
     <servlet>
         

@@ -38,7 +38,7 @@
         <a href="CrearRutina"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
         <a href="Eliminarrutina.jsp"><i data-lucide="utensils-crossed"></i> Gestionar Rutina</a>
         <a href="#" onclick="habilitarEdicion(event)"><i data-lucide="user-round-pen"></i> Modificar perfil</a>
-        <a href="GestionarPerfil"><i data-lucide="user-round-x"></i> Eliminar perfil</a>
+        <a href="EliminarPerfil"><i data-lucide="user-round-x"></i> Eliminar perfil</a>
         <a href="Logout"><i data-lucide="log-out"></i> Cerrar Sesión</a>
     </div>
 
@@ -53,7 +53,7 @@
         }
     %>
     <div class="container">
-        <h1>Perfil de <%= username %></h1>
+        <h1>Perfil de <%= username %> </h1>
 
         <form id="form-modificar-perfil" action="ModificarPerfil" method="post">
             <div class="info-section">
