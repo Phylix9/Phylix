@@ -144,9 +144,9 @@
 
                 <label>Horas de sueño diarias promedio:</label>
                 <select name="suenio">
-                    <option value="menos_6">Menos de 6 horas</option>
-                    <option value="6_8">6 a 8 horas</option>
-                    <option value="mas_8">Más de 8 horas</option>
+                    <option value="menos de 6">Menos de 6 horas</option>
+                    <option value="6 - 8">6 a 8 horas</option>
+                    <option value="más de 8">Más de 8 horas</option>
                 </select>
             </div>
 
