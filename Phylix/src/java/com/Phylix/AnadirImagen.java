@@ -30,7 +30,7 @@ public class AnadirImagen extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         String uploadDirectory = "C:\\Users\\macur\\Documents\\Phylix\\Phylix\\web\\Fotosperfil";
 

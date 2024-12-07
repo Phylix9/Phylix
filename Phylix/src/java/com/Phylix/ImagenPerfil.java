@@ -31,7 +31,7 @@ public class ImagenPerfil extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             String sql = "SELECT imagen FROM ImagenesPerfil WHERE id_usuario = ?";

@@ -30,13 +30,13 @@ body {
 .sidebar {
   width: var(--sidebar-width);
   background-color: var(--primary-light);
-  padding: 2.5rem 2rem;
+  padding: 1rem 2rem;
   position: fixed;
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px transparent;
 }
 
 .back-button {
@@ -76,7 +76,7 @@ body {
 
 .sidebar a {
   width: 100%;
-  padding: 0.9rem 1.2rem;
+  padding: 0.8rem 1rem;
   color: var(--white);
   text-decoration: none;
   border-radius: 12px;
@@ -86,7 +86,7 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: transparent;
 }
 
 .sidebar a:hover {
@@ -154,7 +154,7 @@ body {
 .info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start; 
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -169,17 +169,16 @@ body {
 .info label {
   color: var(--text-light);
   font-size: 1rem;
-  margin-right: 1rem;
-  min-width: 180px;
+  margin-right: 0.4rem;
 }
 
 .info input {
-  width: 100%;
+  width: auto;
   border: none;
-  background: rgba(255, 255, 255, 0.03);
+  background: transparent;
   color: var(--white);
   font-size: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0rem;
   border-radius: 8px;
   outline: none;
   transition: var(--transition);
@@ -192,7 +191,6 @@ body {
 
 .info input:disabled {
   color: var(--text-light);
-  cursor: not-allowed;
 }
 
 #guardar-cambios {

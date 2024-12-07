@@ -14,7 +14,7 @@
     <link rel="icon" href="src/logoFitData.png" type="img/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
     <link rel="stylesheet" href="Styles7.css">
-    <title>Rutinas Predeterminadas</title>
+    <title>Abdomen</title>
 </head>
 <body>
 
@@ -23,15 +23,15 @@
     </button>
 
     <%
-        Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+        String username = (String) session.getAttribute("nombre_usuario");
     %>
-    <h2>Elige tus Ejercicios <%=idUsuario%></h2>
+    <h2>Elige tus Ejercicios <%=username%></h2>
     
     
     
     <form action="CrearRutina" method="post">
         <h3>Ingresa el nombre de tu rutina</h3>
-    <input type="text" name="nombreRutina" id="nombreRutina">
+        <input type="text" name="nombreRutina" id="nombreRutina">
     <div class="checkbox-container">
     <div class="checkbox-group" id="Abdomen">
         <input type="hidden" name="grupoEjercicio0" value="Abdomen">

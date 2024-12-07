@@ -14,7 +14,7 @@
     <link rel="icon" href="src/logoFitData.png" type="img/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
     <link rel="stylesheet" href="Styles7.css">
-    <title>Rutinas Predeterminadas</title>
+    <title>Cuadriceps</title>
 </head>
 <body>
 
@@ -22,7 +22,10 @@
         <i class="ri-arrow-left-line"></i>
     </button>
 
-    <h2>Elige tus Ejercicios</h2>
+    <%
+        String username = (String) session.getAttribute("nombre_usuario");
+    %>
+    <h2>Elige tus Ejercicios <%=username%></h2>
     
     <form action="CrearRutina" method="post">
         <h3>Ingresa el nombre de tu rutina</h3>
