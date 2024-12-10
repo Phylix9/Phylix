@@ -35,7 +35,7 @@
                 <input type="text" id="nombre" name="nombrecompleto" required>
 
                 <label for="edad">Edad:</label>
-                <input type="number" id="edad" name="edad" min="0" max="110" required>
+                <input type="number" id="edad" name="edad" min="18" max="110" required>
 
                 <label for="genero">Género:</label>
                 <select id="genero" name="genero" onchange="toggleExtraField('genero', 'generoOtro')">

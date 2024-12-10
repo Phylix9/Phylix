@@ -26,7 +26,7 @@ public class EliminarDieta extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "AT10220906";
+        String password = "n0m3l0";
         
         if (session == null || session.getAttribute("id_usuario") == null) {
             response.sendRedirect("Login.html?error=sesion");
@@ -43,7 +43,7 @@ public class EliminarDieta extends HttpServlet {
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             if (idDietaPrest != null) {
-                String idDietaFinal = "plan" + idDietaPrest;
+                String idDietaFinal = "Plan " + idDietaPrest;
                 String query = "DELETE FROM DietaPrestUsuarios WHERE id_dietaselected = ? AND id_usuario = ?";
                 try (PreparedStatement stmt = con.prepareStatement(query)) {
                     stmt.setString(1, idDietaFinal);

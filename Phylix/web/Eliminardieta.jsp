@@ -7,11 +7,11 @@
     <title>Eliminar Dieta - FitData</title>
     <link rel="icon" href="src/logoFitData.png" type="img/png">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/Styles18.css">
+    <link rel="stylesheet" href="Styles18.css">
 </head>
 <body>
     <div class="container">
-        <a href="FitData" class="back-button">
+        <a href="Perfil" class="back-button">
             <i class="ri-arrow-left-line"></i>
             Volver
         </a>
@@ -40,7 +40,7 @@
                         <h2>Eliminar por Nombre</h2>
                         <p class="form-description">Ingresa el nombre de la dieta que deseas eliminar</p>
                         <div class="input-group">
-                            <input type="text" name="dietapersoid" placeholder="Ej: Dieta Mediterránea" required>
+                            <input type="text" name="dietapersoid" placeholder="Ej: Dieta Mediterránea" >
                             <button type="submit" class="btn-delete">Eliminar Dieta</button>
                         </div>
                     </div>

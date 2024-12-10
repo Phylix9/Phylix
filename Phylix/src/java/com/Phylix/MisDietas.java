@@ -29,7 +29,7 @@ public class MisDietas extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "AT10220906";
+        String password = "n0m3l0";
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -117,7 +117,7 @@ public class MisDietas extends HttpServlet {
 
             String referer = request.getHeader("Referer");
 
-            if (referer != null && referer.endsWith("Perfil")) {
+            if (referer.endsWith("Perfil")||referer.endsWith("EliminarDieta") || referer.endsWith("EliminarDieta")) {
                 request.setAttribute("nombres", nombres);
                 request.setAttribute("dietasprest", dietaspredList);
                 request.setAttribute("iddietaprest", plan);

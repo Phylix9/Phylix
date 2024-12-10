@@ -31,7 +31,7 @@ public class MisRutinas extends HttpServlet {
         
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "AT10220906";
+        String password = "n0m3l0";
         
         Connection con = null;
         PreparedStatement stmt = null;
@@ -82,7 +82,7 @@ public class MisRutinas extends HttpServlet {
             session.setAttribute("rutinaspredet", rutinaspredList); 
             String referer = request.getHeader("Referer");
 
-            if (referer != null && referer.endsWith("Perfil.jsp")) {
+            if (referer.endsWith("Perfil")||referer.endsWith("EliminarDieta") || referer.endsWith("EliminarDieta") || referer.endsWith("CrearRutina")){
                 request.setAttribute("rutinasperso", rutinaspredList);
                 request.setAttribute("idplanperso", plan);
                 request.getRequestDispatcher("MisRutinas.jsp").forward(request, response);

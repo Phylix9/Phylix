@@ -7,11 +7,11 @@
     <title>Eliminar Rutina - FitData</title>
     <link rel="icon" href="src/logoFitData.png" type="img/png">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/Styles18.css">
+    <link rel="stylesheet" href="Styles18.css">
 </head>
 <body>
     <div class="container">
-        <a href="FitData" class="back-button">
+        <a href="Perfil" class="back-button">
             <i class="ri-arrow-left-line"></i>
             Volver
         </a>
