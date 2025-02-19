@@ -2,6 +2,7 @@ package com.Phylix;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,15 +17,15 @@ import java.io.IOException;
 public class Logout extends HttpServlet {
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         
         if (session != null) {
             session.invalidate();
         }
         
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Expires", "0");
+        Cookie cookieuser = new Cookie("username", null);
+        cookieuser.setMaxAge(0);
+        response.addCookie(cookieuser);
         
         response.sendRedirect("FitData");
     }

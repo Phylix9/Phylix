@@ -49,7 +49,7 @@ public class IMC extends HttpServlet {
             
             String url = "jdbc:mysql://localhost/FitData";
             String user = "root";
-            String password = "n0m3l0";
+            String password = "AT10220906";
 
             try (Connection con = DriverManager.getConnection(url, user, password)) {
                 PreparedStatement sta = con.prepareStatement("SELECT * FROM IMC WHERE id_usuario = ?");

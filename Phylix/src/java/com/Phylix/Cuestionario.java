@@ -50,7 +50,7 @@ public class Cuestionario extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         Connection con = null;
         PreparedStatement sta = null;
@@ -78,7 +78,7 @@ public class Cuestionario extends HttpServlet {
             sta2.setInt(2, id_usuario);
             sta2.executeUpdate();
             
-            File defaultImageFile = new File("C:\\Users\\chris\\Phylix\\Phylix\\web\\src\\perfil.png");
+            File defaultImageFile = new File("C:\\Users\\macur\\OneDrive\\Phylix\\Phylix\\web\\src\\perfil.png");
                             String sqlUpdateImagen = "UPDATE ImagenesPerfil SET imagen = ? WHERE id_usuario = ?";
                             try (FileInputStream fis = new FileInputStream(defaultImageFile);
                                  PreparedStatement stmtUpdateImagen = con.prepareStatement(sqlUpdateImagen)) {

@@ -35,7 +35,7 @@ public class CrearRutina extends HttpServlet {
 
     String url = "jdbc:mysql://localhost/FitData";
     String user = "root";
-    String password = "n0m3l0";
+    String password = "AT10220906";
 
         String currentRoutine = "";
         List<String[]> nombres = new ArrayList<>();
@@ -64,7 +64,7 @@ public class CrearRutina extends HttpServlet {
                 }
             }
 
-            if (referer.endsWith("Perfil")||referer.endsWith("EliminarDieta") || referer.endsWith("EliminarDieta")) {
+            if (referer.endsWith("Perfil")||referer.endsWith("EliminarDieta") || referer.endsWith("EliminarRutina")) {
                 request.setAttribute("rutinas", rutinasList);
                 request.setAttribute("nombres", nombres);
                 request.setAttribute("idUsuario", idUsuario);

@@ -31,7 +31,7 @@ public class ImagenPerfil extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             String sql = "SELECT imagen FROM ImagenesPerfil WHERE id_usuario = ?";
@@ -49,7 +49,7 @@ public class ImagenPerfil extends HttpServlet {
                             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Imagen no encontrada.");
                         }
                     } else {
-                        File defaultImageFile = new File("C:\\Users\\chris\\Phylix\\Phylix\\web\\src\\perfil.png");
+                        File defaultImageFile = new File("C:\\Users\\macur\\OneDrive\\Phylix\\Phylix\\web\\src\\perfil.png");
                         if (defaultImageFile.exists()) {
                             try (FileInputStream fis = new FileInputStream(defaultImageFile)) {
                                 response.setContentType("image/png");

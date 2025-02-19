@@ -8,11 +8,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.Phylix.GeneradorCodigo;
+import com.Phylix.EnviaMail;
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
@@ -23,10 +28,11 @@ public class Login extends HttpServlet {
 
         String correo = request.getParameter("email");
         String contra = request.getParameter("pswd");
+        
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         Connection con = null;
         PreparedStatement sta = null;
@@ -38,21 +44,46 @@ public class Login extends HttpServlet {
             con = DriverManager.getConnection(url, user, password);
 
             HttpSession session = request.getSession();
+            String contraCifrada = hashPassword(contra);
+            
             sta = con.prepareStatement("SELECT * FROM Usuario WHERE correo_usuario = ? AND contrasena_usuario = ?");
             sta.setString(1, correo);
-            sta.setString(2, contra);
+            sta.setString(2, contraCifrada);
             rs = sta.executeQuery();
 
             if (rs.next()) {
-                session.setAttribute("correo_usuario", correo);
-                session.setAttribute("id_usuario", rs.getInt("id_usuario"));
-                session.setAttribute("nombre_usuario", rs.getString("nombre_usuario"));
-                response.sendRedirect("FitData");
-            } else {
+                
+                String contraGuardada = rs.getString("contrasena_usuario");
+                boolean twoFactor = rs.getBoolean("two_factor_enabled");
+                
+                if(contraCifrada.equals(contraGuardada)){
+                
+                    session.setAttribute("correo_usuario", correo);
+                    session.setAttribute("id_usuario", rs.getInt("id_usuario"));
+                    session.setAttribute("nombre_usuario", rs.getString("nombre_usuario"));
+                    
+                    if (twoFactor==false) {
+                        
+                        String codigo = GeneradorCodigo.generarCode(6);
+                        session.setAttribute("codigo", codigo);
+                        EnviaMail.enviaCorreo(correo, "Tu código de verificación", "Tu código de verificación es: " + codigo);
+                        response.sendRedirect("Autenticacion.jsp");
+                        
+                    } 
+                    else {
+                        response.sendRedirect("FitData");
+                    }
+                    
+                }
+                else {
+                    response.sendRedirect("Login.html?error=true");
+                }   
+            } 
+            else {
                 response.sendRedirect("Login.html?error=true");
             }
 
-        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchAlgorithmException e) {
             response.getWriter().print("Error: " + e.getMessage());
         }finally {
             try {
@@ -81,4 +112,19 @@ public class Login extends HttpServlet {
     public String getServletInfo() {
         return "Servlet para manejo de inicio de sesión de usuarios";
     }
+    
+    private String hashPassword(String password) throws NoSuchAlgorithmException{
+        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = messageDigest.digest(password.getBytes());
+        StringBuilder hexString = new StringBuilder();
+        for(byte byteaux : hash){
+            String hexaux = Integer.toHexString(0xff & byteaux);
+            if(hexaux.length()==1){
+                hexString.append('0');
+            }
+            hexString.append(hexaux);
+        }
+        return hexString.toString();
+    }
+    
 }
