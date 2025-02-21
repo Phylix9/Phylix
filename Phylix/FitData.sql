@@ -9,10 +9,13 @@ Create Table Usuario(
 id_usuario int primary key auto_increment,
 nombre_usuario varchar(30),
 correo_usuario varchar(60),
-contrasena_usuario varchar(20),
+contrasena_usuario varchar(900),
 edad_usuario int,
-sexo_usuario varchar (15)
+sexo_usuario varchar (15),
+two_factor boolean 
 );
+
+
 Create Table Cuestionario(
 id_cuestionario int primary key auto_increment,
 nombre_completo varchar(60),
@@ -70,23 +73,38 @@ porcion_alim double,
 categoria varchar(25)
 );
 
--- Insert into Usuario values
--- (null, 'Atorrest10', 'abrahamtorrest10@gmail.com', 'Abraham123-', 'Masculino', 18);
-
 select * from Usuario;
 select * from Cuestionario;
 desc Cuestionario;
 -- SELECT * FROM Usuario WHERE correo_usuario = 'abrahamtorrest10@gmail.com' AND contrasena_usuario = 'Abraham123-';
 
-INSERT INTO Alimentos (id_alim, nombre_alim, porcion_alim, categoria) VALUES
-(NULL, 'Arroz', 10.00, 'Carbohidrato'),
-(NULL, 'Pollo', 10.00, 'Proteína'),
-(NULL, 'Aguacate', 30.00, 'Grasa'),
-(NULL, 'Brócoli', 50.00, 'Vitamina'),
-(NULL, 'Pasta', 10.00, 'Carbohidrato'),
-(NULL, 'Carne', 10.00, 'Proteína'),
-(NULL, 'Aceite de oliva', 10.00, 'Grasa'),
-(NULL, 'Zanahoria', 50.00, 'Vitamina');
+INSERT INTO Alimentos (id_alim, nombre_alim, categoria) VALUES
+(NULL, 'Arroz', 'Carbohidrato'),
+(NULL, 'Pasta', 'Carbohidrato'),
+(NULL, 'Pan', 'Carbohidrato'),
+(NULL, 'Quinoa', 'Carbohidrato'),
+(NULL, 'Papa', 'Carbohidrato'),
+(NULL, 'Lentejas', 'Carbohidrato'),
+
+(NULL, 'Pollo', 'Proteína'),
+(NULL, 'Carne', 'Proteína'),
+(NULL, 'Pescado', 'Proteína'),
+(NULL, 'Huevo', 'Proteína'),
+(NULL, 'Tofu', 'Proteína'),
+(NULL, 'Pavo', 'Proteína'),
+
+(NULL, 'Aguacate', 'Grasa'),
+(NULL, 'Almendras', 'Grasa'),
+(NULL, 'Manteca de cerdo', 'Grasa'),
+(NULL, 'Nueces', 'Grasa'),
+(NULL, 'Semillas de chía', 'Grasa'),
+
+(NULL, 'Naranja', 'Vitamina'),
+(NULL, 'Manzana', 'Vitamina'),
+(NULL, 'Fresa', 'Vitamina'),
+(NULL, 'Brócoli', 'Vitamina'),
+(NULL, 'Zanahoria', 'Vitamina'),
+(NULL, 'Mango', 'Vitamina');
 
 select * from Alimentos;
 select * from Imc;
@@ -119,22 +137,22 @@ ejercicio6 varchar(100),
 ejercicio7 varchar(100),
 ejercicio8 varchar(100),
 ejercicio9 varchar(100),
-reps1 int,
-reps2 int,
-reps3 int,
-reps4 int,
-reps5 int,
-reps6 int,
-reps7 int,
-reps8 int,
-reps9 int,
+reps1 varchar(40),
+reps2 varchar(40),
+reps3 varchar(40),
+reps4 varchar(40),
+reps5 varchar(40),
+reps6 varchar(40),
+reps7 varchar(40),
+reps8 varchar(40),
+reps9 varchar(40),
 nombre_rutina varchar(40),
 id_usuario int,
 FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
 
 select * from Rutinasper;
-drop table Rutinasper;
+desc Rutinasper;
 
 create table RutPrest(
 id_plan varchar(10) primary key,
