@@ -54,10 +54,11 @@ public class Registro extends HttpServlet {
                         response.sendRedirect("Login.html?correoRegistrado=true");
                     } 
                     else {
-                        sta = con.prepareStatement("INSERT INTO Usuario (nombre_usuario, correo_usuario, contrasena_usuario) VALUES (?, ?, ?);");
+                        sta = con.prepareStatement("INSERT INTO Usuario (nombre_usuario, correo_usuario, contrasena_usuario, two_factor) VALUES (?, ?, ?, ?);");
                         sta.setString(1, nombre);
                         sta.setString(2, correo);
                         sta.setString(3, contracifrada);
+                        sta.setBoolean(4, false);
                         sta.executeUpdate();
 
                         sta = con.prepareStatement("SELECT id_usuario FROM Usuario WHERE correo_usuario = ?;");
@@ -73,7 +74,7 @@ public class Registro extends HttpServlet {
                         session.setAttribute("correo_usuario", correo);
                         session.setAttribute("nombre_usuario", nombre);
                         session.setAttribute("hashedpassword",contracifrada);
-                        session.setMaxInactiveInterval(45 * 60);
+                        session.setMaxInactiveInterval(2 * 60);
 
                         Cookie cookie = new Cookie("user", nombre);
                         cookie.setMaxAge(86400);

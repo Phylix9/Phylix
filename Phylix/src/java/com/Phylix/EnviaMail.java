@@ -1,5 +1,5 @@
-
 package com.Phylix;
+
 import java.util.Properties;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -7,9 +7,12 @@ import jakarta.mail.internet.MimeMessage;
 
 public class EnviaMail {
     public static void enviaCorreo(String correo, String asunto, String motivo) {
-        String de = "torres.trejo.abraham@gmail.com" ;
-        String password = "ntah flvs egde xqqc";
+        String de = "phylix.fitdata@gmail.com";
+        String noreply = "no-reply@phylix.fitdata.com";
+        String nombre = "FitData";
         
+        String password = "rbgq pbwo qnsg eyqq";
+
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
@@ -24,16 +27,16 @@ public class EnviaMail {
         });
 
         session.setDebug(true);
-        
+
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(de));
+            message.setFrom(new InternetAddress(noreply, nombre));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(correo));
             message.setSubject(asunto);
-            message.setText(motivo);
+            message.setContent(motivo, "text/html; charset=utf-8");
 
             Transport.send(message);
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

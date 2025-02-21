@@ -16,8 +16,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.Phylix.GeneradorCodigo;
-import com.Phylix.EnviaMail;
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
@@ -37,6 +35,8 @@ public class Login extends HttpServlet {
         Connection con = null;
         PreparedStatement sta = null;
         ResultSet rs = null;
+        
+        CuerpoCorreo cuerpo = new CuerpoCorreo();
 
         
         try {
@@ -54,7 +54,7 @@ public class Login extends HttpServlet {
             if (rs.next()) {
                 
                 String contraGuardada = rs.getString("contrasena_usuario");
-                boolean twoFactor = rs.getBoolean("two_factor_enabled");
+                boolean twoFactor = rs.getBoolean("two_factor");
                 
                 if(contraCifrada.equals(contraGuardada)){
                 
@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
                         
                         String codigo = GeneradorCodigo.generarCode(6);
                         session.setAttribute("codigo", codigo);
-                        EnviaMail.enviaCorreo(correo, "Tu código de verificación", "Tu código de verificación es: " + codigo);
+                        EnviaMail.enviaCorreo(correo, "Tu código de verificación", CuerpoCorreo.cuerpoMensaje(codigo));
                         response.sendRedirect("Autenticacion.jsp");
                         
                     } 
