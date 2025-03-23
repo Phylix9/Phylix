@@ -153,7 +153,6 @@
         <url-pattern>/EliminarPerfil</url-pattern>
     </servlet-mapping>
     <servlet>
-        
         <servlet-name>ModificarPerfil</servlet-name>
         <servlet-class>com.Phylix.ModificarPerfil</servlet-class>
     </servlet>
@@ -161,4 +160,14 @@
         <servlet-name>ModificarPerfil</servlet-name>
         <url-pattern>/ModificarPerfil</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Progreso</servlet-name>
+        <servlet-class>com.Phylix.Progreso</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Progreso</servlet-name>
+        <url-pattern>/Progreso</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

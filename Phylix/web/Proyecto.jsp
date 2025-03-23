@@ -44,6 +44,7 @@
                 <div class="dropdown-menu">
                     <ul>
                         <li><a href="Perfil">Ver Perfil</a></li>
+                        <li><a href="Progreso">Ver Progreso</a></li>
                         <li><a href="Logout">Cerrar Sesión</a></li>
                     </ul>
                 </div>

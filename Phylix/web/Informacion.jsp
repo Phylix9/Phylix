@@ -46,7 +46,6 @@
                     }
                 } catch (SQLException e) {
                     session.setAttribute("error", "Error en la base de datos: " + e.getMessage());
-                    response.sendRedirect("FitData");
                     return;
                 }
             }
@@ -82,7 +81,7 @@
                             <input type="hidden" classname="imc" id="hiddenIMC" value="<%= imc %>">
                             <button class="calculate-btn">Calcular mi IMC</button>
                     </form>
-                    <% }else {%>
+                    <% }else if (username!=null) {%>
                     <form action="IMC" method="post">
                             <div class="input-group">
                                 <label for="weight">Peso (kg)</label>
@@ -94,7 +93,21 @@
                             </div>
                             <button type="submit" class="calculate-btn">Calcular IMC</button>
                     </form>
-                        <% } %>
+                        <% } 
+                            else{%>
+                            
+                            <form id="imcForm">
+                        <div class="input-group">
+                            <label for="weight">Peso (kg)</label>
+                            <input type="number" id="weight" name="peso" min="30" max="300" step="0.1" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="height">Altura (m)</label>
+                            <input type="number" id="height" name="estatura" min="1" max="2.5" step="0.01" required>
+                        </div>
+                        <button type="button" class="calculate-btn" onclick="calculateIMC()">Calcular IMC</button>
+                    </form>
+                       <%}%>     
                 </div>
                 <div class="result-container">
                     <canvas id="imcGauge" width="750" height="750"></canvas>
