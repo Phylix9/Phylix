@@ -30,7 +30,7 @@ public class Cuestionario extends HttpServlet {
         String correo = (String) session.getAttribute("correo_usuario");
 
         if (id_usuario == null || correo == null) {
-            response.sendRedirect("Login.html?error=registro");
+            response.sendRedirect("Acceder?error=registro");
             return;
         }
 

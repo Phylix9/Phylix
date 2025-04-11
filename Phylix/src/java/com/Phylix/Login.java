@@ -2,6 +2,7 @@ package com.Phylix;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -61,9 +62,16 @@ public class Login extends HttpServlet {
                     session.setAttribute("correo_usuario", correo);
                     session.setAttribute("id_usuario", rs.getInt("id_usuario"));
                     session.setAttribute("nombre_usuario", rs.getString("nombre_usuario"));
+                    session.setMaxInactiveInterval(2 * 60);
+                    
+                    Cookie cookie = new Cookie("user", rs.getString("nombre_usuario"));
+                        cookie.setMaxAge(86400);
+                        cookie.setHttpOnly(true);
+                        cookie.setSecure(true);
+                        response.addCookie(cookie);
                     
                     if (twoFactor==false) {
-                        
+                                                
                         String codigo = GeneradorCodigo.generarCode(6);
                         session.setAttribute("codigo", codigo);
                         EnviaMail.enviaCorreo(correo, "Tu código de verificación", CuerpoCorreo.cuerpoMensaje(codigo));
@@ -71,16 +79,17 @@ public class Login extends HttpServlet {
                         
                     } 
                     else {
+                        session.setMaxInactiveInterval(2 * 60);
                         response.sendRedirect("FitData");
                     }
                     
                 }
                 else {
-                    response.sendRedirect("Login.html?error=true");
+                    response.sendRedirect("Acceder?error=true");
                 }   
             } 
             else {
-                response.sendRedirect("Login.html?error=true");
+                response.sendRedirect("Acceder?error=true");
             }
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchAlgorithmException e) {

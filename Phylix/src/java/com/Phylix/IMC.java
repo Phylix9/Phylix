@@ -31,7 +31,7 @@ public class IMC extends HttpServlet {
 
         HttpSession session = request.getSession();
         if (session == null || session.getAttribute("id_usuario") == null) {
-            response.sendRedirect("Login.html?error=sesion");
+            response.sendRedirect("Acceder?error=sesion");
             return;
         }
         

@@ -23,7 +23,7 @@ public class Menus extends HttpServlet {
         Integer id_usuario = (Integer) session.getAttribute("id_usuario");
 
         if (id_usuario == null) {
-            response.sendRedirect("Login.html?error=sesion");
+            response.sendRedirect("Acceder?error=sesion");
             return;
         }
 

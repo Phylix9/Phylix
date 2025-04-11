@@ -63,7 +63,7 @@ public class ValidarCodigo extends HttpServlet {
                     response.sendRedirect("FitData");
                 } 
                 else {
-                    response.sendRedirect("Login.html?error=true");
+                    response.sendRedirect("Acceder?error=true");
                 }
 
             } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException  e) {

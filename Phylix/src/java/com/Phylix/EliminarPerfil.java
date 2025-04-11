@@ -36,7 +36,7 @@ public class EliminarPerfil extends HttpServlet {
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
         if (session == null || session.getAttribute("id_usuario") == null) {
-            response.sendRedirect("Login.html?error=sesion");
+            response.sendRedirect("Acceder?error=sesion");
             return;
         }
 

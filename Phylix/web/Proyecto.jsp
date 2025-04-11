@@ -13,18 +13,85 @@
     <link rel="icon" href="src/logoFitData.png" type="img/png">
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet"/>
+    
     <link rel="stylesheet" href="Styles3.css" />
     <title>FitData</title>
+    <style>
+  #bot-float-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 18px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 999;
+  transition: background-color 0.3s ease;
+}
+
+#bot-float-button:hover {
+  background-color: var(--secondary-color-dark);
+}
+
+#bot-float-button i {
+  font-size: 24px;
+}
+
+#bot-window {
+  display: none;
+  position: fixed;
+  bottom: 90px; 
+  right: 30px;
+  width: 450px;
+  height: 460px;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 999;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#login-modal {
+  display: none;
+  position: fixed;
+  bottom: 90px; 
+  right: 30px;
+  width: 350px;
+  height: 460px;
+  border: 1px solid #ccc;
+  background: white;
+  z-index: 999;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+#login-modal iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+#bot-window iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+
+  </style>
   </head>
   <body>
-    <button class="back-button" onclick="location.href='index.html'">
+    <button class="back-button" onclick="location.href='Pruebabot.html'">
     </button>
     <nav>
         <div class="nav__logo">
             <img src="src/LogoFitdata2.png" alt="logo"/>
         </div>
         <ul class="nav__links">
-            <li class="link"><a href="index.html">Phylix</a></li>
+            <li class="link"><a href="LoginBot.html">Phylix</a></li>
             <% 
                 String currentPage = request.getRequestURI();
                 if (currentPage.endsWith("FitData")) { 
@@ -50,9 +117,10 @@
                 </div>
               </div>
             <% } else { %>
-              <button class="btn" onclick="location.href='Login.html'">Login/Registro</button>
+              <button class="btn" onclick="location.href='Acceder'">Acceder</button>
             <% } %>
           </div>
+          
     </nav>
 
     <header class="section__container header__container">
@@ -64,13 +132,11 @@
             <p>
                 FitData es una Aplicacion que tiene como objetivo mejorar y dar soluciones a la salud de las personas mediante rutinas de ejercicios y planes de alimentacion.
             </p>
-            <% if (username == null) { %>
-                <button class="btn" onclick="location.href='Login.html'">Inicia Ahora</button>
-            <% } %>
         </div>
         <div class="header__image">
             <img src="src/header.png" alt="header" />
         </div>
+        
     </header>
 
     <section class="section__container explore__container">
@@ -169,11 +235,42 @@
       Copyright © 2024 FitData. Todos los derechos reservados.
     </div>
         
+    <div id="bot-float-button" onclick="toggleBot()">
+        <i class="ri-robot-line"></i>
+    </div>
+        
+    <div id="bot-window">
+        <iframe src="fitdatabot.jsp" frameborder="0"></iframe>
+    </div>
+    
+    <div id="login-modal">
+        <iframe src="LoginBot.html" frameborder="0"></iframe>
+    </div>
+
+
     <script>
         function toggleDropdown() {
             const dropdown = document.querySelector('.dropdown-menu');
             dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
+        
+        function toggleBot() {
+            const idUsuario = <%= session.getAttribute("id_usuario") != null ? session.getAttribute("id_usuario") : "null" %>;
+
+            if (idUsuario === null) {
+              const loginModal = document.getElementById('login-modal');
+              loginModal.style.display = loginModal.style.display === 'block' ? 'none' : 'block';
+              return; 
+            }
+            const botWindow = document.getElementById('bot-window');
+            botWindow.style.display = botWindow.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function cerrarLoginModal() {
+          document.getElementById('login-modal').style.display = 'none';
+        }
+
+
 
         document.addEventListener('click', (event) => {
             const dropdown = document.querySelector('.dropdown-menu');
@@ -183,7 +280,33 @@
                 dropdown.style.display = 'none';
             }
         });
+        
+
+        const INACTIVITY_TIMEOUT = 2 * 60 * 1000; 
+        let inactivityTimer;
+
+        function handleInactivity() {
+          alert("Se excedió el límite de inactividad, se cerró tu sesión.");
+          window.location.href = "Logout"; 
+        }
+
+        function resetInactivityTimer() {
+          clearTimeout(inactivityTimer);
+          inactivityTimer = setTimeout(handleInactivity, INACTIVITY_TIMEOUT);
+        }
+
+        // Detecta cualquier interacción del usuario para reiniciar el temporizador
+        ["mousemove", "keydown", "mousedown", "touchstart"].forEach(event => {
+          document.addEventListener(event, resetInactivityTimer);
+        });
+
+        // Inicializa el temporizador al cargar la página
+        resetInactivityTimer();
+
     </script>
+
 
   </body>
 </html>
+
+

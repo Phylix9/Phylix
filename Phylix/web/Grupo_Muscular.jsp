@@ -41,7 +41,7 @@
                 </div>
               </div>
             <% } else { %>
-              <button class="btn" onclick="location.href='Login.html'">Login</button>
+              <button class="btn" onclick="location.href='Acceder'">Login</button>
             <% } %>
           </div>
       </nav>

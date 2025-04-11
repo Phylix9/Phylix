@@ -28,6 +28,15 @@
     </servlet-mapping>
     
     <servlet>
+        <servlet-name>Acceder</servlet-name>
+        <servlet-class>com.Phylix.Acceder</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Acceder</servlet-name>
+        <url-pattern>/Acceder</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
         <servlet-name>Menus</servlet-name>
         <servlet-class>com.Phylix.Menus</servlet-class>
     </servlet>
@@ -168,6 +177,24 @@
     <servlet-mapping>
         <servlet-name>Progreso</servlet-name>
         <url-pattern>/Progreso</url-pattern>
+    </servlet-mapping>
+    
+    
+    <display-name>FitData Chatbot</display-name>
+        <context-param>
+        <param-name>gemini.api.key</param-name>
+        <param-value>AIzaSyCtuJDHZvKehcgGuej7oNFjTK0Teda_5FE</param-value>
+    </context-param>
+    
+    
+    <servlet>
+        <servlet-name>IAChatbot</servlet-name>
+        <servlet-class>com.Phylix.IAChatbot</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>IAChatbot</servlet-name>
+        <url-pattern>/IAChatbot</url-pattern>
     </servlet-mapping>
     
 </web-app>
