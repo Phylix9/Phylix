@@ -43,7 +43,7 @@ public class IAChatbot extends HttpServlet {
             JSONObject firstPart = parts.getJSONObject(0);
             String userText = firstPart.getString("text");
 
-            String apiKey = "AIzaSyCtuJDHZvKehcgGuej7oNFjTK0Teda_5FE"; 
+            String apiKey = "AIzaSyCBaHESQ_T4jcOADB3d2A66trpcNDEoes0"; 
             String apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey;
 
             JSONObject payload = new JSONObject();

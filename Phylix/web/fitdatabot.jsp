@@ -1,29 +1,30 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="es">
+<head>
   <meta charset="UTF-8">
-  <title>Chatbot FitData</title><head>
+  <title>Chatbot FitData</title>
 
   <style>
-        :root {
-          --primary-color: #111317;
-          --primary-color-light: #1f2125;
-          --primary-color-extra-light: #35373b;
-          --secondary-color: #539EE9;
-          --secondary-color-dark: #145799;
-          --text-light: #d1d5db;
-          --white: #ffffff;
-          --max-width: 1200px;
-        }
+    :root {
+      --primary-color: #111317;
+      --primary-color-light: #1f2125;
+      --primary-color-extra-light: #35373b;
+      --secondary-color: #539EE9;
+      --secondary-color-dark: #145799;
+      --text-light: #d1d5db;
+      --white: #ffffff;
+      --max-width: 1200px;
+    }
 
-        body {
-          font-family: "Poppins", sans-serif;
-          background-color: var(--primary-color);
-          color: var(--text-light);
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 12px;
-        }
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: var(--primary-color);
+      color: var(--text-light);
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 12px;
+    }
 
     #chatbox {
       border: 1px solid var(--primary-color-extra-light);
@@ -108,8 +109,8 @@
       text-align: center;
     }
   </style>
-
 </head>
+
 <body>
   <h2>Chatbot FitData 🤖</h2>
   <div id="chatbox"></div>
@@ -119,86 +120,73 @@
   </div>
   <div id="status-bar"></div>
 
+  <%
+    Integer userId = (Integer) session.getAttribute("id_usuario");
+    String nombreUsuario = (String) session.getAttribute("nombre_usuario");
+  %>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";    
+    import {
+      getFirestore, collection, addDoc, onSnapshot, query,
+      orderBy, limit, serverTimestamp, getDocs
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
     const firebaseConfig = {
-        apiKey: "AIzaSyCE2LFKlNQBaUxPksXG7ZhXlH8_0akeq84",
-        authDomain: "fitdatabot.firebaseapp.com",
-        projectId: "fitdatabot",
-        storageBucket: "fitdatabot.appspot.com",
-        messagingSenderId: "7033323341",
-        appId: "1:7033323341:web:8ee310de80d630bcc28104"
+      apiKey: "AIzaSyCE2LFKlNQBaUxPksXG7ZhXlH8_0akeq84",
+      authDomain: "fitdatabot.firebaseapp.com",
+      projectId: "fitdatabot",
+      storageBucket: "fitdatabot.appspot.com",
+      messagingSenderId: "7033323341",
+      appId: "1:7033323341:web:8ee310de80d630bcc28104"
     };
-    
-    // Inicializar Firebase
+
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    
+
     const userId = "<%= userId %>";
     const nombreUsuario = "<%= nombreUsuario %>";
-    // Referencias a elementos DOM
+
     const chatbox = document.getElementById("chatbox");
     const sendBtn = document.getElementById("sendBtn");
     const userInput = document.getElementById("userInput");
     const statusBar = document.getElementById("status-bar");
-    
-    // Obtener la ruta base de la aplicación
-    const appPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
-    console.log("Ruta base de la aplicación:", appPath);
-    
-    // Control de límite de tasa
+
     const rateLimitControl = {
       isWaiting: false,
       retryCount: 0,
       maxRetries: 3,
-      baseDelay: 2000, // 2 segundos
-      
-      // Calcula el tiempo de espera con backoff exponencial
+      baseDelay: 2000,
       getRetryDelay() {
         return this.baseDelay * Math.pow(2, this.retryCount);
       },
-      
-      // Reinicia los contadores
       reset() {
         this.isWaiting = false;
         this.retryCount = 0;
         sendBtn.disabled = false;
         statusBar.textContent = "";
       },
-      
-      // Inicia la espera para reintento
       startWaiting() {
         this.isWaiting = true;
         sendBtn.disabled = true;
-        
         const delay = this.getRetryDelay();
-        const seconds = Math.ceil(delay / 1000);
-        
-        statusBar.textContent = Límite de solicitudes alcanzado. Reintentando en ${seconds} segundos...;
-        
-        // Actualizar la cuenta regresiva
-        let remainingSeconds = seconds;
+        let remainingSeconds = Math.ceil(delay / 1000);
+        statusBar.textContent = `Límite de solicitudes alcanzado. Reintentando en ${remainingSeconds} segundos...`;
         const countdownInterval = setInterval(() => {
           remainingSeconds--;
-          if (remainingSeconds <= 0) {
-            clearInterval(countdownInterval);
-          } else {
-            statusBar.textContent = Límite de solicitudes alcanzado. Reintentando en ${remainingSeconds} segundos...;
-          }
+          if (remainingSeconds <= 0) clearInterval(countdownInterval);
+          else statusBar.textContent = `Límite de solicitudes alcanzado. Reintentando en ${remainingSeconds} segundos...`;
         }, 1000);
-        
+
         setTimeout(() => {
           this.isWaiting = false;
           sendBtn.disabled = false;
-          sendMessage(true); // true indica que es un reintento
+          sendMessage(true);
         }, delay);
-        
         this.retryCount++;
       }
     };
-    
-    // Función para mostrar mensajes de error en el chat
+
     async function showErrorInChat(errorMessage) {
       await addDoc(collection(db, "messages"), {
         sender: "error",
@@ -206,8 +194,7 @@ import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, se
         timestamp: serverTimestamp()
       });
     }
-    
-    // Mostrar mensaje de carga
+
     function showLoading() {
       const loadingDiv = document.createElement("div");
       loadingDiv.className = "loading";
@@ -216,128 +203,86 @@ import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, se
       chatbox.appendChild(loadingDiv);
       chatbox.scrollTop = chatbox.scrollHeight;
     }
-    
-    // Ocultar mensaje de carga
+
     function hideLoading() {
       const loadingDiv = document.getElementById("loading-indicator");
-      if (loadingDiv) {
-        loadingDiv.remove();
-      }
+      if (loadingDiv) loadingDiv.remove();
     }
-    
-    // Función para manejar respuesta exitosa
+
     async function handleBotResponse(respuestaIA) {
       hideLoading();
-      
-      // Guardar respuesta del bot en Firebase
       await addDoc(collection(db, "messages"), {
         sender: "bot",
         text: respuestaIA,
         timestamp: serverTimestamp()
       });
-      
-      // Reiniciar el control de límite de tasa
       rateLimitControl.reset();
     }
-    
-    // Enviar mensaje al servidor y a Firebase
+
     window.sendMessage = async function(isRetry = false) {
-      // Si estamos esperando para reintentar, no hacer nada
       if (rateLimitControl.isWaiting) return;
-      
-      // En caso de reintento, no necesitamos tomar el texto de nuevo
+
       let text;
-      
       if (!isRetry) {
         text = userInput.value.trim();
         if (!text) return;
-        
-        // Limpiar input y guardar texto para posibles reintentos
         userInput.value = "";
         sessionStorage.setItem("lastMessage", text);
-        
-        // Guardar mensaje del usuario en Firebase
         await addDoc(collection(db, "messages"), {
           sender: "user",
-          text: text,
+          text,
           timestamp: serverTimestamp()
         });
       } else {
-        // Recuperar el último mensaje para reintento
         text = sessionStorage.getItem("lastMessage");
         if (!text) return;
       }
-      
-      // Mostrar indicador de carga solo si no es un reintento
-      if (!isRetry) {
-        showLoading();
-      }
-      
-      try {
-        console.log("Enviando mensaje al servlet:", text);
-        console.log("URL del servlet:", /Phylix/IAChatbot);
-        
-        const requestBody = {
-          contents: [{
-            parts: [{ text }]
-          }]
-        };
 
+      if (!isRetry) showLoading();
+
+      try {
         const response = await fetch("/Phylix/IAChatbot", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(requestBody)
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text }] }]
+          })
         });
 
-        console.log("Respuesta del servidor:", response.status);
-        
-        // Verificar si tenemos un error de límite de tasa
         if (response.status === 429) {
           hideLoading();
-          
-          // Verificar si aún podemos reintentar
           if (rateLimitControl.retryCount < rateLimitControl.maxRetries) {
             rateLimitControl.startWaiting();
           } else {
             rateLimitControl.reset();
-            await showErrorInChat("❌ No se pudo completar la solicitud debido a límites de la API. Por favor, intenta más tarde.");
+            await showErrorInChat("❌ No se pudo completar la solicitud debido a límites de la API.");
           }
           return;
         }
-        
-        // Manejar error de autorización
+
         if (response.status === 401) {
           hideLoading();
-          await showErrorInChat("❌ Error de autorización con la API de Gemini. Contacta al administrador.");
+          await showErrorInChat("❌ Error de autorización con la API de Gemini.");
           rateLimitControl.reset();
           return;
         }
-        
-        // Manejar error de solicitud incorrecta
+
         if (response.status === 400) {
           hideLoading();
           const errorText = await response.text();
-          await showErrorInChat(❌ Error de solicitud: ${errorText});
+          await showErrorInChat(`❌ Error de solicitud: ${errorText}`);
           rateLimitControl.reset();
           return;
         }
-        
-        // Otros errores
-        if (!response.ok) {
-          throw new Error(Error: ${response.status} ${response.statusText});
-        }
-        
+
+        if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+
         const respuestaIA = await response.text();
-        console.log("Respuesta recibida:", respuestaIA.substring(0, 100) + (respuestaIA.length > 100 ? "..." : ""));
         await handleBotResponse(respuestaIA);
-        
+
       } catch (error) {
-        console.error("Error:", error);
         hideLoading();
-        
-        await showErrorInChat("❌ Lo siento, ocurrió un error: " + error.message);
+        await showErrorInChat("❌ Ocurrió un error: " + error.message);
         rateLimitControl.reset();
       }
     };

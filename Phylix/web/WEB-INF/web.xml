@@ -183,7 +183,7 @@
     <display-name>FitData Chatbot</display-name>
         <context-param>
         <param-name>gemini.api.key</param-name>
-        <param-value>AIzaSyCtuJDHZvKehcgGuej7oNFjTK0Teda_5FE</param-value>
+        <param-value>AIzaSyCBaHESQ_T4jcOADB3d2A66trpcNDEoes0</param-value>
     </context-param>
     
     
