@@ -33,9 +33,9 @@
             <!-- <button type="submit">Subir Imagen</button> -->
         </form>
         
-        <a href="MisDietas"><i data-lucide="cookie"></i> Mis Dietas</a>
+        <a href="MisDietas.jsp"><i data-lucide="cookie"></i> Mis Dietas</a>
         <a href="Eliminardieta.jsp"><i data-lucide="utensils-crossed"></i> Gestionar Dieta</a>
-        <a href="CrearRutina"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
+        <a href="MisRutinas.jsp"><i data-lucide="dumbbell"></i> Mis Rutinas</a>
         <a href="Eliminarrutina.jsp"><i data-lucide="person-standing"></i> Gestionar Rutina</a>
         <a href="#" onclick="habilitarEdicion(event)"><i data-lucide="user-round-pen"></i> Modificar perfil</a>
         <a href="EliminarPerfil"><i data-lucide="user-round-x"></i> Eliminar perfil</a>

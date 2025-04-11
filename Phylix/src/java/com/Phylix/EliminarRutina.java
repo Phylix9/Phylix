@@ -34,7 +34,7 @@ public class EliminarRutina extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "AT10220906";
+        String password = "n0m3l0";
         
         if (session == null || session.getAttribute("id_usuario") == null) {
             response.sendRedirect("Acceder?error=sesion");

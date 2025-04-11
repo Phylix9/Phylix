@@ -21,7 +21,7 @@
             String username = (String) session.getAttribute("nombre_usuario");
             String url = "jdbc:mysql://localhost/FitData";
             String user = "root";
-            String password = "AT10220906";
+            String password = "n0m3l0";
             Double imc = null;
             Double estatura = null;
             Double peso = null;

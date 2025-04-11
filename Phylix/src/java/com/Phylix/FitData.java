@@ -22,7 +22,7 @@ public class FitData extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        request.getRequestDispatcher("Proyecto.jsp").forward(request, response);
+        request.getRequestDispatcher("FitData.jsp").forward(request, response);
     }
 
     @Override

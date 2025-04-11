@@ -1,0 +1,499 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Apr 10, 2025, 10:01:33 PM
+    Author     : chris
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+    --primary-color: #111317;
+    --secondary-color: #2b6cb0;
+    --accent-color: #539EE9;
+    --background-dark: #1a202c;
+    --background-card: #2d3748;
+    --text-light: #e2e8f0;
+    --text-gray: #a0aec0;
+    --success-color: #48bb78;
+    --warning-color: #ed8936;
+    --danger-color: #f56565;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--text-light);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(49, 130, 206, 0.1);
+}
+
+header {
+    background-color: rgba(26, 32, 44, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 30px;
+}
+
+nav ul li a {
+    font-weight: 500;
+    padding: 5px 0;
+    position: relative;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+.user-avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.username {
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--background-card);
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    min-width: 180px;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.user-menu:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-menu a:last-child {
+    border-bottom: none;
+}
+
+.profile-header {
+    background: linear-gradient(to right, #2c5282, #3182ce);
+    padding: 50px 0;
+    margin-bottom: 30px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-details {
+    margin-left: 30px;
+}
+
+.profile-details h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.profile-stats {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 5px;
+}
+
+.profile-stats span {
+    font-weight: 500;
+    color: white;
+}
+
+.profile-progress {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+    width: 300px;
+}
+
+.progress {
+    height: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.quick-stats {
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px;
+}
+
+.stat-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    width: 32%;
+    display: flex;
+    align-items: center;
+}
+
+.stat-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+.stat-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Dashboard Styles */
+.profile-dashboard {
+    padding: 30px 0 60px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.dashboard-card {
+    background-color: var(--background-card);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.dashboard-card h2::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-left: 15px;
+}
+
+.progress-charts {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    height: 200px;
+}
+
+.chart-container {
+    flex: 1;
+    margin-right: 15px;
+}
+
+.chart-container:last-child {
+    margin-right: 0;
+}
+
+.progress-metrics {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.metric {
+    text-align: center;
+}
+
+.metric-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    margin-bottom: 5px;
+}
+
+.metric-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.workout-calendar {
+    margin-bottom: 20px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar-header span {
+    font-weight: 600;
+}
+
+.calendar-nav {
+    display: flex;
+}
+
+.calendar-btn {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.calendar-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.calendar-days {
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar-day {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.calendar-day.completed {
+    background-color: var(--success-color);
+}
+
+.calendar-day.today {
+    background-color: var(--primary-color);
+}
+
+.calendar-day.rest {
+    background-color: var(--text-gray);
+    opacity: 0.5;
+}
+
+.today-workout {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.today-workout h3 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+}
+
+.workout-plan {
+    margin-bottom: 20px;
+}
+
+.exercise {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exercise:last-child {
+    border-bottom: none;
+}
+
+.exercise-name {
+    font-weight: 500;
+}
+
+.exercise-details {
+    color: var(--text-gray);
+}
+
+.workout-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.diet-summary {
+    margin-bottom: 20px;
+}
+
+.diet-macros {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.macro-chart {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+}
+
+.macro-legend {
+    flex: 1;
+}
+
+.macro-item {
+    display: flex;
+    align-items: center
+}
+  
+.footer__bar {
+    text-align: center;
+ }
+
+
