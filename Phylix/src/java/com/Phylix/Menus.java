@@ -29,7 +29,7 @@ public class Menus extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         List<String> proteinas = new ArrayList<>();
         List<String> carbohidratos = new ArrayList<>();
@@ -47,7 +47,7 @@ public class Menus extends HttpServlet {
             request.setAttribute("vitaminasMinerales", vitaminasMinerales);
             request.setAttribute("grasas", grasas);
 
-            request.getRequestDispatcher("creamenu.jsp").forward(request, response);
+            request.getRequestDispatcher("VerificarComida").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("Error de conexión a la base de datos", e);
         }

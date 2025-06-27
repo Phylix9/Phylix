@@ -4,25 +4,35 @@
     Author     : Chris
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.util.*" %>
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FITDATA - Mi Progreso</title>
-    <link rel="stylesheet" href="Style19.css">
+    <title>Mi Progreso</title>
+    <link rel="stylesheet" href="Style23.css">
+    <link rel="icon" href="src/logoFitData.png" type="img/png">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 </head>
 <body>
     <header>
         <div class="container">
             <div class="logo">
-                <a href="FitData.jsp"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
+                <a href="FitData"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
             </div>
             <nav>
                 <ul>
-                    <li><a href="FitData.jsp">Inicio</a></li>
+                    <li><a href="FitDataa">Inicio</a></li>
                     <li><a href="Rutinas.jsp">Rutinas</a></li>
                     <li><a href="Dietas.jsp">Dietas</a></li>
                     <li><a href="Informacion.jsp">Informacion</a></li>
@@ -30,7 +40,7 @@
             </nav>
             <div class="user-menu">
                 <div class="user-avatar">
-                    <img src="src/perfil.png" alt="Usuario">
+                    <img src="ImagenPerfil" alt="Usuario">
                 </div>
                 <span class="username"> </span>
                 <div class="dropdown-menu">
@@ -40,6 +50,86 @@
             </div>
         </div>
     </header>
+
+<%
+    String datosPesoJSON = (String) request.getAttribute("datosJSON");
+    if (datosPesoJSON == null) {
+        datosPesoJSON = "{\"fechas\":[],\"pesos\":[],\"objetivo\":0,\"pesoInicial\":0}";
+    }
+    String datosPesoSafe = datosPesoJSON.replace("\"", "\\\"");
+
+    String datosMedidasJSON = (String) request.getAttribute("medidasJSON");
+    if (datosMedidasJSON == null) {
+        datosMedidasJSON = "{\"fechas\":[],\"pecho\":[],\"cintura\":[],\"caderas\":[],\"muslo\":[],\"brazo\":[]}";
+    }
+    String datosMedidasSafe = datosMedidasJSON.replace("\"", "\\\"");
+    
+    String datosFuerzaJSON = (String) request.getAttribute("fuerzaJSON");
+    if (datosFuerzaJSON == null) {
+        datosFuerzaJSON = "{\"fechas\":[],\"sentadilla\":[],\"pressPecho\":[],\"pesoMuerto\":[],\"pressMilitar\":[],\"curlBiceps\":[],\"remo\":[]}";
+    }
+    String datosFuerzaSafe = datosFuerzaJSON.replace("\"", "\\\"");
+    
+    List<String> fechasMedidas = (List<String>) request.getAttribute("fechaMedidas");
+    List<Double> cintura = (List<Double>) request.getAttribute("cintura");
+    List<Double> pecho = (List<Double>) request.getAttribute("pecho");
+    List<Double> caderas = (List<Double>) request.getAttribute("caderas");
+    List<Double> muslo = (List<Double>) request.getAttribute("muslo");
+    List<Double> brazo = (List<Double>) request.getAttribute("brazo");
+    
+    List<String> fechaCargas = (List<String>) request.getAttribute("fechaCargas");
+    List<Double> sentadilla = (List<Double>) request.getAttribute("sentadilla");
+    List<Double> pressPecho = (List<Double>) request.getAttribute("pressPecho");
+    List<Double> pesoMuerto = (List<Double>) request.getAttribute("pesoMuerto");
+    List<Double> pressMilitar = (List<Double>) request.getAttribute("pressMilitar");
+    List<Double> curlBiceps = (List<Double>) request.getAttribute("curlBiceps");
+    List<Double> remo = (List<Double>) request.getAttribute("remo");
+    
+    HttpSession sesion = request.getSession(false);
+        if (sesion == null || sesion.getAttribute("id_usuario") == null) {
+            response.sendRedirect("Proyecto.jsp");
+            return;
+        }
+        String username = (String) sesion.getAttribute("nombre_usuario");
+        int id_usuario = (int) session.getAttribute("id_usuario");
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        boolean mostrarModal = false;
+        int registrosCargas = 0;
+
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitdata", "root", "AT10220906");
+
+            // Medidas últimos 15 días
+            ps = con.prepareStatement(
+                "SELECT COUNT(*) FROM Cargas WHERE id_usuario = ? AND fecha >= DATE_SUB(CURDATE(), INTERVAL 13 DAY)"
+            );
+            ps.setInt(1, id_usuario);
+            rs = ps.executeQuery();
+            rs.next();
+            registrosCargas = rs.getInt(1);
+            rs.close();
+            ps.close();
+
+
+            if (registrosCargas == 0) {
+                mostrarModal = true;
+            }
+            else{
+                mostrarModal = false;
+            }
+
+        } catch (Exception e) {
+            out.println("Error al obtener datos: " + e.getMessage());
+        } finally {
+            if (con != null) con.close();
+        }
+%>
+
+
 
     <main>
         <section class="progress-header">
@@ -61,273 +151,48 @@
                         <div class="nav-icon"><img src="src/fuerza.png" alt="Fuerza"></div>
                         <span>Fuerza</span>
                     </a>
-                    <a href="#photos-section" class="progress-nav-item">
-                        <div class="nav-icon"><img src="src/fotos.png" alt="Fotos"></div>
-                        <span>Fotos</span>
-                    </a>
+
                 </div>
             </div>
         </section>
 
-        <section class="progress-summary">
-            <div class="container">
-                <div class="summary-card">
-                    <div class="summary-stats">
-                        <div class="stat-box">
-                            <div class="stat-value">-8.5 kg</div>
-                            <div class="stat-label">Peso total perdido</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value">-7 cm</div>
-                            <div class="stat-label">Reducción de cintura</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value">+12.5%</div>
-                            <div class="stat-label">Aumento de fuerza</div>
-                        </div>
-                        <div class="stat-box">
-                            <div class="stat-value">+20%</div>
-                            <div class="stat-label">Mejora cardiovascular</div>
-                        </div>
-                    </div>
-                    <div class="summary-timeline">
-                        <div class="timeline-progress">
-                            <div class="timeline-bar">
-                                <div class="timeline-filled" style="width: 75%"></div>
-                            </div>
-                            <div class="timeline-stats">
-                                <div class="timeline-start">15/03/2023</div>
-                                <div class="timeline-current">Hoy: 06/04/2025</div>
-                                <div class="timeline-end">15/07/2025</div>
-                            </div>
-                        </div>
-                        <div class="timeline-info">
-                            <div class="days-count">43 días activos completados</div>
-                            <div class="days-remaining">56 días hasta tu objetivo</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+
 
         <section id="weight-section" class="progress-section">
             <div class="container">
                 <div class="section-header">
                     <h2>Control de Peso</h2>
-                    <div class="section-actions">
-                        <div class="timeframe-selector">
-                            <button class="timeframe-btn active" data-period="weekly">Semanal</button>
-                            <button class="timeframe-btn" data-period="monthly">Mensual</button>
-                            <button class="timeframe-btn" data-period="all">Todo</button>
-                        </div>
-                        <button class="action-btn add-data-btn" onclick="showWeightModal()">+ Añadir Peso</button>
-                    </div>
                 </div>
-                
                 <div class="charts-container">
                     <div class="chart-card primary-chart">
                         <div class="chart-header">
                             <h3>Evolución del Peso</h3>
-                            <div class="chart-legend">
-                                <div class="legend-item">
-                                    <span class="color-dot weight"></span>
-                                    <span>Peso actual</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot target"></span>
-                                    <span>Objetivo</span>
-                                </div>
-                            </div>
                         </div>
                         <div class="chart-body">
                             <canvas id="weightLineChart" height="300"></canvas>
                         </div>
                     </div>
-                    
-                    <div class="chart-card secondary-charts">
-                        <div class="chart-row">
-                            <div class="small-chart">
-                                <h3>Pérdida de peso (kg)</h3>
-                                <div class="chart-body">
-                                    <canvas id="weightLossChart" height="150"></canvas>
-                                </div>
-                            </div>
-                            <div class="small-chart">
-                                <h3>Ritmo semanal</h3>
-                                <div class="chart-body">
-                                    <canvas id="weeklyPaceChart" height="150"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-highlights">
-                            <div class="highlight-item">
-                                <div class="highlight-value">-0.7 kg</div>
-                                <div class="highlight-label">Promedio semanal</div>
-                            </div>
-                            <div class="highlight-item">
-                                <div class="highlight-value">-2.1 kg</div>
-                                <div class="highlight-label">Último mes</div>
-                            </div>
-                            <div class="highlight-item">
-                                <div class="highlight-value">-1.2 kg</div>
-                                <div class="highlight-label">Mejor semana</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="data-table">
-                    <h3>Registro de Peso</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Peso (kg)</th>
-                                <th>Cambio</th>
-                                <th>Notas</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>06/04/2025</td>
-                                <td>81.0</td>
-                                <td class="change-positive">-0.5 kg</td>
-                                <td>Después del entrenamiento de cardio</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>30/03/2025</td>
-                                <td>81.5</td>
-                                <td class="change-positive">-0.7 kg</td>
-                                <td>En ayunas</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>23/03/2025</td>
-                                <td>82.2</td>
-                                <td class="change-positive">-0.9 kg</td>
-                                <td>Después de la semana de déficit intenso</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>16/03/2025</td>
-                                <td>83.1</td>
-                                <td class="change-positive">-1.0 kg</td>
-                                <td>-</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="pagination">
-                        <button class="pagination-btn">&lt;</button>
-                        <span class="pagination-info">Página 1 de 3</span>
-                        <button class="pagination-btn">&gt;</button>
-                    </div>
+
                 </div>
             </div>
         </section>
-
+        
         <section id="measurements-section" class="progress-section">
             <div class="container">
                 <div class="section-header">
                     <h2>Medidas Corporales</h2>
-                    <div class="section-actions">
-                        <div class="timeframe-selector">
-                            <button class="timeframe-btn active" data-period="weekly">Semanal</button>
-                            <button class="timeframe-btn" data-period="monthly">Mensual</button>
-                            <button class="timeframe-btn" data-period="all">Todo</button>
-                        </div>
-                        <button class="action-btn add-data-btn" onclick="showMeasurementModal()">+ Añadir Medidas</button>
-                    </div>
                 </div>
-                
                 <div class="charts-container">
                     <div class="chart-card primary-chart">
                         <div class="chart-header">
                             <h3>Evolución de Medidas</h3>
-                            <div class="chart-legend">
-                                <div class="legend-item">
-                                    <span class="color-dot chest"></span>
-                                    <span>Pecho</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot waist"></span>
-                                    <span>Cintura</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot hips"></span>
-                                    <span>Caderas</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot thigh"></span>
-                                    <span>Muslo</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot arm"></span>
-                                    <span>Brazo</span>
-                                </div>
-                            </div>
                         </div>
                         <div class="chart-body">
-                            <canvas id="measurementsLineChart" height="300"></canvas>
+                            <canvas id="measurementsChart" height="300"></canvas>
                         </div>
                     </div>
                     
-                    <div class="chart-card body-visual">
-                        <h3>Composición Corporal</h3>
-                        <div class="body-composition">
-                            <div class="body-image">
-                                <img src="" alt=".">
-                                <div class="body-markers">
-                                    <div class="marker chest" data-value="-3cm"></div>
-                                    <div class="marker waist" data-value="-7cm"></div>
-                                    <div class="marker hips" data-value="-5cm"></div>
-                                    <div class="marker thigh" data-value="-4cm"></div>
-                                    <div class="marker arm" data-value="-1cm"></div>
-                                </div>
-                            </div>
-                            <div class="body-stats">
-                                <div class="body-stat">
-                                    <div class="stat-name">IMC (Índice de Masa Corporal)</div>
-                                    <div class="stat-bar">
-                                        <div class="stat-progress" style="width: 65%;"></div>
-                                        <div class="stat-marker" style="left: 85%;">Inicial</div>
-                                        <div class="stat-marker" style="left: 65%;">Actual</div>
-                                        <div class="stat-marker" style="left: 50%;">Objetivo</div>
-                                    </div>
-                                    <div class="stat-labels">
-                                        <span>Bajo peso</span>
-                                        <span>Normal</span>
-                                        <span>Sobrepeso</span>
-                                        <span>Obesidad</span>
-                                    </div>
-                                </div>
-                                <div class="body-stat">
-                                    <div class="stat-name">Grasa Corporal Estimada: 19%</div>
-                                    <div class="stat-bar">
-                                        <div class="stat-progress" style="width: 58%;"></div>
-                                        <div class="stat-marker" style="left: 75%;">Inicial</div>
-                                        <div class="stat-marker" style="left: 58%;">Actual</div>
-                                        <div class="stat-marker" style="left: 45%;">Objetivo</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+ 
                 </div>
                 
                 <div class="data-table">
@@ -339,63 +204,29 @@
                                 <th>Pecho</th>
                                 <th>Cintura</th>
                                 <th>Caderas</th>
-                                <th>Muslo Der.</th>
-                                <th>Brazo Der.</th>
-                                <th>Acciones</th>
+                                <th>Muslo</th>
+                                <th>Brazo</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                                for (int i = 0; i < 6; i++) {
+                            %>
                             <tr>
-                                <td>06/04/2025</td>
-                                <td>99</td>
-                                <td>91</td>
-                                <td>97</td>
-                                <td>58</td>
-                                <td>35</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
+                                <td><%= fechasMedidas.get(i) %></td>
+                                <td><%= pecho.get(i) %></td>
+                                <td><%= cintura.get(i) %></td>
+                                <td><%= caderas.get(i) %></td>
+                                <td><%= muslo.get(i) %></td>
+                                <td><%= brazo.get(i) %></td>
                             </tr>
-                            <tr>
-                                <td>06/03/2025</td>
-                                <td>100</td>
-                                <td>93</td>
-                                <td>98</td>
-                                <td>59</td>
-                                <td>35</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>06/02/2025</td>
-                                <td>101</td>
-                                <td>95</td>
-                                <td>100</td>
-                                <td>61</td>
-                                <td>36</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>06/01/2025</td>
-                                <td>102</td>
-                                <td>98</td>
-                                <td>102</td>
-                                <td>62</td>
-                                <td>36</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
+                            <%
+                                }
+                            %>
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </section>
 
@@ -403,618 +234,871 @@
             <div class="container">
                 <div class="section-header">
                     <h2>Progreso de Fuerza</h2>
-                    <div class="section-actions">
-                        <select class="exercise-selector">
-                            <option value="all">Todos los ejercicios</option>
-                            <option value="squat">Sentadilla</option>
-                            <option value="bench">Press Banca</option>
-                            <option value="deadlift">Peso Muerto</option>
-                        </select>
-                        <button class="action-btn add-data-btn" onclick="showStrengthModal()">+ Añadir Registro</button>
-                    </div>
                 </div>
                 
                 <div class="charts-container strength-charts">
                     <div class="chart-card primary-chart">
                         <div class="chart-header">
-                            <h3>Evolución de Cargas (1RM)</h3>
-                            <div class="chart-legend">
-                                <div class="legend-item">
-                                    <span class="color-dot squat"></span>
-                                    <span>Sentadilla</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot bench"></span>
-                                    <span>Press Banca</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="color-dot deadlift"></span>
-                                    <span>Peso Muerto</span>
-                                </div>
-                            </div>
+                            <h3>Evolución de Carga Máxima (PR) por Ejercicio</h3>
                         </div>
                         <div class="chart-body">
-                            <canvas id="strengthProgressChart" height="300"></canvas>
+                            <canvas id="strengthChart" height="300"></canvas>
                         </div>
                     </div>
                     
                     <div class="chart-card pentagon-chart">
-                        <h3>Balance de Fuerza</h3>
+                        <h3>Balance de Fuerza Actual</h3>
                         <div class="chart-body">
-                            <canvas id="strengthRadarChart" height="300"></canvas>
+                            <canvas id="radarChart" height="300"></canvas>
                         </div>
                     </div>
                 </div>
-                <!--
-                <div class="strength-highlights">
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <img src="images/icons/squat.svg" alt="Sentadilla">
-                        </div>
-                        <div class="highlight-info">
-                            <div class="highlight-name">Sentadilla</div>
-                            <div class="highlight-values">
-                                <div class="highlight-current">110 kg</div>
-                                <div class="highlight-change">+15 kg</div>
-                            </div>
-                            <div class="highlight-bar">
-                                <div class="highlight-progress" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <img src="images/icons/bench.svg" alt="Press Banca">
-                        </div>
-                        <div class="highlight-info">
-                            <div class="highlight-name">Press Banca</div>
-                            <div class="highlight-values">
-                                <div class="highlight-current">85 kg</div>
-                                <div class="highlight-change">+10 kg</div>
-                            </div>
-                            <div class="highlight-bar">
-                                <div class="highlight-progress" style="width: 65%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <img src="images/icons/deadlift.svg" alt="Peso Muerto">
-                        </div>
-                        <div class="highlight-info">
-                            <div class="highlight-name">Peso Muerto</div>
-                            <div class="highlight-values">
-                                <div class="highlight-current">130 kg</div>
-                                <div class="highlight-change">+20 kg</div>
-                            </div>
-                            <div class="highlight-bar">
-                                <div class="highlight-progress" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <img src="images/icons/overhead.svg" alt="Press Militar">
-                        </div>
-                        <div class="highlight-info">
-                            <div class="highlight-name">Press Militar</div>
-                            <div class="highlight-values">
-                                <div class="highlight-current">60 kg</div>
-                                <div class="highlight-change">+7.5 kg</div>
-                            </div>
-                            <div class="highlight-bar">
-                                <div class="highlight-progress" style="width: 70%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="highlight-card">
-                        <div class="highlight-icon">
-                            <img src="images/icons/row.svg" alt="Remo">
-                        </div>
-                        <div class="highlight-info">
-                            <div class="highlight-name">Remo Barra</div>
-                            <div class="highlight-values">
-                                <div class="highlight-current">90 kg</div>
-                                <div class="highlight-change">+12.5 kg</div>
-                            </div>
-                            <div class="highlight-bar">
-                                <div class="highlight-progress" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                -->
 
-                <div class="data-table">
-                    <h3>Historial de Entrenamiento</h3>
+                <%
+                    String[] ejercicios = {
+                        "Sentadilla", "Press Banca", "Peso Muerto", 
+                        "Press Militar", "Curl Bíceps", "Remo"
+                    };
+
+                    List<Double>[] pesos = new List[] {
+                        sentadilla, pressPecho, pesoMuerto, 
+                        pressMilitar, curlBiceps, remo
+                    };
+
+
+                %>
+              <div class="data-table">
+                    
+                    <h3>Record Personal por Ejercicio</h3>
+
                     <table>
                         <thead>
                             <tr>
                                 <th>Fecha</th>
                                 <th>Ejercicio</th>
-                                <th>Series</th>
-                                <th>Repeticiones</th>
-                                <th>Peso (kg)</th>
-                                <th>1RM Estimado</th>
-                                <th>Notas</th>
-                                <th>Acciones</th>
+
+                                <th>Personal Record logrado</th>
+                                <th>Personal Record Estimado</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <%
+                                for (int e = 0; e < ejercicios.length; e++) {
+                                    double max = Double.MIN_VALUE;
+                                    int indexPR = -1;
+
+                                    for (int i = 0; i < fechaCargas.size(); i++) {
+                                        if (pesos[e].get(i) > max) {
+                                            max = pesos[e].get(i);
+                                            indexPR = i;
+                                        }
+                                    }
+
+                                    if (indexPR != -1) {
+                                        String fechaPR = fechaCargas.get(indexPR);
+                                        double estimado = Math.round(max * 1.04); // puedes ajustar la fórmula
+                            %>
                             <tr>
-                                <td>05/04/2025</td>
-                                <td>Press Banca</td>
-                                <td>4</td>
-                                <td>8</td>
-                                <td>75</td>
-                                <td>85 kg</td>
-                                <td>Buena forma, fácil</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
+                                <td><%= fechaPR %></td>
+                                <td><%= ejercicios[e] %></td>
+
+                                <td><%= max %> kg</td>
+                                <td><%= estimado %> kg</td>
                             </tr>
-                            <tr>
-                                <td>03/04/2025</td>
-                                <td>Sentadilla</td>
-                                <td>5</td>
-                                <td>5</td>
-                                <td>100</td>
-                                <td>110 kg</td>
-                                <td>Profundidad completa</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>01/04/2025</td>
-                                <td>Peso Muerto</td>
-                                <td>3</td>
-                                <td>5</td>
-                                <td>120</td>
-                                <td>130 kg</td>
-                                <td>Mejor técnica</td>
-                                <td class="actions-cell">
-                                    <button class="table-btn edit-btn">Editar</button>
-                                    <button class="table-btn delete-btn">Eliminar</button>
-                                </td>
-                            </tr>
+                            <%
+                                    }
+                                }
+                            %>
                         </tbody>
                     </table>
-                    <div class="pagination">
-                        <button class="pagination-btn">&lt;</button>
-                        <span class="pagination-info">Página 1 de 5</span>
-                        <button class="pagination-btn">&gt;</button>
-                    </div>
                 </div>
             </div>
         </section>
-        
+    </main>
+                        
+     <div id="dataModal" class="modal">
+        <div class="modal-content">
+          <h2>Ingresa tus Records Personales</h2>
+          <form id="userDataForm">
+            <label for="peso">Peso Máximo Sentadilla (kg):</label>
+            <input type="number" id="sentadilla" name="sentadilla" step="0.1" required><br>
+
+            <label for="cintura">Peso Máximo Press de Pecho (kg):</label>
+            <input type="number" id="press" name="press" step="0.1" required><br>
+
+            <label for="pecho">Peso Máximo Peso Muerto (kg):</label>
+            <input type="number" id="pesom" name="pesom" step="0.1" required><br>
+            
+            <label for="pecho">Peso Máximo Press Militar (kg):</label>
+            <input type="number" id="pressm" name="pressm" step="0.1" required><br>
+            
+            <label for="pecho">Peso Máximo Curl Biceps (kg):</label>
+            <input type="number" id="biceps" name="biceps" step="0.1" required><br>
+            
+            <label for="pecho">Peso Máximo Remo (kg):</label>
+            <input type="number" id="remo" name="remo" step="0.1" required><br><br>
+
+            <button type="submit">Guardar Datos</button>
+            <button type="button" id="posponerBtn" class="secundario">Recordarme más tarde</button>
+            
+          </form>
+        </div>
+    </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const dates = ['15/03/2025', '23/03/2025', '30/03/2025', '06/04/2025'];
-    const targetWeight = 75; // Peso objetivo
-    
+
     Chart.defaults.font.family = "'Poppins', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
     Chart.defaults.font.size = 12;
     Chart.defaults.color = '#6e7a8a';
-
     Chart.defaults.responsive = true;
     Chart.defaults.maintainAspectRatio = false;
 
-    const weightData = {
-        labels: dates,
-        datasets: [
-            {
-                label: 'Peso (kg)',
-                data: [89.5, 83.1, 81.5, 81.0],
-                fill: false,
-                borderColor: '#4a8af4',
-                backgroundColor: 'rgba(74, 138, 244, 0.1)',
-                tension: 0.4,
-                pointBackgroundColor: '#4a8af4',
-                pointRadius: 5,
-                pointHoverRadius: 7
-            },
-            {
-                label: 'Objetivo',
-                data: [targetWeight, targetWeight, targetWeight, targetWeight],
-                borderColor: 'rgba(46, 204, 113, 0.7)',
-                borderDash: [5, 5],
-                borderWidth: 2,
-                pointRadius: 0,
-                fill: false
-            }
-        ]
-    };
-
-    const weightChartConfig = {
-        type: 'line',
-        data: weightData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            aspectRatio: 2,
-            layout: {
-                padding: {
-                    left: 10,
-                    right: 10,
-                    top: 20,
-                    bottom: 10
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    min: Math.min(targetWeight - 5, ...weightData.datasets[0].data) - 2,
-                    max: Math.max(...weightData.datasets[0].data) + 2,
-                    ticks: {
-                        stepSize: 2
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                    padding: 10,
-                    caretSize: 6,
-                    titleFont: {
-                        size: 14
-                    },
-                    titleMarginBottom: 10
-                },
-                legend: {
-                    display: false
-                }
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index'
-            }
+    function showMeasurementModal() {
+        const modal = document.getElementById("dataModal");
+        if (modal) {
+            modal.style.display = "flex";
         }
-    };
+    }
+    
+    // Variables globales para los gráficos
+    let weightChart, weightLossChart, weeklyPaceChart;
+    let measurementsChart, strengthChart, radarChart;
+    
+    const datosProgreso = JSON.parse("<%= datosPesoSafe %>");
+    const datosMedidas = JSON.parse("<%= datosMedidasSafe %>");
+    const datosFuerza = JSON.parse("<%= datosFuerzaSafe %>");
+    
+    const fechaElement = document.getElementById('fecha');
+    if (fechaElement) {
+        fechaElement.valueAsDate = new Date();
+    }
 
-    const weightLossData = {
-        labels: ['Marzo', 'Abril'],
-        datasets: [{
-            label: 'Pérdida (kg)',
-            data: [6.4, 2.1],
-            backgroundColor: ['rgba(46, 204, 113, 0.7)', 'rgba(46, 204, 113, 0.7)'],
-            borderColor: ['rgba(46, 204, 113, 1)', 'rgba(46, 204, 113, 1)'],
-            borderWidth: 1
-        }]
-    };
-
-    const weightLossConfig = {
-        type: 'bar',
-        data: weightLossData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            aspectRatio: 1.5,
-            layout: {
-                padding: 10
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
+    function loadProgressData() {
+        try {
+            if (datosProgreso?.fechas?.length && datosProgreso?.pesos?.length) {
+                createCharts(datosProgreso);
+            } else {
+                console.warn('No hay datos válidos de progreso.');
             }
+
+            if (datosMedidas?.fechas?.length) {
+                createMeasurementsChart(datosMedidas); // <- pasa el segundo JSON aquí
+            } else {
+                console.warn('No hay datos válidos de medidas.');
+            }
+            
+            if (datosFuerza?.fechas?.length) {
+                createStrengthChart(datosFuerza); // <- pasa el segundo JSON aquí
+            } else {
+                console.warn('No hay datos válidos de medidas.');
+            }
+            
+            if (datosFuerza?.fechas?.length) {
+                createRadarChart(datosFuerza); // <- pasa el segundo JSON aquí
+            } else {
+                console.warn('No hay datos válidos de medidas.');
+            }
+
+        } catch (error) {
+            console.error('Error al procesar datos:', error);
         }
-    };
+    }
 
-    const weeklyPaceData = {
-        labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
-        datasets: [{
-            label: 'Cambio semanal (kg)',
-            data: [-1.0, -0.9, -0.7, -0.5],
-            backgroundColor: 'rgba(52, 152, 219, 0.7)',
-            borderColor: 'rgba(52, 152, 219, 1)',
-            borderWidth: 1,
-            barPercentage: 0.6
-        }]
-    };
+    function calculateWeightLoss(weights) {
+        if (weights.length === 0) return [];       
+        const initialWeight = weights[0];
+        return weights.map(weight => initialWeight - weight);
+    }
 
-    const weeklyPaceConfig = {
-        type: 'bar',
-        data: weeklyPaceData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            aspectRatio: 1.5,
-            layout: {
-                padding: 10
-            },
-            scales: {
-                y: {
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
+    function calculateWeeklyPace(weights, dates) {
+        if (weights.length < 2) return [];        
+        const weeklyPace = [];
+        for (let i = 1; i < weights.length; i++) {
+            const currentDate = new Date(dates[i]);
+            const previousDate = new Date(dates[i-1]);
+            const daysDiff = (currentDate - previousDate) / (1000 * 60 * 60 * 24);
+            const weeklyRate = ((weights[i-1] - weights[i]) / daysDiff) * 7;
+            weeklyPace.push(Math.max(0, weeklyRate)); 
         }
-    };
+        return weeklyPace;
+    }
 
-    const measurementsData = {
-        labels: ['01/2025', '02/2025', '03/2025', '04/2025'],
-        datasets: [
-            {
-                label: 'Pecho (cm)',
-                data: [102, 101, 100, 99],
-                borderColor: '#e74c3c',
-                backgroundColor: 'transparent',
-                tension: 0.4,
-                pointRadius: 4
-            },
-            {
-                label: 'Cintura (cm)',
-                data: [98, 95, 93, 91],
-                borderColor: '#3498db',
-                backgroundColor: 'transparent',
-                tension: 0.4,
-                pointRadius: 4
-            },
-            {
-                label: 'Caderas (cm)',
-                data: [102, 100, 98, 97],
-                borderColor: '#9b59b6',
-                backgroundColor: 'transparent',
-                tension: 0.4,
-                pointRadius: 4
-            },
-            {
-                label: 'Muslo (cm)',
-                data: [62, 61, 59, 58],
-                borderColor: '#f39c12',
-                backgroundColor: 'transparent',
-                tension: 0.4,
-                pointRadius: 4
-            },
-            {
-                label: 'Brazo (cm)',
-                data: [36, 36, 35, 35],
-                borderColor: '#1abc9c',
-                backgroundColor: 'transparent',
-                tension: 0.4,
-                pointRadius: 4
-            }
-        ]
-    };
-
-    const measurementsConfig = {
-        type: 'line',
-        data: measurementsData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            aspectRatio: 2,
-            layout: {
-                padding: 10
-            },
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                    padding: 10
-                }
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index'
-            }
+    function createCharts(data) {
+        const { fechas, pesos, objetivo, pesoInicial } = data;
+        if (!fechas || !pesos || fechas.length === 0 || pesos.length === 0) {
+            console.error('Datos insuficientes para crear gráficos');
+            showExampleData();
+            return;
         }
-    };
 
-    const strengthData = {
-        labels: ['01/2025', '02/2025', '03/2025', '04/2025'],
-        datasets: [
-            {
-                label: 'Sentadilla (kg)',
-                data: [95, 100, 105, 110],
-                borderColor: '#e74c3c',
-                backgroundColor: 'rgba(231, 76, 60, 0.1)',
-                tension: 0.4,
-                fill: false
-            },
-            {
-                label: 'Press Banca (kg)',
-                data: [75, 78, 82, 85],
-                borderColor: '#3498db',
-                backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                tension: 0.4,
-                fill: false
-            },
-            {
-                label: 'Peso Muerto (kg)',
-                data: [110, 118, 125, 130],
-                borderColor: '#2ecc71',
-                backgroundColor: 'rgba(46, 204, 113, 0.1)',
-                tension: 0.4,
-                fill: false
-            }
-        ]
-    };
-
-    const strengthConfig = {
-        type: 'line',
-        data: strengthData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            aspectRatio: 2,
-            layout: {
-                padding: 10
-            },
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                    padding: 10
-                }
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index'
-            }
+        // Calcular datos derivados
+        const weightLossData = calculateWeightLoss(pesos);
+        const weeklyPaceData = calculateWeeklyPace(pesos, fechas);
+        
+        console.log('Datos procesados:', {
+            fechas,
+            weightLossData,
+            weeklyPaceData: weeklyPaceData.length
+        });
+        
+        // Crear gráficos
+        try {
+            createWeightChart(fechas, pesos, objetivo);
+            createWeightLossChart(fechas, weightLossData);
+            createWeeklyPaceChart(fechas.slice(1), weeklyPaceData);
+            createMeasurementsChart(data);
+            createStrengthChart(data);
+            createRadarChart(data);
+            
+            
+            console.log('Gráficos creados exitosamente');
+        } catch (error) {
+            console.error('Error al crear gráficos:', error);
         }
-    };
+    }
 
-    const radarData = {
-        labels: [
-            'Sentadilla',
-            'Press Banca',
-            'Peso Muerto',
-            'Press Militar',
-            'Remo'
-        ],
-        datasets: [
-            {
-                label: 'Actual',
-                data: [110, 85, 130, 60, 90],
-                fill: true,
-                backgroundColor: 'rgba(52, 152, 219, 0.3)',
-                borderColor: '#3498db',
-                pointBackgroundColor: '#3498db',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: '#3498db'
-            },
-            {
-                label: 'Inicial',
-                data: [95, 75, 110, 52.5, 77.5],
-                fill: true,
-                backgroundColor: 'rgba(149, 165, 166, 0.3)',
-                borderColor: '#95a5a6',
-                pointBackgroundColor: '#95a5a6',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: '#95a5a6'
-            }
-        ]
-    };
+    // Gráfico principal de evolución del peso
+    function createWeightChart(dates, weights, targetWeight) {
+        const ctx = document.getElementById('weightLineChart');
+        if (!ctx) return;
 
-    const radarConfig = {
-        type: 'radar',
-        data: radarData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            aspectRatio: 1,
-            layout: {
-                padding: 10
-            },
-            elements: {
-                line: {
-                    borderWidth: 2
-                }
-            },
-            scales: {
-                r: {
-                    angleLines: {
-                        color: 'rgba(0, 0, 0, 0.1)'
+        if (weightChart) {
+            weightChart.destroy();
+        }
+
+        const targetData = new Array(dates.length).fill(targetWeight);
+
+        weightChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [
+                    {
+                        label: 'Peso Actual',
+                        data: weights,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        fill: false
                     },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
-                    },
-                    ticks: {
-                        backdropColor: 'transparent',
-                        color: '#6e7a8a',
-                        z: 1,
-                        maxTicksLimit: 5
-                    },
-                    pointLabels: {
-                        color: '#2c3e50',
-                        font: {
-                            size: 12,
-                            weight: 'bold'
+                    {
+                        label: 'Objetivo',
+                        data: targetData,
+                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 2,
+                        borderDash: [10, 5],
+                        tension: 0,
+                        pointRadius: 2,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
+                plugins: {
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.dataset.label || '';
+                                const index = context.dataIndex;
+                                const value = context.parsed.y;
+
+                                if (label.includes('Peso Actual')) {
+                                    const output = [];
+
+                                    // Peso actual
+                                    if (value !== undefined) {
+                                        output.push(label + ': ' + value.toFixed(1) + ' kg');
+                                    } else {
+                                        output.push(label + ': N/A');
+                                    }
+
+                                    // Cambio de peso
+                                    const datos = context.dataset.data;
+                                    let anteriorIndex = index - 1;
+                                    while (anteriorIndex >= 0 && (datos[anteriorIndex] === null || datos[anteriorIndex] === undefined)) {
+                                        anteriorIndex--;
+                                    }
+
+                                    if (anteriorIndex >= 0 && datos[anteriorIndex] !== null && datos[anteriorIndex] !== undefined) {
+                                        const anterior = Number(datos[anteriorIndex]);
+                                        const cambio = value - anterior;
+                                        const signo = cambio >= 0 ? '+' : '';
+                                        output.push('Cambio de peso resepcto al ultimo peso: ' + signo + cambio.toFixed(1) + ' kg');
+                                    } else {
+                                        output.push('Cambio de peso: N/A');
+                                    }
+
+
+                                    return output;
+                                }
+
+                                // Para otros datasets, solo mostrar su valor
+                                if (value !== null && value !== undefined) {
+                                    return label + ': ' + value.toFixed(1) + ' kg';
+                                }
+
+                                return null;
+                            }
+
+
                         }
                     },
-                    max: 150
-                }
-            },
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        boxWidth: 12,
-                        padding: 15
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: Math.min(targetWeight - 5, ...weights) - 2,
+                        max: Math.max(...weights) + 2,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)',
+                            lineWidth: 1
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(1) + ' kg';
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)',
+                            lineWidth: 1
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 0,
+                            minRotation: 0,
+                            font: {
+                                size: 12
+                            }
+                        }
                     }
                 }
             }
-        }
-    };
+        });
+    }
 
+
+    // Gráfico de pérdida de peso
+    function createWeightLossChart(dates, weightLossData) {
+        const ctx = document.getElementById('weightLossChart');
+        if (!ctx) return;
+
+        if (weightLossChart) {
+            weightLossChart.destroy();
+        }
+
+        weightLossChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Pérdida de peso (kg)',
+                    data: weightLossData,
+                    backgroundColor: 'rgba(46, 204, 113, 0.7)',
+                    borderColor: '#2ecc71',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value + ' kg';
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 0,
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Pérdida: ${context.parsed.y.toFixed(1)} kg`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Gráfico de ritmo semanal
+    function createWeeklyPaceChart(dates, weeklyPaceData) {
+        const ctx = document.getElementById('weeklyPaceChart');
+        if (!ctx) return;
+
+        if (weeklyPaceChart) {
+            weeklyPaceChart.destroy();
+        }
+
+        weeklyPaceChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Ritmo semanal (kg/semana)',
+                    data: weeklyPaceData,
+                    fill: true,
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: '#ff9f40',
+                    tension: 0.4,
+                    pointBackgroundColor: '#ff9f40',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(1) + ' kg/sem';
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 0,
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `Ritmo: ${context.parsed.y.toFixed(2)} kg/semana`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function createMeasurementsChart(data) {
+        const ctx = document.getElementById('measurementsChart');
+        if (!ctx) return;
+
+        if (measurementsChart) {
+            measurementsChart.destroy();
+        }
+
+        const dataChart = {
+            labels: data.fechas,
+            datasets: [
+                {
+                    label: 'Pecho',
+                    data: data.pecho,
+                    borderColor: '#2ecc71',
+                    pointRadius: 4,
+                    pointStyle: 'circle',                   
+                    pointBorderColor: '#2ecc71',
+                    pointBorderWidth: 2,
+                    tension: 0.7
+                },
+                {
+                label: 'Cintura',
+                data: data.cintura,
+                borderColor: '#2b6cb0',
+                backgroundColor: 'transparent',
+                tension: 0.7,
+                pointRadius: 4,
+                pointStyle: 'circle',
+                pointBorderColor: '#2b6cb0',
+                pointBorderWidth: 2
+            },
+            {
+                label: 'Caderas',
+                data: data.caderas,
+                borderColor: '#b794f4',
+                backgroundColor: 'transparent',
+                tension: 0.7,
+                pointRadius: 4,
+                pointStyle: 'circle',
+                pointBorderColor: '#b794f4', 
+                pointBorderWidth: 2
+            },
+            {
+                label: 'Muslo',
+                data: data.muslo,
+                borderColor: '#f39c12',
+                backgroundColor: 'transparent',
+                tension: 0.7,
+                pointRadius: 4,
+                pointStyle: 'circle',
+                pointBorderColor: '#f39c12',
+                pointBorderWidth: 2
+            },
+            {
+                label: 'Brazo',
+                data: data.brazo,
+                borderColor: '#e74c3c',
+                backgroundColor: 'transparent',
+                tension: 0.7,
+                pointRadius: 4,
+                pointStyle: 'circle',
+                pointBorderColor: '#e74c3c',
+                pointBorderWidth: 2
+            }
+        ]
+        };
+
+
+        measurementsChart = new Chart(ctx, {
+            type: 'line',
+            data: dataChart,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                aspectRatio: 2,
+                layout: { padding: 10 },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        padding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(1) + ' cm';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+    }
+
+
+    function createStrengthChart(data) {
+        const ctx = document.getElementById('strengthChart');
+        if (!ctx) return;
+
+        if (strengthChart) {
+            strengthChart.destroy();
+        }
+
+        const chartData = {
+            labels: data.fechas,
+            datasets: [
+                {
+                    label: 'Sentadilla',
+                    data: data.sentadilla,
+                    borderColor: '#e74c3c',
+                    backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    pointStyle: 'circle',
+                    pointBorderColor: '#e74c3c',
+                    pointBorderWidth: 2
+                },
+                {
+                    label: 'Press de Pecho',
+                    data: data.pressPecho,
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    pointStyle: 'circle',
+                    pointBorderColor: '#3498db',
+                    pointBorderWidth: 2
+                },
+                {
+                    label: 'Peso Muerto',
+                    data: data.pesoMuerto,
+                    borderColor: '#2ecc71',
+                    backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    pointStyle: 'circle',
+                    pointBorderColor: '#2ecc71',
+                    pointBorderWidth: 2
+                },
+                {
+                    label: 'Press Militar',
+                    data: data.pressMilitar,
+                    borderColor: '#9b59b6',
+                    backgroundColor: 'rgba(155, 89, 182, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    pointStyle: 'circle',
+                    pointBorderColor: '#9b59b6',
+                    pointBorderWidth: 2
+                },
+                {
+                    label: 'Curl Bíceps',
+                    data: data.curlBiceps,
+                    borderColor: '#f1c40f',
+                    backgroundColor: 'rgba(241, 196, 15, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    pointStyle: 'circle',
+                    pointBorderColor: '#f1c40f',
+                    pointBorderWidth: 2
+                },
+                {
+                    label: 'Remo',
+                    data: data.remo,
+                    borderColor: '#1abc9c',
+                    backgroundColor: 'rgba(26, 188, 156, 0.1)',
+                    tension: 0.4,
+                    fill: false,
+                    pointStyle: 'circle',
+                    pointBorderColor: '#1abc9c',
+                    pointBorderWidth: 2
+                }
+            ]
+        };
+
+        strengthChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                aspectRatio: 2,
+                layout: { padding: 10 },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        padding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y.toFixed(1) + ' kg';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+    function createRadarChart(data) {
+        const ctx = document.getElementById('radarChart');
+        if (!ctx) return;
+
+        if (radarChart) {
+            radarChart.destroy();
+        }
+
+        const chartData = {
+            labels: ['Sentadilla', 'Press Banca', 'Peso Muerto', 'Press Militar', 'Remo'],
+            datasets: [
+                {
+                    label: 'Actual',
+                    data: [
+                        data.sentadilla?.at(-1) || 0,
+                        data.pressPecho?.at(-1) || 0,
+                        data.pesoMuerto?.at(-1) || 0,
+                        data.pressMilitar?.at(-1) || 0,
+                        data.remo?.at(-1) || 0
+                    ],
+                    fill: true,
+                    backgroundColor: 'rgba(0, 188, 212, 0.3)',  // fondo translúcido
+                    borderColor: '#00bcd4',                    // borde principal
+                    pointBackgroundColor: '#00bcd4',
+                    pointBorderColor: '#ffffff',
+                    pointHoverBorderColor: '#00bcd4'
+                },
+                {
+                    label: 'Inicial',
+                    data: [
+                        data.sentadilla?.[0] || 0,
+                        data.pressPecho?.[0] || 0,
+                        data.pesoMuerto?.[0] || 0,
+                        data.pressMilitar?.[0] || 0,
+                        data.remo?.[0] || 0
+                    ], 
+                    fill: true,
+                    backgroundColor: 'rgba(231, 76, 60, 0.3)',
+                    borderColor: '#e74c3c',
+                    pointBackgroundColor: '#e74c3c',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#e74c3c'
+                }
+            ]
+        };
+
+        radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: chartData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                aspectRatio: 1,
+                layout: { padding: 10 },
+                elements: {
+                    line: { borderWidth: 2 }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        ticks: {
+                            backdropColor: 'transparent',
+                            color: '#6e7a8a',
+                            z: 1,
+                            maxTicksLimit: 5
+                        },
+                        pointLabels: {
+                            color: '#8c8c8c',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        suggestedMax: 150 // Puedes ajustar según tus máximos reales
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        padding: 10,
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.r !== null) {
+                                    label += context.parsed.r.toFixed(1) + ' kg';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+    }
+
+
+
+
+    // Configurar contenedores de gráficos
     function setupChartContainer(chartElement) {
         if (!chartElement) return;
         
         const parentContainer = chartElement.closest('.chart-body');
         if (parentContainer) {
             if (!parentContainer.style.height) {
-                if (chartElement.id.includes('Radar')) {
-                    parentContainer.style.height = '300px';
-                } else if (chartElement.id.includes('Loss') || chartElement.id.includes('Pace')) {
+                if (chartElement.id.includes('Loss') || chartElement.id.includes('Pace')) {
                     parentContainer.style.height = '200px';
                 } else {
                     parentContainer.style.height = '300px';
@@ -1023,39 +1107,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function initializeCharts() {
-        const chartElements = [
-            { id: 'weightLineChart', config: weightChartConfig },
-            { id: 'weightLossChart', config: weightLossConfig },
-            { id: 'weeklyPaceChart', config: weeklyPaceConfig },
-            { id: 'measurementsLineChart', config: measurementsConfig },
-            { id: 'strengthProgressChart', config: strengthConfig },
-            { id: 'strengthRadarChart', config: radarConfig }
-        ];
+    // Configurar todos los contenedores
+    ['weightLineChart', 'weightLossChart', 'weeklyPaceChart', 'measurementsChart', 'strengthChart', 'radarChart'].forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            setupChartContainer(element);
+        }
+    });
 
-        chartElements.forEach(chart => {
-            const element = document.getElementById(chart.id);
-            if (element) {
-                setupChartContainer(element);
-                new Chart(element, chart.config);
-            }
-        });
-    }
-
-    initializeCharts();
-
-    window.showWeightModal = function() {
-        alert('Funcionalidad para añadir peso - pendiente de implementar');
-    };
-
-    window.showMeasurementModal = function() {
-        alert('Funcionalidad para añadir medidas - pendiente de implementar');
-    };
-
-    window.showStrengthModal = function() {
-        alert('Funcionalidad para añadir registro de fuerza - pendiente de implementar');
-    };
-
+    // Event listeners para botones de marco temporal
     const timeframeBtns = document.querySelectorAll('.timeframe-btn');
     timeframeBtns.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -1066,15 +1126,27 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const period = this.getAttribute('data-period');
             console.log(`Cambiando vista a periodo: ${period}`);
-            
+            // Aquí podrías filtrar los datos según el período seleccionado
+            // filterDataByPeriod(period);
         });
     });
 
+    // Manejar redimensionamiento de ventana
     window.addEventListener('resize', function() {
         setTimeout(function() {
-            initializeCharts();
+            if (weightChart) weightChart.resize();
+            if (weightLossChart) weightLossChart.resize();
+            if (weeklyPaceChart) weeklyPaceChart.resize();
+            if (measurementsChart) measurementsChart.resize();
+            if (strengthChart) strengthChart.resize();
+            if (radarChart) radarChart.resize();
         }, 300);
     });
+
+    // Inicializar carga de datos
+    loadProgressData();
+    
+    
 });
 </script>
 </body>

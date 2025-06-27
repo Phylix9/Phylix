@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,13 +32,16 @@ public class Login extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         Connection con = null;
         PreparedStatement sta = null;
+        PreparedStatement sta2 = null;
         ResultSet rs = null;
         
         CuerpoCorreo cuerpo = new CuerpoCorreo();
+        
+        Date fechaActual = new Date(System.currentTimeMillis());
 
         
         try {
@@ -46,6 +50,12 @@ public class Login extends HttpServlet {
 
             HttpSession session = request.getSession();
             String contraCifrada = hashPassword(contra);
+            
+            sta2 = con.prepareStatement("UPDATE Usuario SET ultima_conexion = ? WHERE correo_usuario = ?;");
+            sta2.setDate(1, fechaActual);
+            sta2.setString(2, correo);
+            sta2.executeUpdate();
+            sta2.close();
             
             sta = con.prepareStatement("SELECT * FROM Usuario WHERE correo_usuario = ? AND contrasena_usuario = ?");
             sta.setString(1, correo);
@@ -65,7 +75,7 @@ public class Login extends HttpServlet {
                     session.setMaxInactiveInterval(2 * 60);
                     
                     Cookie cookie = new Cookie("user", rs.getString("nombre_usuario"));
-                        cookie.setMaxAge(86400);
+                        cookie.setMaxAge(60);
                         cookie.setHttpOnly(true);
                         cookie.setSecure(true);
                         response.addCookie(cookie);
@@ -79,8 +89,8 @@ public class Login extends HttpServlet {
                         
                     } 
                     else {
-                        session.setMaxInactiveInterval(2 * 60);
-                        response.sendRedirect("FitData");
+                        session.setMaxInactiveInterval(30 * 60);
+                        response.sendRedirect("FitDataa");
                     }
                     
                 }

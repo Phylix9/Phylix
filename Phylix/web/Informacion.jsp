@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="Styles10.css">
 </head>
 <body>
-    <button class="back-button" onclick="location.href='FitData'">
+    <button class="back-button" onclick="location.href='FitDataa'">
         <i class="ri-arrow-left-line"></i>
     </button>
     <main>
@@ -21,7 +21,7 @@
             String username = (String) session.getAttribute("nombre_usuario");
             String url = "jdbc:mysql://localhost/FitData";
             String user = "root";
-            String password = "n0m3l0";
+            String password = "AT10220906";
             Double imc = null;
             Double estatura = null;
             Double peso = null;
@@ -29,7 +29,7 @@
             if(username!=null){
                 try (Connection con = DriverManager.getConnection(url, user, password)) {
 
-                    String query = "SELECT imc_usuario, peso_usuario, altura_usuario FROM IMC WHERE id_usuario = ?";
+                    String query = "SELECT * FROM IMC WHERE id_usuario = ? ORDER BY id_imc DESC LIMIT 1";
                     try (PreparedStatement stmt = con.prepareStatement(query)) {
                         stmt.setInt(1, idUsuario);
                         try (ResultSet rs = stmt.executeQuery()) {

@@ -7,6 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.List"%>
 <%@page import="clases.Medidas"%>
+<%@ page import="java.sql.*" %>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -22,7 +24,7 @@
 </head>
 <body>
     <div class="sidebar">
-        <button class="back-button" onclick="location.href='FitData'">
+        <button class="back-button" onclick="location.href='FitDataa'">
         <i class="ri-arrow-left-line"></i>
     </button>
         <form  id="form-upload" action="AnadirImagen" method="post" enctype="multipart/form-data">
@@ -43,12 +45,88 @@
     </div>
 
     <%
-         List<Medidas> medidas = (List<Medidas>) request.getAttribute("medidas");
-         String username = (String) session.getAttribute("nombre_usuario");
-         Double altura = null;
-         if (medidas != null){
-            for (Medidas medida : medidas) {
-                altura = medida.getAltura();
+        String username = "";
+        String nombre = "";
+        String correo = "";
+        int edad = 0;
+        String genero = "";
+        String condiciones = "";
+        String medicamentos = "";
+        String frecuencia = "";
+        String objetivo = "";
+        String alergias = "";
+        String restricciones = "";
+        String estres = "";
+        String suenio = "";
+
+        Double pesoUsuario = null;
+        Double alturaUsuario = null;
+        Double imcUsuario = null;
+
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String url = "jdbc:mysql://localhost/FitData";
+        String user = "root";
+        String password = "AT10220906";
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(url, user, password);
+            Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+
+            if (idUsuario != null) {
+                // Obtener datos de Usuario
+                stmt = con.prepareStatement("SELECT * FROM Usuario WHERE id_usuario = ?");
+                stmt.setInt(1, idUsuario);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    username = rs.getString("nombre_usuario");
+                    correo = rs.getString("correo_usuario");
+                    edad = rs.getInt("edad_usuario");
+                    genero = rs.getString("sexo_usuario");
+                }
+                rs.close();
+                stmt.close();
+
+                // Obtener datos del cuestionario
+                stmt = con.prepareStatement("SELECT * FROM Cuestionario WHERE id_usuario = ?");
+                stmt.setInt(1, idUsuario);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    nombre = rs.getString("nombre_completo");
+                    condiciones = rs.getString("condicion_usuario");
+                    medicamentos = rs.getString("medicamento_usuario");
+                    frecuencia = rs.getString("frecuencia_usuario");
+                    objetivo = rs.getString("objetivo_usuario");
+                    alergias = rs.getString("alergias_usuario");
+                    restricciones = rs.getString("restriccion_usuario");
+                    estres = rs.getString("estres_usuario");
+                    suenio = rs.getString("sueno_usuario");
+                }
+                rs.close();
+                stmt.close();
+
+                // Obtener IMC
+                stmt = con.prepareStatement("SELECT * FROM IMC WHERE id_usuario = ? ORDER BY id_imc DESC LIMIT 1");
+                stmt.setInt(1, idUsuario);
+                rs = stmt.executeQuery();
+                if (rs.next()) {
+                    pesoUsuario = rs.getDouble("peso_usuario");
+                    alturaUsuario = rs.getDouble("altura_usuario");
+                    imcUsuario = rs.getDouble("imc_usuario");
+                }
+            }
+        } catch (Exception e) {
+            out.println("<p>Error: " + e.getMessage() + "</p>");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                out.println("<p>Error al cerrar la base: " + e.getMessage() + "</p>");
             }
         }
     %>
@@ -60,15 +138,15 @@
                 <h2>Información de Usuario</h2>
                 <div class="info">
                     <label>Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" value="<%= session.getAttribute("nombre") %>" disabled required />
+                    <input type="text" name="nombre" id="nombre" value="<%= nombre %>" disabled required />
                 </div>
                 <div class="info">
                     <label>Nombre de Usuario:</label>
-                    <input type="text" name="nombre_usuario" id="usuario" value="<%= session.getAttribute("nombre_usuario") %>" disabled required/>
+                    <input type="text" name="nombre_usuario" id="usuario" value="<%= username %>" disabled required/>
                 </div>
                 <div class="info">
-                    <label>Correo Electrónico: <%= session.getAttribute("correo_usuario") %></label>
-                    <input type="hidden" name="correo_usuario" value="<%= session.getAttribute("correo_usuario") %>" />
+                    <label>Correo Electrónico: <%= correo %></label>
+                    <input type="hidden" name="correo_usuario" value="<%= correo %>" />
                 </div>
 
             </div>
@@ -77,40 +155,45 @@
                 <h2>Información Básica</h2>
                 <div class="info">
                     <label>Edad:</label>
-                    <input type="number" name="edad" id="edad" value="<%= session.getAttribute("edad") %>" disabled required/>
+                    <input type="number" name="edad" id="edad" value="<%= edad %>" disabled required/>
                 </div>
                 <div class="info">
                     <label>Género:</label>
-                    <input type="text" name="genero" id="genero" value="<%= session.getAttribute("genero") %>" disabled required/>
+                    <input type="text" name="genero" id="genero" value="<%= genero %>" disabled required/>
                 </div>
             </div>
 
             <div class="info-section">
                 <h2>Información de Salud</h2>
-                <% if (altura != null && altura > 0) { 
-                    for (Medidas medida : medidas) { %>
+
                     <div class="info">
                         <label>Estatura (m):</label>
-                        <input type="number" step="0.01" name="altura" id="altura" value="<%= medida.getAltura() %>" disabled required/>
+                        <input type="number" step="0.01" name="altura" id="altura" 
+                               value="<%= (alturaUsuario != null) ? alturaUsuario : "" %>" 
+                               disabled required/>
                     </div>
+
                     <div class="info">
                         <label>Peso (kg):</label>
-                        <input type="number" step="0.1" name="peso" id="peso" value="<%= medida.getPeso() %>" disabled required/>
+                        <input type="number" step="0.1" name="peso" id="peso" 
+                               value="<%= (pesoUsuario != null) ? pesoUsuario : "" %>" 
+                               disabled required/>
                     </div>
-                    
+
                     <div class="info">
                         <label>IMC :</label>
-                        <input type="number" name="Imc" id="Imc" value="<%= medida.getImc() %>" disabled required readonly/>
+                        <input type="number" name="Imc" id="Imc" 
+                               value="<%= (imcUsuario != null) ? String.format("%.2f", imcUsuario) : "" %>" 
+                               disabled required readonly/>
                     </div>
-                <% } 
-                } %>
+
                 <div class="info">
                     <label>Condiciones Médicas:</label>
-                    <input type="text" name="condiciones" id="condiciones" value="<%= session.getAttribute("condiciones") %>" disabled required/>
+                    <input type="text" name="condiciones" id="condiciones" value="<%= condiciones %>" disabled required/>
                 </div>
                 <div class="info">
                     <label>Medicamentos:</label>
-                    <input type="text" name="medicamentos" id="medicamentos" value="<%= session.getAttribute("medicamentos") %>" disabled required/>
+                    <input type="text" name="medicamentos" id="medicamentos" value="<%= medicamentos %>" disabled required/>
                 </div>
             </div>
 
@@ -118,7 +201,7 @@
                 <h2>Nivel de Actividad Física</h2>
                 <div class="info">
                     <label>Frecuencia de Actividad:</label>
-                    <input type="text" name="actividad" id="actividad" value="<%= session.getAttribute("actividad") %>" disabled required/>
+                    <input type="text" name="actividad" id="actividad" value="<%= frecuencia %>" disabled required/>
                 </div>
             </div>
 
@@ -126,7 +209,7 @@
                 <h2>Objetivos Personales</h2>
                 <div class="info">
                     <label>Objetivo de Salud:</label>
-                    <input type="text" name="objetivos" id="objetivos" value="<%= session.getAttribute("objetivos") %>" disabled required/>
+                    <input type="text" name="objetivos" id="objetivos" value="<%= objetivo %>" disabled required/>
                 </div>
             </div>
 
@@ -134,11 +217,11 @@
                 <h2>Alergias y Restricciones</h2>
                 <div class="info">
                     <label>Alergias:</label>
-                    <input type="text" name="alergias" id="alergias" value="<%= session.getAttribute("alergias") %>" disabled required/>
+                    <input type="text" name="alergias" id="alergias" value="<%= alergias %>" disabled required/>
                 </div>
                 <div class="info">
                     <label>Restricciones Alimenticias:</label>
-                    <input type="text" name="restricciones" id="restriccones" value="<%= session.getAttribute("restricciones") %>" disabled required/>
+                    <input type="text" name="restricciones" id="restriccones" value="<%= restricciones %>" disabled required/>
                 </div>
             </div>
 
@@ -146,11 +229,11 @@
                 <h2>Otros Factores</h2>
                 <div class="info">
                     <label>Nivel de Estrés:</label>
-                    <input type="text" name="estres" id="estres" value="<%= session.getAttribute("estres") %>" disabled required/>
+                    <input type="text" name="estres" id="estres" value="<%= estres %>" disabled required/>
                 </div>
                 <div class="info">
                     <label>Horas de Sueño:</label>
-                    <input name="suenio" id="suenio" value="<%= session.getAttribute("suenio") %>" disabled required/>
+                    <input name="suenio" id="suenio" value="<%= suenio %>" disabled required/>
                 </div>
             </div>
 

@@ -129,7 +129,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
     import {
       getFirestore, collection, addDoc, onSnapshot, query,
-      orderBy, limit, serverTimestamp, getDocs
+      orderBy, limit, serverTimestamp, getDocs, where
     } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -188,194 +188,196 @@
     };
 
     async function showErrorInChat(errorMessage) {
-      await addDoc(collection(db, "messages"), {
-        sender: "error",
-        text: errorMessage,
-        timestamp: serverTimestamp()
-      });
-    }
-
-    function showLoading() {
-      const loadingDiv = document.createElement("div");
-      loadingDiv.className = "loading";
-      loadingDiv.id = "loading-indicator";
-      loadingDiv.innerText = "El bot está escribiendo...";
-      chatbox.appendChild(loadingDiv);
-      chatbox.scrollTop = chatbox.scrollHeight;
-    }
-
-    function hideLoading() {
-      const loadingDiv = document.getElementById("loading-indicator");
-      if (loadingDiv) loadingDiv.remove();
-    }
-
-    async function handleBotResponse(respuestaIA) {
-      hideLoading();
-      await addDoc(collection(db, "messages"), {
-        sender: "bot",
-        text: respuestaIA,
-        timestamp: serverTimestamp()
-      });
-      rateLimitControl.reset();
-    }
-
-    window.sendMessage = async function(isRetry = false) {
-      if (rateLimitControl.isWaiting) return;
-
-      let text;
-      if (!isRetry) {
-        text = userInput.value.trim();
-        if (!text) return;
-        userInput.value = "";
-        sessionStorage.setItem("lastMessage", text);
-        await addDoc(collection(db, "messages"), {
-          sender: "user",
-          text,
+        await addDoc(collection(db, "chats",  "Usuario " + userId + ": " + nombreUsuario, "Mensajes"), {
+          sender: "error",
+          text: errorMessage,
           timestamp: serverTimestamp()
         });
-      } else {
-        text = sessionStorage.getItem("lastMessage");
-        if (!text) return;
       }
 
-      if (!isRetry) showLoading();
+      function showLoading() {
+        const loadingDiv = document.createElement("div");
+        loadingDiv.className = "loading";
+        loadingDiv.id = "loading-indicator";
+        loadingDiv.innerText = "El bot está escribiendo...";
+        chatbox.appendChild(loadingDiv);
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }
 
-      try {
-        const response = await fetch("/Phylix/IAChatbot", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text }] }]
-          })
-        });
+      function hideLoading() {
+        const loadingDiv = document.getElementById("loading-indicator");
+        if (loadingDiv) loadingDiv.remove();
+      }
 
-        if (response.status === 429) {
-          hideLoading();
-          if (rateLimitControl.retryCount < rateLimitControl.maxRetries) {
-            rateLimitControl.startWaiting();
-          } else {
-            rateLimitControl.reset();
-            await showErrorInChat("❌ No se pudo completar la solicitud debido a límites de la API.");
-          }
-          return;
-        }
-
-        if (response.status === 401) {
-          hideLoading();
-          await showErrorInChat("❌ Error de autorización con la API de Gemini.");
-          rateLimitControl.reset();
-          return;
-        }
-
-        if (response.status === 400) {
-          hideLoading();
-          const errorText = await response.text();
-          await showErrorInChat(`❌ Error de solicitud: ${errorText}`);
-          rateLimitControl.reset();
-          return;
-        }
-
-        if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
-
-        const respuestaIA = await response.text();
-        await handleBotResponse(respuestaIA);
-
-      } catch (error) {
+      async function handleBotResponse(respuestaIA) {
         hideLoading();
-        await showErrorInChat("❌ Ocurrió un error: " + error.message);
+        await addDoc(collection(db, "chats", "Usuario " + userId + ": " + nombreUsuario, "Mensajes"), {
+          sender: "bot",
+          text: respuestaIA,
+          timestamp: serverTimestamp()
+        });
         rateLimitControl.reset();
       }
-    };
-    
-    // Mostrar mensaje de bienvenida si hay mensaje antes o vacio
-    (async function () {
-      try {
-        const mensajesRef = collection(db, "messages");
-        // Primero verificamos si el chat está vacío
-        const emptyCheckQuery = query(mensajesRef, limit(1));
-        const emptyCheckSnapshot = await getDocs(emptyCheckQuery);
 
-        let shouldSendGreeting = false;
+      window.sendMessage = async function(isRetry = false) {
+        if (rateLimitControl.isWaiting) return;
 
-        if (emptyCheckSnapshot.empty) {
-          // No hay mensajes en el chat
-          shouldSendGreeting = true;
-        } else {
-          // Si hay mensajes, revisamos los dos últimos para ver si alguno es del usuario
-          const lastMessagesQuery = query(mensajesRef, orderBy("timestamp", "desc"), limit(2));
-          const lastMessagesSnapshot = await getDocs(lastMessagesQuery);
-
-          lastMessagesSnapshot.forEach(doc => {
-            const msg = doc.data();
-            if (msg.sender === "user") {
-              shouldSendGreeting = true;
-            }
-          });
-        }
-
-        if (shouldSendGreeting) {
-          console.log("Enviando mensaje de bienvenida...");
-          await addDoc(mensajesRef, {
-            sender: "bot",
-            text: "👋 ¡Hola! Soy FitData, tu asistente virtual de fitness y nutrición. ¿En qué puedo ayudarte hoy?",
+        let text;
+        if (!isRetry) {
+          text = userInput.value.trim();
+          if (!text) return;
+          userInput.value = "";
+          sessionStorage.setItem("lastMessage", text);
+          await addDoc(collection(db, "chats",  "Usuario " + userId + ": " + nombreUsuario, "Mensajes"), {
+            sender: "user",
+            text,
             timestamp: serverTimestamp()
           });
         } else {
-          console.log("No es necesario enviar mensaje de bienvenida");
+          text = sessionStorage.getItem("lastMessage");
+          if (!text) return;
         }
-      } catch (error) {
-        console.error("Error al verificar y enviar mensaje de bienvenida:", error);
-      }
-    })();
-    
-    // Escuchar cambios en la colección de mensajes
-    const mensajesQuery = query(
-      collection(db, "messages"), 
-      orderBy("timestamp", "asc"),
-      limit(50)
-    );
-    
-    onSnapshot(mensajesQuery, (snapshot) => {
-      let changes = false;
-      
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-          changes = true;
-          const msg = change.doc.data();
-          if (msg && msg.sender && msg.text) {
-            const div = document.createElement("div");
-            
-            // Asignar clase basada en el remitente
-            if (msg.sender === "user") {
-              div.className = "message user-message";
-            } else if (msg.sender === "bot") {
-              div.className = "message bot-message";
-            } else if (msg.sender === "error") {
-              div.className = "message error-message";
+
+        if (!isRetry) showLoading();
+
+        try {
+          const response = await fetch("/Phylix/IAChatbot", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text }] }]
+            })
+          });
+
+          if (response.status === 429) {
+            hideLoading();
+            if (rateLimitControl.retryCount < rateLimitControl.maxRetries) {
+              rateLimitControl.startWaiting();
             } else {
-              div.className = "message";
+              rateLimitControl.reset();
+              await showErrorInChat("❌ No se pudo completar la solicitud debido a límites de la API.");
             }
-            
-            div.innerHTML = msg.text.replace(/\n/g, "<br>");
-            chatbox.appendChild(div);
+            return;
           }
+
+          if (response.status === 401) {
+            hideLoading();
+            await showErrorInChat("❌ Error de autorización con la API de Gemini.");
+            rateLimitControl.reset();
+            return;
+          }
+
+          if (response.status === 400) {
+            hideLoading();
+            const errorText = await response.text();
+            await showErrorInChat(`❌ Error de solicitud: ${errorText}`);
+            rateLimitControl.reset();
+            return;
+          }
+
+          if (!response.ok) throw new Error(`Error: ${response.status} ${response.statusText}`);
+
+          const respuestaIA = await response.text();
+          await handleBotResponse(respuestaIA);
+
+        } catch (error) {
+          hideLoading();
+          await showErrorInChat("❌ Ocurrió un error: " + error.message);
+          rateLimitControl.reset();
+        }
+      };
+
+      // Mostrar mensaje de bienvenida si hay mensaje antes o vacío
+      (async function () {
+        try {
+            if (typeof userId === "string" && userId.trim() !== "") {
+                const mensajesRef = collection(db, "chats",  "Usuario " + userId + ": " + nombreUsuario, "Mensajes");
+
+                const emptyCheckQuery = query(mensajesRef, limit(1));
+                const emptyCheckSnapshot = await getDocs(emptyCheckQuery);
+
+                let shouldSendGreeting = false;
+
+                if (emptyCheckSnapshot.empty) {
+                  shouldSendGreeting = true;
+                } else {
+                  const lastMessagesQuery = query(
+                    mensajesRef,
+                    orderBy("timestamp", "desc"),
+                    limit(2)
+                  );
+                  const lastMessagesSnapshot = await getDocs(lastMessagesQuery);
+                  lastMessagesSnapshot.forEach(doc => {
+                    const msg = doc.data();
+                    if (msg.sender === "user") {
+                      shouldSendGreeting = true;
+                    }
+                  });
+                }
+
+                if (shouldSendGreeting) {
+                  console.log("Enviando mensaje de bienvenida...");
+                  await addDoc(mensajesRef, {
+                    sender: "bot",
+                    text: "👋 ¡Hola! Soy FitData, tu asistente virtual de fitness y nutrición. ¿En qué puedo ayudarte hoy?",
+                    timestamp: serverTimestamp()
+                  });
+                } else {
+                  console.log("No es necesario enviar mensaje de bienvenida");
+                }
+            }
+        } catch (error) {
+          console.error("Error al verificar y enviar mensaje de bienvenida:", error);
+        }
+      })();
+
+      // Escuchar cambios en la subcolección de mensajes del usuario
+      const mensajesQuery = query(
+        collection(db, "chats",  "Usuario " + userId + ": " + nombreUsuario, "Mensajes"),
+        orderBy("timestamp", "asc"),
+        limit(50)
+      );
+
+      onSnapshot(mensajesQuery, (snapshot) => {
+        let changes = false;
+
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "added") {
+            changes = true;
+            const msg = change.doc.data();
+            if (msg && msg.sender && msg.text) {
+              const div = document.createElement("div");
+
+              if (msg.sender === "user") {
+                div.className = "message user-message";
+              } else if (msg.sender === "bot") {
+                div.className = "message bot-message";
+              } else if (msg.sender === "error") {
+                div.className = "message error-message";
+              } else {
+                div.className = "message";
+              }
+
+              div.innerHTML = msg.text.replace(/\n/g, "<br>");
+              chatbox.appendChild(div);
+            }
+          }
+        });
+
+        if (changes) {
+          chatbox.scrollTop = chatbox.scrollHeight;
         }
       });
-      
-      // Desplazarse al último mensaje solo si hubo cambios
-      if (changes) {
-        chatbox.scrollTop = chatbox.scrollHeight;
-      }
-    });
-    
-    // Event listeners
-    sendBtn.addEventListener("click", () => sendMessage(false));
-    userInput.addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        sendMessage(false);
-      }
-    });
+
+      // Event listeners
+      sendBtn.addEventListener("click", () => sendMessage(false));
+      userInput.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          sendMessage(false);
+        }
+      });
+
     
     // Estado inicial
     statusBar.textContent = "";
@@ -409,10 +411,8 @@
       document.addEventListener(event, resetInactivityTimer);
     });
 
-resetInactivityTimer();
+    resetInactivityTimer();
 
-
-    
   </script>
 </body>
 </html>

@@ -11,32 +11,55 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
  * @author Abraham
  */
-@WebServlet(name = "FitData", urlPatterns = {"/FitData"})
-public class FitData extends HttpServlet {
+@WebServlet(name = "FitDataa", urlPatterns = {"/FitDataa"})
+public class FitDataa extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
+        throws ServletException, IOException {
+    response.setContentType("text/html;charset=UTF-8");
+
+    try {
         HttpSession session = request.getSession();
 
         if (session == null || session.getAttribute("id_usuario") == null) {
             request.getRequestDispatcher("Proyecto.jsp").forward(request, response);
             return;
         }
-        request.getRequestDispatcher("FitData.jsp").forward(request, response);
+
+        request.getRequestDispatcher("RutinaDelDia").forward(request, response);
+
+    } catch (Exception e) {
+        PrintWriter out = response.getWriter();
+            out.println("<h1>Error: " + e.getMessage() + "</h1>");
+            e.printStackTrace(out);
     }
+}
+
+    
+    
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +69,7 @@ public class FitData extends HttpServlet {
 
     @Override
     public String getServletInfo() {
-        return "FitData";
-    }
+        return "Short description";
+    }// </editor-fold>
 
 }

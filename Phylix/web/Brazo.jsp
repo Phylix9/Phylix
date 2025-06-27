@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*, java.util.*" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -90,6 +91,32 @@
         </div>
     -->
     </div>
+        
+    <div class="center-container">
+            <h3>Selecciona el día de la semana</h3>
+            <div class="styled-select">
+                <select name="diaRutina" required>
+                    <%
+                        List<String> diasDisponibles = (List<String>) request.getAttribute("diasDisponibles");
+
+                        if (diasDisponibles != null && !diasDisponibles.isEmpty()) {
+                            for (String dia : diasDisponibles) {
+                    %>
+                                <option value="<%= dia %>">
+                                    <%= dia.substring(0,1).toUpperCase() + dia.substring(1).toLowerCase() %>
+                                </option>
+                    <%
+                            }
+                        } else {
+                    %>
+                        <option disabled selected>No hay días disponibles</option>
+                    <%
+                        }
+                    %>
+                </select>
+            </div>
+    </div>
+
     
     <div class="button-container">
         <input type="submit" class="btn" name="Brazo" value="Crear Rutina">

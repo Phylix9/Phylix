@@ -49,32 +49,18 @@ public class IMC extends HttpServlet {
             
             String url = "jdbc:mysql://localhost/FitData";
             String user = "root";
-            String password = "n0m3l0";
+            String password = "AT10220906";
 
             try (Connection con = DriverManager.getConnection(url, user, password)) {
-                PreparedStatement sta = con.prepareStatement("SELECT * FROM IMC WHERE id_usuario = ?");
-                sta.setInt(1, idUsuario);
-                ResultSet rs = sta.executeQuery();
+                PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC (fecha, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?)");
+                java.sql.Date fechaActual = new java.sql.Date(System.currentTimeMillis());
 
-                if (rs.next()) {
+                insertSta.setDate(1, fechaActual);
+                insertSta.setDouble(2, peso);
+                insertSta.setDouble(3, estatura);
+                insertSta.setInt(4, idUsuario);
 
-                    try (PreparedStatement updateSta = con.prepareStatement("UPDATE IMC SET imc_usuario = ?, peso_usuario = ?, altura_usuario = ? WHERE id_usuario = ?;")) {
-                        updateSta.setDouble(1, imc);
-                        updateSta.setDouble(2, peso);
-                        updateSta.setDouble(3, estatura);
-                        updateSta.setInt(4, idUsuario);
-                        updateSta.executeUpdate();
-                    }
-                } 
-                else {
-                    try (PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC(imc_usuario, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?);")) {
-                        insertSta.setDouble(1, imc);
-                        insertSta.setDouble(2, peso);
-                        insertSta.setDouble(3, estatura);
-                        insertSta.setInt(4, idUsuario);
-                        insertSta.executeUpdate();
-                    }
-                }
+                insertSta.executeUpdate();
                 
                 String categoria;
                 if (imc < 18.5) {

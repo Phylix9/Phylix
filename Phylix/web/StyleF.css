@@ -59,7 +59,8 @@ a:hover {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-align: center;
+    text-align: right;
+    float: right;
 }
 
 .btn-primary {
@@ -294,6 +295,7 @@ nav ul li a:hover::after {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 25px;
+    padding-bottom: 40px;
 }
 
 .dashboard-card {
@@ -467,34 +469,269 @@ nav ul li a:hover::after {
     margin-top: 15px;
 }
 
-.diet-summary {
-    margin-bottom: 20px;
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
 }
+
+.today-meals {
+    flex: 2;
+    min-width: 280px;
+    color: var(--text-light);
+}
+
+.diet-card {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.diet-summary {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+
 
 .diet-macros {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    flex: 1;
+    min-width: 250px;
     margin-bottom: 20px;
 }
 
 .macro-chart {
     width: 150px;
     height: 150px;
-    margin-right: 20px;
+    margin-bottom: 15px;
+    margin-right: 1.5rem;
 }
 
 .macro-legend {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--text-light);
 }
 
 .macro-item {
     display: flex;
-    align-items: center
+    align-items: center;
+    gap: 8px;
+    color: var(--text-light);
 }
-  
+
+.today-meals {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+    color: white;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.meal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 0;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.meal-time {
+    flex: 1 1 120px;
+    font-weight: bold;
+}
+
+.meal-desc {
+    flex: 2 1 300px;
+}
+
+.meal-fat {
+    flex: 1 1 180px;
+    text-align: right;
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+.color-box {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.color-box.protein {
+    background-color: rgba(54, 162, 235, 0.8);
+}
+
+.color-box.carbs {
+    background-color: rgba(75, 192, 192, 0.8);
+}
+
+.color-box.fats {
+    background-color: rgba(255, 206, 86, 0.8);
+}
+
+.color-box.vitamins {
+    background-color: rgba(153, 102, 255, 0.8);
+}
+
 .footer__bar {
     text-align: center;
-    padding: 10px
+    padding-bottom: 20px
  }
+
+ 
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo img {
+        height: 30px;
+    }
+
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-left: auto; /* Esto lo empuja a la derecha */
+    }
+
+    /* Estiliza el avatar */
+    .user-avatar img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 50%;
+        display: none;
+    }
+
+    .profile-header {
+        padding: 30px 0 20px;
+        margin-bottom: 10px;
+    }
+
+    .profile-avatar img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .dashboard-card h2 {
+        font-size: 1.2rem;
+    }
+
+
+    nav ul {
+        display: none;
+        width: 0%;
+        margin-top: 10px;
+    }
+
+    nav ul li {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .profile-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-details {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+
+    .quick-stats {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .stat-card {
+        width: 100%;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-charts {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .chart-container {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .progress-metrics {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .calendar-days {
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .calendar-day {
+        width: 36px;
+        height: 36px;
+        margin: 2px;
+    }
+
+    .diet-macros {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .macro-chart {
+        margin-bottom: 15px;
+    }
+
+    .workout-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .user-menu {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .username {
+        font-size: 0.9rem;
+    }
+
+    .dropdown-menu {
+        right: 10px;
+        min-width: 150px;
+    }
+}
 
 

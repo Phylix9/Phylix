@@ -16,7 +16,7 @@
           <a href="FitData"><img src="src/LogoFitdata2.png" alt="logo"/></a>
         </div>
         <ul class="nav__links">
-          <li class="link"><a href="FitData">Inicio</a></li>
+          <li class="link"><a href="FitDataa">Inicio</a></li>
           <li class="link"><a href="Dietas.jsp">Dietas</a></li>
           <li class="link"><a href="Informacion.jsp">Informacion</a></li>
         </ul>

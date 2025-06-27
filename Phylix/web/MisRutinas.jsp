@@ -20,130 +20,99 @@
 
     <h2>Mis Rutinas</h2>
 
-    <%
-        Connection con = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        String url = "jdbc:mysql://localhost/FitData";
-        String user = "root";
-        String password = "AT10220906";
-        List<String[]> rutinaspredList = new ArrayList<>();
+<%
+    Connection con = null;
+    PreparedStatement stmt = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    ResultSet rs2 = null;
+    String url = "jdbc:mysql://localhost/FitData";
+    String user = "root";
+    String password = "AT10220906";
+    List<String[]> rutinaspredList = new ArrayList<>();
+    boolean hayRutinas = false;
 
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection(url, user, password);
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        con = DriverManager.getConnection(url, user, password);
 
-            Integer idUsuario = (Integer) session.getAttribute("id_usuario");
-            if (idUsuario != null) {
-                String querySelect = "SELECT id_planselected, rutina_prestusers FROM RutPrestUsuarios WHERE id_usuario = ?;";
-                stmt = con.prepareStatement(querySelect);
-                stmt.setInt(1, idUsuario);
-                rs = stmt.executeQuery();
+        Integer idUsuario = (Integer) session.getAttribute("id_usuario");
+        if (idUsuario != null) {
+            // --- Rutinas Preestablecidas ---
+            String querySelect = "SELECT id_planselected, rutina_prestusers FROM RutPrestUsuarios WHERE id_usuario = ?";
+            stmt = con.prepareStatement(querySelect);
+            stmt.setInt(1, idUsuario);
+            rs = stmt.executeQuery();
 
-                while (rs.next()) {
-                    if(rs.getString("id_planselected")!=null){
+            while (rs.next()) {
+                if (rs.getString("id_planselected") != null) {
                     rutinaspredList.add(new String[]{rs.getString("id_planselected"), rs.getString("rutina_prestusers")});
-                    }else{
-                        rutinaspredList.clear();
-                     }
                 }
             }
-        } catch (Exception e) {
-            out.println("<p>Error al obtener rutinas de la base: " + e.getMessage() + "</p>");
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (stmt != null) stmt.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                out.println("<p>Error en la base " + e.getMessage() + "</p>");
-            }
-        }
-    %>
+ 
+            ps = con.prepareStatement("SELECT * FROM Rutinasper WHERE id_usuario = ?");
+            ps.setInt(1, idUsuario);
+            rs2 = ps.executeQuery();
 
-    <% if (!rutinaspredList.isEmpty()) { %>
-        <h3>Rutinas Preestablecidas</h3>
-        <table border="1">
-            <tr>
-                <th>ID Plan</th>
-                <th>Plan</th>
-            </tr>
-
-            <%
-                for (String[] rutina : rutinaspredList) {
-                    String id = rutina[0];
-                    String plan = rutina[1];
-
-                    if (id != null && !id.isEmpty()) {
-            %>
-                <tr>
-                    <td><%= id %></td>
-                    <td><%= plan %></td>
-                </tr>
-            <%
-                    }
-                }
-            %>
-        </table>
-    <% } else { %>
-        <p>No se han encontrado rutinas pre-establecidas seleccionadas para este usuario.</p>
-    <% } %>
-    
-    <%
-    List<String[]> rutinasList = (List<String[]>) request.getAttribute("rutinas");
-    List<String[]> nombres = (List<String[]>) request.getAttribute("nombres");
-
-    if (rutinasList != null && !rutinasList.isEmpty()) {
-        int rutinaIndex = -1;
-
-        for (String[] rutina : rutinasList) {
-            boolean rutinaVacia = true;
-            
-            for (int i = 0; i < rutina.length; i += 2) {
-                if (rutina[i] != null && !rutina[i].isEmpty()) {
-                    rutinaVacia = false;
-                    break;
-                }
-            }
-            if (rutinaVacia) {
-                continue;
-            }
-            rutinaIndex++;
-
+            while (rs2.next()) {
+                hayRutinas = true;
+                String nombreRutina = rs2.getString("nombre_rutina");
 %>
-            <h3><%=nombres.get(rutinaIndex)[0]%></h3>
-            <table border="1">
-                <tr>
-                    <th>Ejercicio</th>
-                    <th>Repeticiones</th>
-                </tr>
+                <h3><%= nombreRutina %></h3>
+                <table border="1">
+                    <tr>
+                        <th>Ejercicio</th>
+                        <th>Repeticiones</th>
+                    </tr>
+<%
+                for (int i = 1; i <= 9; i++) {
+                    String ejercicio = rs2.getString("ejercicio" + i);
+                    String reps = rs2.getString("reps" + i);
 
-                <%
-                    for (int i = 0; i < rutina.length; i += 2) {
-                        String ejercicio = rutina[i];
-                        String repeticiones = i + 1 < rutina.length ? rutina[i + 1] : null;
-                        
-                        if (ejercicio != null && !ejercicio.isEmpty()) {
-                %>
+                    if (ejercicio != null && !ejercicio.trim().isEmpty()) {
+%>
                     <tr>
                         <td><%= ejercicio %></td>
-                        <td><%= (repeticiones != null && !repeticiones.isEmpty()) ? repeticiones : "N/A" %></td>
+                        <td><%= (reps != null && !reps.trim().isEmpty()) ? reps : "N/A" %></td>
                     </tr>
-                <%
-                        }
+<%
                     }
-                %>
-            </table>
-            <br>
+                }
+%>
+                </table>
+                <br>
+<%
+            }
+
+            if (!hayRutinas) {
+%>
+                <p>No se han encontrado rutinas personalizadas para este usuario.</p>
+<%
+            }
+        } else {
+%>
+            <p>No se ha encontrado el usuario en sesión.</p>
 <%
         }
-    } else {
+
+    } catch (Exception e) {
 %>
-    <p>No se han encontrado rutinas personalizadas para este usuario.</p>
+        <p>Error al obtener las rutinas: <%= e.getMessage() %></p>
 <%
+        e.printStackTrace();
+    } finally {
+        try {
+            if (rs2 != null) rs2.close();
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (ps != null) ps.close();
+            if (con != null) con.close();
+        } catch (SQLException e) {
+%>
+            <p>Error al cerrar conexión: <%= e.getMessage() %></p>
+<%
+        }
     }
 %>
-
-        
 </body>
 </html>
