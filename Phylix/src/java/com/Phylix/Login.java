@@ -49,6 +49,14 @@ public class Login extends HttpServlet {
             con = DriverManager.getConnection(url, user, password);
 
             HttpSession session = request.getSession();
+            Integer intentos = (Integer) session.getAttribute("intentos_login");
+            if (intentos == null) intentos = 0;
+
+            if (intentos >= 3) {
+                response.sendRedirect("Acceder?error=max");
+                return;
+            }
+            
             String contraCifrada = hashPassword(contra);
             
             sta2 = con.prepareStatement("UPDATE Usuario SET ultima_conexion = ? WHERE correo_usuario = ?;");
@@ -69,6 +77,7 @@ public class Login extends HttpServlet {
                 
                 if(contraCifrada.equals(contraGuardada)){
                 
+                    session.setAttribute("intentos_login", 0);
                     session.setAttribute("correo_usuario", correo);
                     session.setAttribute("id_usuario", rs.getInt("id_usuario"));
                     session.setAttribute("nombre_usuario", rs.getString("nombre_usuario"));
@@ -95,10 +104,15 @@ public class Login extends HttpServlet {
                     
                 }
                 else {
+                    intentos++;
+                    session.setAttribute("intentos_login", intentos);
                     response.sendRedirect("Acceder?error=true");
+                    return;
                 }   
             } 
             else {
+                intentos++;
+                session.setAttribute("intentos_login", intentos);
                 response.sendRedirect("Acceder?error=true");
             }
 

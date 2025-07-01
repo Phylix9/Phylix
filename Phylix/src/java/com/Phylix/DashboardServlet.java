@@ -146,7 +146,6 @@ public class DashboardServlet extends HttpServlet {
                     }
                 }
 
-                // Puedes almacenar el resultado para usarlo en JSP o JSON
                 request.setAttribute("comidasDelDia", comidasDelDia);
 
             } catch (SQLException e) {

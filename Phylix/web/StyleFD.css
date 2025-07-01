@@ -3,8 +3,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : Apr 10, 2025, 10:01:33 PM
-    Author     : chris
+    Created on : Jun 27, 2025, 7:49:59 AM
+    Author     : Abraham
 */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
@@ -325,7 +325,7 @@ nav ul li a:hover::after {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
-    height: 500px;
+    height: 400px;
 }
 
 .chart-container {
@@ -733,3 +733,5 @@ nav ul li a:hover::after {
         min-width: 150px;
     }
 }
+
+

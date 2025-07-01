@@ -22,7 +22,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitData</title>
-    <link rel="stylesheet" href="StyleF.css">
+    <link rel="stylesheet" href="StyleFD.css">
     <link rel="icon" href="src/logoFitData.png" type="img/png">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
@@ -280,7 +280,7 @@
             rs.close();
             ps.close();
 
-            if (registrosMedidas == 0) {
+            if (registrosMedidas == 0 && registrosIMC == 0) {
                 mostrarModal = true;
             }
             else{
@@ -517,86 +517,87 @@
                 </div>
                 <div class="center-wrapper">            
                     <div class="dashboard-card diet-card">
-                            <h2>Mi Plan de Alimentación</h2>
-                            <div class="diet-summary">
-                                <div class="today-meals">
-                                <%
-                                    List<Comida> comidas = (List<Comida>) request.getAttribute("comidasDelDia");
-                                    
-                                    int totalProteinas = 0;
-                                    int totalCarbos = 0;
-                                    int totalGrasas = 0;
-                                    int totalVitaminas = 0;
+                        <h2>Mi Plan de Alimentación</h2>
+                        <div class="diet-summary">
+                            <div class="today-meals">
+                            <%
+                                List<Comida> comidas = (List<Comida>) request.getAttribute("comidasDelDia");
 
-                                    if (comidas != null) {
-                                        for (Comida comida : comidas) {
-                                            totalProteinas += comida.getPorcionProteina();
-                                            totalCarbos += comida.getPorcionCarbohidrato();
-                                            totalGrasas += comida.getPorcionGrasa();
-                                            totalVitaminas += comida.getPorcionVitamina();
-                                        }
+                                int totalProteinas = 0;
+                                int totalCarbos = 0;
+                                int totalGrasas = 0;
+                                int totalVitaminas = 0;
+
+                                if (comidas != null) {
+                                    for (Comida comida : comidas) {
+                                        totalProteinas += comida.getPorcionProteina();
+                                        totalCarbos += comida.getPorcionCarbohidrato();
+                                        totalGrasas += comida.getPorcionGrasa();
+                                        totalVitaminas += comida.getPorcionVitamina();
                                     }
-                                    
-                                    int totalMacros = totalProteinas + totalCarbos + totalGrasas + totalVitaminas;
+                                }
 
-                                    int porcentajeProteinas = totalMacros > 0 ? (totalProteinas * 100 / totalMacros) : 0;
-                                    int porcentajeCarbos = totalMacros > 0 ? (totalCarbos * 100 / totalMacros) : 0;
-                                    int porcentajeGrasas = totalMacros > 0 ? (totalGrasas * 100 / totalMacros) : 0;
-                                    int porcentajeVitaminas = totalMacros > 0 ? (totalVitaminas * 100 / totalMacros) : 0;
+                                int totalMacros = totalProteinas + totalCarbos + totalGrasas + totalVitaminas;
 
-                                    String[] nombresComida = { "Desayuno", "Almuerzo", "Comida", "Merienda", "Cena" };
+                                int porcentajeProteinas = totalMacros > 0 ? (totalProteinas * 100 / totalMacros) : 0;
+                                int porcentajeCarbos = totalMacros > 0 ? (totalCarbos * 100 / totalMacros) : 0;
+                                int porcentajeGrasas = totalMacros > 0 ? (totalGrasas * 100 / totalMacros) : 0;
+                                int porcentajeVitaminas = totalMacros > 0 ? (totalVitaminas * 100 / totalMacros) : 0;
 
-                                    if (comidas != null) {
-                                        for (int i = 0; i < comidas.size(); i++) {
-                                            Comida c = comidas.get(i);
-                                %>
-                                    <div class="meal-row">
-                                        <div class="meal-time"><strong><%= nombresComida[i] %></strong></div>
-                                        <div class="meal-desc"><%= c.getProteina() %> con <%= c.getCarbohidrato() %> y <%= c.getVitamina() %></div>
-                                        <div class="meal-fat">Incluye grasa: <%= c.getGrasa() %></div>
-                                    </div>
-                                <%
-                                        }
-                                    } else {
-                                %>
-                                    <p>No hay comidas para hoy.</p>
-                                <%
-                                    }
-                                %>
+                                String[] nombresComida = { "Desayuno", "Almuerzo", "Comida", "Merienda", "Cena" };
+
+                                if (comidas == null || comidas.isEmpty() || totalMacros == 0) {
+                            %>
+                                <p><strong>No tienes comida asignada para hoy.</strong></p>
+                            <%
+                                } else {
+                                    for (int i = 0; i < comidas.size(); i++) {
+                                        Comida c = comidas.get(i);
+                            %>
+                                <div class="meal-row">
+                                    <div class="meal-time"><strong><%= nombresComida[i] %></strong></div>
+                                    <div class="meal-desc"><%= c.getProteina() %> con <%= c.getCarbohidrato() %> y <%= c.getVitamina() %></div>
+                                    <div class="meal-fat">Incluye grasa: <%= c.getGrasa() %></div>
                                 </div>
+                            <%
+                                    }
+                                }
+                            %>
+                            </div>
 
-                                <div class="diet-macros">
-                                    <div class="macro-chart">
-                                        <canvas id="macrosChart"></canvas>
+                            <% if (comidas != null && !comidas.isEmpty() && totalMacros > 0) { %>
+                            <div class="diet-macros">
+                                <div class="macro-chart">
+                                    <canvas id="macrosChart"></canvas>
+                                </div>
+                                <div class="macro-legend">
+                                    <div class="macro-item">
+                                        <span class="color-box protein"></span>
+                                        <span>Proteínas: <%= porcentajeProteinas %>%</span>
                                     </div>
-                                    <div class="macro-legend">
-                                        <div class="macro-item">
-                                            <span class="color-box protein"></span>
-                                            <span>Proteínas: <%= porcentajeProteinas %>%</span>
-                                            
-                                        </div>
-                                        <div class="macro-item">
-                                            <span class="color-box carbs"></span>
-                                            <span>Carbohidratos: <%= porcentajeCarbos %>%</span>
-                                        </div>
-                                        <div class="macro-item">
-                                            <span class="color-box fats"></span>
-                                            <span>Grasas: <%= porcentajeGrasas %>%</span>
-                                        </div>
-                                        <div class="macro-item">
-                                            <span class="color-box vitamins"></span>
-                                            <span>Vitaminas: <%= porcentajeVitaminas %>%</span>
-                                        </div>
+                                    <div class="macro-item">
+                                        <span class="color-box carbs"></span>
+                                        <span>Carbohidratos: <%= porcentajeCarbos %>%</span>
+                                    </div>
+                                    <div class="macro-item">
+                                        <span class="color-box fats"></span>
+                                        <span>Grasas: <%= porcentajeGrasas %>%</span>
+                                    </div>
+                                    <div class="macro-item">
+                                        <span class="color-box vitamins"></span>
+                                        <span>Vitaminas: <%= porcentajeVitaminas %>%</span>
                                     </div>
                                 </div>
                             </div>
-                            <a href="MisDietas.jsp" class="btn btn-secondary">Ver Plan Completo</a>
+                            <% } %>
                         </div>
+                        <a href="MisDietas.jsp" class="btn btn-secondary">Ver Plan Completo</a>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
   
     <footer class="section__container footer__container">
     </footer>
@@ -1148,7 +1149,7 @@
     window.onload = function() {
         
         console.log("Mostrar modal:", mostrarModal);
-console.log("Elemento modal:", document.getElementById("dataModal"));
+        console.log("Elemento modal:", document.getElementById("dataModal"));
         if (mostrarModal) {
             document.getElementById("dataModal").style.display = "flex";
         }
@@ -1192,7 +1193,6 @@ console.log("Elemento modal:", document.getElementById("dataModal"));
                 if (response.ok) {
                     alert("Datos guardados exitosamente. Actualizando dashboard...");
                     document.getElementById("dataModal").style.display = "none";
-                    // Recargar la página para mostrar los nuevos datos
                     window.location.reload();
                 } else {
                     throw new Error('Error en la respuesta del servidor');

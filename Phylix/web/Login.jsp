@@ -34,11 +34,11 @@
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre" required />
                     <input type="email" id="signup-email" name="email" placeholder="Email" required />
                     <span class="email-error" id="signup-email-error" style="display: none; color: #f5f5f5; font-size: 0.8rem;"></span>
-                    <input type="password" id="pswd" name="pswd" placeholder="ContraseÃ±a" required 
+                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required 
                         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]+" minlength="8"/>
                     <div class="password-requirements" id="password-requirements">
                         <ul>
-                            <li>MÃ­nimo 8 caracteres, sin espacios. Al menos una letra mayÃºscula, una minÃºscula y un nÃºmero.</li>
+                            <li>Mínimo 8 caracteres, sin espacios. Al menos una letra mayúscula, una minúscula y un número.</li>
                         </ul>
                     </div>
                     <button type="submit">Registrarse</button>
@@ -47,16 +47,24 @@
 
             <div class="form-container sign-in-container">
                 <form action="Login" method="post" id="signinForm">
-                    <h1>Iniciar SesiÃ³n</h1>
+                    <h1>Iniciar Sesión</h1>
                     <%
+                        HttpSession sesion = request.getSession(false);
                         String error = request.getParameter("error");
+                        boolean maxIntentos = "max".equals(error);
+                        int intentosRestantes = 3;
+                        if (sesion != null && sesion.getAttribute("intentos") != null) {
+                            intentosRestantes = 3 - (Integer) sesion.getAttribute("intentos");
+                            if (intentosRestantes < 0) intentosRestantes = 0;
+                        }
+
                         if ("true".equals(error)) {
                     %>
-                        <p style="color: red; font-size: 14px;">Correo o contraseÃ±a incorrectos.</p>
+                        <p style="color: red; font-size: 14px;">Correo o contraseña incorrectos. Te quedan <%= intentosRestantes %> intento<%= intentosRestantes == 1 ? "" : "s" %>.</p>
                     <%
                         } else if ("max".equals(error)) {
                     %>
-                        <p style="color: red; font-size: 14px;">Has superado el nÃºmero mÃ¡ximo de intentos. Intenta mÃ¡s tarde.</p>
+                        <p style="color: red; font-size: 14px;">Has superado el número máximo de intentos. Intenta más tarde.</p>
                     <%
                         }
                     %>
@@ -65,21 +73,22 @@
                         <a href="#" class="social" id="google-login-button"><i class="fab fa-google"></i></a>
                     </div>
                     <span>O usa tu cuenta</span>
-                    <input type="email" id="email" name="email" placeholder="Email" required />
-                    <input type="password" id="pswd" name="pswd" placeholder="ContraseÃ±a" required />
-                    <button type="submit">Inicia SesiÃ³n</button>
+                    <input type="email" id="email" name="email" placeholder="Email" required <%= maxIntentos ? "disabled" : "" %> />
+                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required <%= maxIntentos ? "disabled" : "" %> />
+                    <button type="submit" <%= maxIntentos ? "disabled style='background-color: gray; cursor: not-allowed;'" : "" %>>Inicia Sesión</button>
                 </form>
             </div>
+
 
             <div class="overlay-container">
                 <div class="overlay">
                     <div class="overlay-panel overlay-left">
                         <h1>Bienvenido</h1>
                         <p>Para seguir conectado con nosotros por favor ingresa con tus datos personales</p>
-                        <button class="ghost" id="signIn">Iniciar SesiÃ³n</button>
+                        <button class="ghost" id="signIn">Iniciar Sesión</button>
                     </div>
                     <div class="overlay-panel overlay-right">
-                        <h1>Hola, Â¿Nuevo AquÃ­?</h1>
+                        <h1>Hola, ¿Nuevo Aquí?</h1>
                         <p>Ingresa tus datos personales para iniciar una vida saludable con nosotros</p>
                         <button class="ghost" id="signUp">Registrarse</button>
                     </div>
@@ -108,12 +117,12 @@
         function validateEmail(email) {
             const basicEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!basicEmailRegex.test(email)) {
-                return { isValid: false, error: 'Por favor ingrese un email vÃ¡lido' };
+                return { isValid: false, error: 'Por favor ingrese un email válido' };
             }
 
             const domain = email.split('@')[1];
             if (!VALID_DOMAINS.includes(domain.toLowerCase())) {
-                return { isValid: false, error: 'Por favor use un proveedor de correo vÃ¡lido' };
+                return { isValid: false, error: 'Por favor use un proveedor de correo válido' };
             }
 
             return { isValid: true };
@@ -170,7 +179,7 @@
             try {
                 const userData = jwt_decode(response.credential);
                 console.log("Usuario conectado:", userData);
-                alert(`Â¡Hola, ${userData.name}! RedirigiÃ©ndote...`);
+                alert(`¡Hola, ${userData.name}! Redirigiéndote...`);
                 window.location.href = "FitData";
             } catch (error) {
                 console.error("Error en Google:", error);
@@ -190,7 +199,7 @@
             FB.login(function(response) {
                 if (response.authResponse) {
                     FB.api('/me', { fields: 'name,email' }, function(user) {
-                        alert(`Hola ${user.name}! RedirigiÃ©ndote...`);
+                        alert(`Hola ${user.name}! Redirigiéndote...`);
                         window.location.href = "FitData";
                     });
                 }

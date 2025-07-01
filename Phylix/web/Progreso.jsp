@@ -15,13 +15,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Progreso</title>
-    <link rel="stylesheet" href="Style23.css">
+    <link rel="stylesheet" href="Style24.css">
     <link rel="icon" href="src/logoFitData.png" type="img/png">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <style>
+        #bot-float-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 18px;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        z-index: 999;
+        transition: background-color 0.3s ease;
+      }
+
+      #bot-float-button:hover {
+        background-color: var(--secondary-color-dark);
+      }
+
+      #bot-float-button i {
+        font-size: 24px;
+      }
+
+      #bot-window {
+        display: none;
+        position: fixed;
+        bottom: 90px; 
+        right: 30px;
+        width: 450px;
+        height: 460px;
+        border: 1px solid #ccc;
+        background: white;
+        z-index: 999;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      #login-modal {
+        display: none;
+        position: fixed;
+        bottom: 90px; 
+        right: 30px;
+        width: 350px;
+        height: 460px;
+        border: 1px solid #ccc;
+        background: white;
+        z-index: 999;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      #login-modal iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      #bot-window iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      
+    </style>
 
 </head>
 <body>
@@ -232,6 +297,7 @@
 
         <section id="strength-section" class="progress-section">
             <div class="container">
+                <button class="action-btn add-data-btn" id="abrirModalBtn">Registrar cargas actuales</button>
                 <div class="section-header">
                     <h2>Progreso de Fuerza</h2>
                 </div>
@@ -267,9 +333,11 @@
 
 
                 %>
-              <div class="data-table">
+
+                <div class="data-table">
                     
-                    <h3>Record Personal por Ejercicio</h3>
+                    <h3>Record Personal por Ejercicio </h3>
+                    
 
                     <table>
                         <thead>
@@ -277,8 +345,8 @@
                                 <th>Fecha</th>
                                 <th>Ejercicio</th>
 
-                                <th>Personal Record logrado</th>
-                                <th>Personal Record Estimado</th>
+                                <th>Personal Record Actual</th>
+                                <th>Próximo Objetivo (15 días)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -296,7 +364,7 @@
 
                                     if (indexPR != -1) {
                                         String fechaPR = fechaCargas.get(indexPR);
-                                        double estimado = Math.round(max * 1.04); // puedes ajustar la fórmula
+                                        double estimado = Math.round(max * 1.02); // puedes ajustar la fórmula
                             %>
                             <tr>
                                 <td><%= fechaPR %></td>
@@ -320,22 +388,22 @@
         <div class="modal-content">
           <h2>Ingresa tus Records Personales</h2>
           <form id="userDataForm">
-            <label for="peso">Peso Máximo Sentadilla (kg):</label>
+            <label for="sentadilla">Peso Máximo Sentadilla (kg):</label>
             <input type="number" id="sentadilla" name="sentadilla" step="0.1" required><br>
 
-            <label for="cintura">Peso Máximo Press de Pecho (kg):</label>
+            <label for="press">Peso Máximo Press de Pecho (kg):</label>
             <input type="number" id="press" name="press" step="0.1" required><br>
 
-            <label for="pecho">Peso Máximo Peso Muerto (kg):</label>
+            <label for="pesom">Peso Máximo Peso Muerto (kg):</label>
             <input type="number" id="pesom" name="pesom" step="0.1" required><br>
             
-            <label for="pecho">Peso Máximo Press Militar (kg):</label>
+            <label for="pressm">Peso Máximo Press Militar (kg):</label>
             <input type="number" id="pressm" name="pressm" step="0.1" required><br>
             
-            <label for="pecho">Peso Máximo Curl Biceps (kg):</label>
+            <label for="biceps">Peso Máximo Curl Biceps (kg):</label>
             <input type="number" id="biceps" name="biceps" step="0.1" required><br>
             
-            <label for="pecho">Peso Máximo Remo (kg):</label>
+            <label for="remo">Peso Máximo Remo (kg):</label>
             <input type="number" id="remo" name="remo" step="0.1" required><br><br>
 
             <button type="submit">Guardar Datos</button>
@@ -348,18 +416,87 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
+
     Chart.defaults.font.family = "'Poppins', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
     Chart.defaults.font.size = 12;
     Chart.defaults.color = '#6e7a8a';
     Chart.defaults.responsive = true;
     Chart.defaults.maintainAspectRatio = false;
 
-    function showMeasurementModal() {
-        const modal = document.getElementById("dataModal");
-        if (modal) {
+    const mostrarModal = <%= mostrarModal %>;  
+    console.log("Mostrar modal:", mostrarModal);
+
+    const modal = document.getElementById("dataModal");
+        if (modal && mostrarModal) {
             modal.style.display = "flex";
         }
-    }
+    const abrirModalBtn = document.getElementById("abrirModalBtn");
+        if (abrirModalBtn) {
+            abrirModalBtn.addEventListener("click", function () {
+                const modal = document.getElementById("dataModal");
+                if (modal) {
+                    modal.style.display = "flex";
+                }
+            });
+        }
+
+        // 3. Cerrar el modal con botón "Posponer"
+        const posponerBtn = document.getElementById("posponerBtn");
+        if (posponerBtn) {
+            posponerBtn.addEventListener("click", function () {
+                modal.style.display = "none";
+            });
+        }
+
+        // 4. Envío del formulario
+        const form = document.getElementById("userDataForm");
+        if (form) {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const sentadilla = document.getElementById("sentadilla").value;
+                const press = document.getElementById("press").value;
+                const pesom = document.getElementById("pesom").value;
+                const pressm = document.getElementById("pressm").value;
+                const biceps = document.getElementById("biceps").value;
+                const remo = document.getElementById("remo").value;
+
+                // Validación
+                if (!sentadilla || !press || !pesom || !pressm || !biceps || !remo) {
+                    alert("Por favor, completa todos los campos.");
+                    return;
+                }
+
+                fetch('GuardarDatos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sentadilla: parseFloat(sentadilla),
+                        press: parseFloat(press),
+                        pesom: parseFloat(pesom),
+                        pressm: parseFloat(pressm),
+                        biceps: parseFloat(biceps),
+                        remo: parseFloat(remo)
+                    })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("Datos guardados exitosamente. Actualizando dashboard...");
+                            modal.style.display = "none";
+                            window.location.reload();
+                        } else {
+                            throw new Error('Error en la respuesta del servidor');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("Hubo un error al guardar los datos. Por favor, inténtalo de nuevo.");
+                    });
+            });
+        }
     
     // Variables globales para los gráficos
     let weightChart, weightLossChart, weeklyPaceChart;
@@ -1144,9 +1281,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Inicializar carga de datos
-    loadProgressData();
-    
-    
+    loadProgressData();    
 });
 </script>
 </body>
