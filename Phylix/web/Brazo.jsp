@@ -65,31 +65,6 @@
             <label><input type="checkbox" name="ejercicio3_5" value="Curl soportado en un banco, con barra o en máquina"> Curl soportado en un banco, con barra o en máquina</label>
             <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
         </div>
-
-        
-
-        
-    <!---
-        <div class="checkbox-group" id="Abdomen">
-            <label>Elige 2 Ejercicios para Abdomen</label>
-            <label><input type="checkbox" name="abdomen" value="Crunch"> Crunch abdominal</label>
-            <label><input type="checkbox" name="abdomen" value="Plancha"> Plancha</label>
-            <label><input type="checkbox" name="abdomen" value="Levantamiento de piernas"> Levantamiento de piernas</label>
-            <label><input type="checkbox" name="abdomen" value="Mountain Climbers"> Mountain Climbers</label>
-            <label><input type="checkbox" name="abdomen" value="Russian Twist"> Russian Twist</label>
-            <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
-        </div>
-    
-        <div class="checkbox-group" id="Cardio">
-            <label>Elige 2 Ejercicios de Cardio</label>
-            <label><input type="checkbox" name="cardio" value="Caminadora"> Caminadora</label>
-            <label><input type="checkbox" name="cardio" value="Elíptica"> Elíptica</label>
-            <label><input type="checkbox" name="cardio" value="Bicicleta"> Bicicleta estática</label>
-            <label><input type="checkbox" name="cardio" value="Cuerda"> Saltar la cuerda</label>
-            <label><input type="checkbox" name="cardio" value="Remo"> Máquina de remo</label>
-            <div class="error-message">Por favor, selecciona exactamente 2 ejercicios.</div>
-        </div>
-    -->
     </div>
         
     <div class="center-container">

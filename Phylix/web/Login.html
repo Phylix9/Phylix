@@ -34,7 +34,7 @@
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre" required />
                     <input type="email" id="signup-email" name="email" placeholder="Email" required />
                     <span class="email-error" id="signup-email-error" style="display: none; color: #f5f5f5; font-size: 0.8rem;"></span>
-                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required 
+                    <input type="password" id="pswd" name="pswd" placeholder="Password" required 
                         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]+" minlength="8"/>
                     <div class="password-requirements" id="password-requirements">
                         <ul>
@@ -47,6 +47,7 @@
 
             <div class="form-container sign-in-container">
                 <form action="Login" method="post" id="signinForm">
+<<<<<<< HEAD
                     <h1>Iniciar Sesión</h1>
                     <%
                         String error = request.getParameter("error");
@@ -60,14 +61,17 @@
                     <%
                         }
                     %>
+=======
+                    <h1>Iniciar Sesion</h1>
+>>>>>>> 4f13b7b946ead0fdd7b96bb486cdb5df4976dbeb
                     <div class="social-container">
                         <a class="social" onclick="handleFacebookLogin();"><i class="fab fa-facebook-f"></i></a>
                         <a href="#" class="social" id="google-login-button"><i class="fab fa-google"></i></a>
                     </div>
                     <span>O usa tu cuenta</span>
                     <input type="email" id="email" name="email" placeholder="Email" required />
-                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required />
-                    <button type="submit">Inicia Sesión</button>
+                    <input type="password" id="pswd" name="pswd" placeholder="Password" required />
+                    <button type="submit">Inicia Sesion</button>
                 </form>
             </div>
 
@@ -79,7 +83,7 @@
                         <button class="ghost" id="signIn">Iniciar Sesión</button>
                     </div>
                     <div class="overlay-panel overlay-right">
-                        <h1>Hola, ¿Nuevo Aquí?</h1>
+                        <h1>Hola, Nuevo Aqui?</h1>
                         <p>Ingresa tus datos personales para iniciar una vida saludable con nosotros</p>
                         <button class="ghost" id="signUp">Registrarse</button>
                     </div>
