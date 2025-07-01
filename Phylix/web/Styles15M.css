@@ -46,12 +46,9 @@ form {
     padding: 0.5rem;
 }
 
-#imc-value, #cat-value {
-    display: none;
-}
 
 .back-button:hover {
-    color: var(--secondary);
+    color: var(--secondary-color);
 }
 
 h1 {

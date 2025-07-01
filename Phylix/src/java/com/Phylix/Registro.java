@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.UUID;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -36,6 +37,8 @@ public class Registro extends HttpServlet {
         ResultSet r = null;
         
         int idUsuario = 0;
+        String sessionToken = generateToken();
+
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -54,11 +57,12 @@ public class Registro extends HttpServlet {
                         response.sendRedirect("Acceder?correoRegistrado=true");
                     } 
                     else {
-                        sta = con.prepareStatement("INSERT INTO Usuario (nombre_usuario, correo_usuario, contrasena_usuario, two_factor) VALUES (?, ?, ?, ?);");
+                        sta = con.prepareStatement("INSERT INTO Usuario (nombre_usuario, correo_usuario, contrasena_usuario, two_factor, session_token) VALUES (?, ?, ?, ?, ?);");
                         sta.setString(1, nombre);
                         sta.setString(2, correo);
                         sta.setString(3, contracifrada);
                         sta.setBoolean(4, false);
+                        sta.setString(5, sessionToken);
                         sta.executeUpdate();
 
                         sta = con.prepareStatement("SELECT id_usuario FROM Usuario WHERE correo_usuario = ?;");
@@ -74,6 +78,8 @@ public class Registro extends HttpServlet {
                         session.setAttribute("correo_usuario", correo);
                         session.setAttribute("nombre_usuario", nombre);
                         session.setAttribute("hashedpassword",contracifrada);
+                        session.setAttribute("session_token", sessionToken);
+
 
                         Cookie cookie = new Cookie("user", nombre);
                         cookie.setMaxAge(86400);
@@ -131,6 +137,10 @@ public class Registro extends HttpServlet {
             hexString.append(hexaux);
         }
         return hexString.toString();
+    }
+    
+    private String generateToken() {
+        return UUID.randomUUID().toString();
     }
 
 }

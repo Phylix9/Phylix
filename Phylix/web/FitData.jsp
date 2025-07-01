@@ -299,14 +299,14 @@
     <header>
         <div class="container">
             <div class="logo">
-                <a href="FitData.jsp"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
+                <a href="FitDataa"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
             </div>
             <nav>
                 <ul>
                     <li><a href="Progreso">Progreso</a></li>
-                    <li><a href="Rutinas.jsp">Rutinas</a></li>
-                    <li><a href="Dietas.jsp">Dietas</a></li>
-                    <li><a href="Informacion.jsp">Información</a></li>
+                    <li><a href="Rutinas">Rutinas</a></li>
+                    <li><a href="Dietas">Dietas</a></li>
+                    <li><a href="Informacion">Información</a></li>
                 </ul>
             </nav>
             <div class="user-menu">

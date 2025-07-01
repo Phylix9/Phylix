@@ -60,7 +60,7 @@ public class ValidarCodigo extends HttpServlet {
                     sta2.executeUpdate();
                     sta2.close();
                     session.removeAttribute("codigo");
-                    response.sendRedirect("FitData");
+                    response.sendRedirect("FitDataa");
                 } 
                 else {
                     response.sendRedirect("Acceder?error=true");

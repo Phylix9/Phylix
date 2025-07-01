@@ -24,7 +24,8 @@
         </div>
         <ul class="nav__links">
           <li class="link"><a href="FitData">Inicio</a></li>
-          <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
+          <li class="link"><a href="Rutinas">Rutinas</a></li>
+          <li class="link"><a href="Dietas">Dietas</a></li>
           <li class="link"><a href="Informacion.jsp">Informacion</a></li>
         </ul>
         

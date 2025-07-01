@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Progreso</title>
-    <link rel="stylesheet" href="Style24.css">
+    <link rel="stylesheet" href="Styles29.css">
     <link rel="icon" href="src/logoFitData.png" type="img/png">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
@@ -93,7 +93,7 @@
     <header>
         <div class="container">
             <div class="logo">
-                <a href="FitData"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
+                <a href="FitDataa"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
             </div>
             <nav>
                 <ul>
@@ -237,7 +237,14 @@
                             <canvas id="weightLineChart" height="300"></canvas>
                         </div>
                     </div>
-
+                    <div class="chart-card secondary-chart">
+                        <div class="chart-header">
+                            <h3>Análisis del Peso Corporal</h3>
+                        </div>
+                        <div class="chart-body">
+                            <%= request.getAttribute("analisisPeso") %>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -256,8 +263,14 @@
                             <canvas id="measurementsChart" height="300"></canvas>
                         </div>
                     </div>
-                    
- 
+                    <div class="chart-card secondary-chart">
+                        <div class="chart-header">
+                            <h3>Análisis de Medidas Corporales</h3>
+                        </div>
+                        <div class="chart-body2">
+                            <%= request.getAttribute("analisisMedidas") %>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="data-table">
@@ -274,9 +287,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%
+                        <%
+                            if (fechasMedidas == null || fechasMedidas.isEmpty()) {
+                        %>
+                            <tr>
+                                <td colspan="6" style="text-align: center;">No hay medidas aun</td>
+                            </tr>
+                        <%
+                            } else {
                                 for (int i = 0; i < 6; i++) {
-                            %>
+                        %>
                             <tr>
                                 <td><%= fechasMedidas.get(i) %></td>
                                 <td><%= pecho.get(i) %></td>
@@ -285,9 +305,10 @@
                                 <td><%= muslo.get(i) %></td>
                                 <td><%= brazo.get(i) %></td>
                             </tr>
-                            <%
+                        <%
                                 }
-                            %>
+                            }
+                        %>
                         </tbody>
                     </table>
                 </div>
@@ -334,52 +355,91 @@
 
                 %>
 
-                <div class="data-table">
-                    
-                    <h3>Record Personal por Ejercicio </h3>
-                    
+                <div class="charts-container strength-charts">
+                    <div class="data-table chart-card primary-chart">
+                        <h3>Record Personal por Ejercicio </h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Ejercicio</th>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Ejercicio</th>
+                                    <th>Personal Record Actual</th>
+                                    <th>Próximo Objetivo (15 días)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%
+                                    boolean hayCargas = false;
 
-                                <th>Personal Record Actual</th>
-                                <th>Próximo Objetivo (15 días)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                for (int e = 0; e < ejercicios.length; e++) {
-                                    double max = Double.MIN_VALUE;
-                                    int indexPR = -1;
-
-                                    for (int i = 0; i < fechaCargas.size(); i++) {
-                                        if (pesos[e].get(i) > max) {
-                                            max = pesos[e].get(i);
-                                            indexPR = i;
+                                    // Revisar si al menos un ejercicio tiene datos válidos
+                                    for (int e = 0; e < ejercicios.length; e++) {
+                                        if (pesos[e] != null && !pesos[e].isEmpty()) {
+                                            hayCargas = true;
+                                            break;
                                         }
                                     }
 
-                                    if (indexPR != -1) {
-                                        String fechaPR = fechaCargas.get(indexPR);
-                                        double estimado = Math.round(max * 1.02); // puedes ajustar la fórmula
-                            %>
-                            <tr>
-                                <td><%= fechaPR %></td>
-                                <td><%= ejercicios[e] %></td>
+                                    if (!hayCargas || fechaCargas == null || fechaCargas.isEmpty()) {
+                                %>
+                                    <tr>
+                                        <td colspan="4" style="text-align: center;">No hay cargas registradas aún</td>
+                                    </tr>
+                                <%
+                                    } else {
+                                        for (int e = 0; e < ejercicios.length; e++) {
+                                            Map<String, Double> fechaToPeso = new LinkedHashMap<>();
 
-                                <td><%= max %> kg</td>
-                                <td><%= estimado %> kg</td>
-                            </tr>
-                            <%
+                                            for (int i = 0; i < fechaCargas.size(); i++) {
+                                                String fecha = fechaCargas.get(i);
+                                                Double peso = pesos[e].get(i);
+
+                                                if (peso != null) {
+                                                    // Si ya hay una entrada para esa fecha, guardar el mayor peso
+                                                    if (!fechaToPeso.containsKey(fecha) || peso > fechaToPeso.get(fecha)) {
+                                                        fechaToPeso.put(fecha, peso);
+                                                    }
+                                                }
+                                            }
+
+                                            // Obtener las fechas más recientes (ordenando)
+                                            List<String> fechasOrdenadas = new ArrayList<>(fechaToPeso.keySet());
+                                            fechasOrdenadas.sort(Collections.reverseOrder()); // fechas descendente
+
+                                            int count = 0;
+                                            for (String fecha : fechasOrdenadas) {
+                                                if (count >= 2) break;
+
+                                                double pr = fechaToPeso.get(fecha);
+                                                double estimado = Math.round(pr * 1.02);
+
+                                %>
+                                    <tr>
+                                        <td><%= fecha %></td>
+                                        <td><%= ejercicios[e] %></td>
+                                        <td><%= pr %> kg</td>
+                                        <td><%= estimado %> kg</td>
+                                    </tr>
+                                <%
+                                                count++;
+                                            }
+                                        }
                                     }
-                                }
-                            %>
-                        </tbody>
-                    </table>
+                                %>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div class="chart-card pentagon-chart">
+                        <div class="chart-header">
+                            <h3>Análisis de Cargas</h3>
+                        </div>
+                        <div class="chart-body3">
+                            <%= request.getAttribute("analisisCargas") %>
+                            <%= request.getAttribute("analisisFuerzaGeneral") %>
+                        </div>
+                    </div>       
                 </div>
+                        
             </div>
         </section>
     </main>

@@ -101,7 +101,6 @@
                     <option value="mejorar resistencia">Mejorar resistencia</option>
                     <option value="mantener la salud">Mantener la salud</option>
                 </select>
-                <input type="text" id="objetivosOtro" name="objetivosOtro" placeholder="Especifica otro objetivo" class="extra-field">
             </div>
 
             <div class="section">

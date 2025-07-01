@@ -2,6 +2,7 @@ package com.Phylix;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -66,7 +67,10 @@ public class Cuestionario extends HttpServlet {
         Connection con = null;
         PreparedStatement sta = null;
         PreparedStatement sta2 = null;
-
+        ResultSet rs = null;
+        
+        CuerpoCorreo cuerpo = new CuerpoCorreo();
+        
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, user, password);
@@ -132,6 +136,13 @@ public class Cuestionario extends HttpServlet {
 
             sta.executeUpdate();
 
+
+                                                
+            String codigo = GeneradorCodigo.generarCode(6);
+            session.setAttribute("codigo", codigo);
+            
+            EnviaMail.enviaCorreo(correo, "Tu código de verificación", CuerpoCorreo.cuerpoMensaje(codigo));
+
             session.setAttribute("edad", edad);
             session.setAttribute("sexo", sexo);
             session.setAttribute("frecuencia", frecuencia);
@@ -140,7 +151,7 @@ public class Cuestionario extends HttpServlet {
             session.setAttribute("restriccion", restriccion);
             session.setAttribute("nombre", nombre);
          
-            response.sendRedirect("FitData");
+            response.sendRedirect("Autenticacion");
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             response.getWriter().print("Error: " + e.getMessage());

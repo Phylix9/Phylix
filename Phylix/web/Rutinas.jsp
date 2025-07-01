@@ -13,12 +13,12 @@
 <body>
     <nav>
         <div class="nav__logo">
-          <a href="FitData"><img src="src/LogoFitdata2.png" alt="logo"/></a>
+          <a href="FitDataa"><img src="src/LogoFitdata2.png" alt="logo"/></a>
         </div>
         <ul class="nav__links">
           <li class="link"><a href="FitDataa">Inicio</a></li>
-          <li class="link"><a href="Dietas.jsp">Dietas</a></li>
-          <li class="link"><a href="Informacion.jsp">Informacion</a></li>
+          <li class="link"><a href="Dietas">Dietas</a></li>
+          <li class="link"><a href="Informacion">Informacion</a></li>
         </ul>
         
         <div id="authButtonContainer">
@@ -68,7 +68,7 @@
                 </span>
                 <h4>Tu propio plan adaptado a ti</h4>
                 <p>Selecciona tus objetivos y preferencias para crear una rutina única.</p>
-                <button class="btn" onclick="location.href='Grupo_Muscular.jsp'">Crear Rutina</button>
+                <button class="btn" onclick="location.href='GrupoMuscular'">Crear Rutina</button>
             </div>
             <div class="explore__card">
                 <span class="card__icon">

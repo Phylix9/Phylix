@@ -174,11 +174,11 @@
                 String currentPage = request.getRequestURI();
                 if (currentPage.endsWith("FitData")) { 
             %>
-            <li class="link"><a href="FitData">Inicio</a></li>
+            <li class="link"><a href="FitDataa">Inicio</a></li>
             <% } %>
-            <li class="link"><a href="Rutinas.jsp">Rutinas</a></li>
-            <li class="link"><a href="Dietas.jsp">Dietas</a></li>
-            <li class="link"><a href="Informacion.jsp">Informacion</a></li>
+            <li class="link"><a href="Rutinas">Rutinas</a></li>
+            <li class="link"><a href="Dietas">Dietas</a></li>
+            <li class="link"><a href="Informacion">Informacion</a></li>
         </ul>
         <div id="authButtonContainer">
             <% 

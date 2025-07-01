@@ -33,6 +33,38 @@
         <url-pattern>/Acceder</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>Rutinas</servlet-name>
+        <servlet-class>com.Phylix.Rutinas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Rutinas</servlet-name>
+        <url-pattern>/Rutinas</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Dietas</servlet-name>
+        <servlet-class>com.Phylix.Dietas</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dietas</servlet-name>
+        <url-pattern>/Dietas</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Informacion</servlet-name>
+        <servlet-class>com.Phylix.Informacion</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Informacion</servlet-name>
+        <url-pattern>/Informacion</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GrupoMuscular</servlet-name>
+        <servlet-class>com.Phylix.GrupoMuscular</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GrupoMuscular</servlet-name>
+        <url-pattern>/GrupoMuscular</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>Menus</servlet-name>
         <servlet-class>com.Phylix.Menus</servlet-class>
     </servlet>
@@ -237,5 +269,14 @@
     <servlet-mapping>
         <servlet-name>FitDataa</servlet-name>
         <url-pattern>/FitDataa</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Autenticacion</servlet-name>
+        <servlet-class>com.Phylix.Autenticacion</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Autenticacion</servlet-name>
+        <url-pattern>/Autenticacion</url-pattern>
     </servlet-mapping>
 </web-app>

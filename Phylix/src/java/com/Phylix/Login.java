@@ -17,6 +17,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
@@ -43,6 +44,8 @@ public class Login extends HttpServlet {
         
         Date fechaActual = new Date(System.currentTimeMillis());
 
+        String sessionToken = generateToken();
+
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
@@ -59,9 +62,10 @@ public class Login extends HttpServlet {
             
             String contraCifrada = hashPassword(contra);
             
-            sta2 = con.prepareStatement("UPDATE Usuario SET ultima_conexion = ? WHERE correo_usuario = ?;");
+            sta2 = con.prepareStatement("UPDATE Usuario SET ultima_conexion = ?, session_token = ? WHERE correo_usuario = ?;");
             sta2.setDate(1, fechaActual);
-            sta2.setString(2, correo);
+            sta2.setString(2, sessionToken);
+            sta2.setString(3, correo);
             sta2.executeUpdate();
             sta2.close();
             
@@ -81,7 +85,7 @@ public class Login extends HttpServlet {
                     session.setAttribute("correo_usuario", correo);
                     session.setAttribute("id_usuario", rs.getInt("id_usuario"));
                     session.setAttribute("nombre_usuario", rs.getString("nombre_usuario"));
-                    session.setMaxInactiveInterval(2 * 60);
+                    session.setMaxInactiveInterval(10 * 60);
                     
                     Cookie cookie = new Cookie("user", rs.getString("nombre_usuario"));
                         cookie.setMaxAge(60);
@@ -98,7 +102,8 @@ public class Login extends HttpServlet {
                         
                     } 
                     else {
-                        session.setMaxInactiveInterval(30 * 60);
+                        session.setMaxInactiveInterval(10 * 60);
+                        session.setAttribute("session_token", sessionToken);
                         response.sendRedirect("FitDataa");
                     }
                     
@@ -158,6 +163,10 @@ public class Login extends HttpServlet {
             hexString.append(hexaux);
         }
         return hexString.toString();
+    }
+    
+    private String generateToken() {
+        return UUID.randomUUID().toString();
     }
     
 }

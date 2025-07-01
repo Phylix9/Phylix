@@ -22,7 +22,7 @@
             </form>
             
             <p style="margin-top: 20px; font-size: 14px; color: #a0a0a0;">
-                ¿No recibiste el código? <a href="#" style="color: #5295df; text-decoration: none;">Reenviar</a>
+                ¿No recibiste el código? <a href="Autenticacion.jsp" style="color: #5295df; text-decoration: none;">Reenviar</a>
             </p>
         </div>
         

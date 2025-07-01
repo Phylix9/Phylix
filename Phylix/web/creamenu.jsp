@@ -8,13 +8,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="src/logoFitData.png" type="img/png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
-    <link rel="stylesheet" href="Styles15.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="Styles15M.css">
 </head>
 <body>
 
-<h1>Crear tu Menú <%=session.getAttribute("nombre_usuario")%></h1>
-<form action="CalculoComidas" method="post">
+    <button class="back-button" onclick="location.href='Dietas'">
+        <i class="ri-arrow-left-line"></i>
+    </button>
+    
+    <h1>Crea tu Menú <%=session.getAttribute("nombre_usuario")%></h1>
+    <form action="CalculoComidas" method="post">
     
     <h3>Asigna nombre a tu dieta</h3>
     <input type="text" name="nombreDieta" id="nombreDieta">
