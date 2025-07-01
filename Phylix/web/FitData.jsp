@@ -5,7 +5,7 @@
 --%>
 
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     HttpSession sesion = request.getSession(false);
     if (sesion == null || sesion.getAttribute("id_usuario") == null) {
@@ -37,7 +37,7 @@
                     <li><a href="FitData.jsp">Inicio</a></li>
                     <li><a href="Rutinas.jsp">Rutinas</a></li>
                     <li><a href="Dietas.jsp">Dietas</a></li>
-                    <li><a href="Informacion.jsp">Informacion</a></li>
+                    <li><a href="Informacion.jsp">Información</a></li>
                 </ul>
             </nav>
             <div class="user-menu">
@@ -282,6 +282,18 @@
     <div class="footer__bar">
       Copyright © 2024 FitData. Todos los derechos reservados.
     </div>
+                        
+    <div id="bot-float-button" onclick="toggleBot()">
+        <i class="ri-robot-line"></i>
+    </div>
+        
+    <div id="bot-window">
+        <iframe src="fitdatabot.jsp" frameborder="0"></iframe>
+    </div>
+    
+    <div id="login-modal">
+        <iframe src="LoginBot.html" frameborder="0"></iframe>
+    </div>                    
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
