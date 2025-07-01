@@ -30,7 +30,7 @@ public class DietaspersoCreadas extends HttpServlet {
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         String[] proteinasSeleccionadas = (String[]) request.getAttribute("proteinasComida");
         Integer porcionProteina = (Integer) request.getAttribute("porcionProteinaComida");
@@ -43,13 +43,16 @@ public class DietaspersoCreadas extends HttpServlet {
 
         String[] grasasSeleccionadas = (String[]) request.getAttribute("grasasComida");
         Integer porcionGrasa = (Integer) request.getAttribute("porcionGrasasComida");
+        
+        String diaComida = request.getParameter("diaComida");
+
 
         
         try (Connection con = DriverManager.getConnection(url, user, password)) {
     Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 
     int[] idComidas = crearRegistroComidas(con, idUsuario, proteinasSeleccionadas, carbohidratosSeleccionados,
-                    vitaminasSeleccionadas, grasasSeleccionadas, porcionProteina, porcionCarbohidrato, porcionVitamina, porcionGrasa, nombredieta);
+                    vitaminasSeleccionadas, grasasSeleccionadas, porcionProteina, porcionCarbohidrato, porcionVitamina, porcionGrasa, nombredieta, diaComida);
 
     ArrayList<ArrayList<Object>> listaComidas = new ArrayList<>();
     
@@ -75,7 +78,7 @@ public class DietaspersoCreadas extends HttpServlet {
     }
 
     session.setAttribute("comidas", listaComidas);
-    request.getRequestDispatcher("FitData").forward(request, response);
+    request.getRequestDispatcher("FitDataa").forward(request, response);
 
 } catch (Exception e) {
     response.getWriter().print("Error: " + e.getMessage());
@@ -86,8 +89,8 @@ public class DietaspersoCreadas extends HttpServlet {
 
     private int[] crearRegistroComidas(Connection con, int idUsuario, String[] proteinas, String[] carbohidratos,
                                     String[] vitaminas, String[] grasas, int porcionProteina, int porcionCarbohidrato,
-                                    int porcionVitamina, int porcionGrasa, String nombreDieta) throws SQLException {
-        String query = "INSERT INTO Comidas (id_usuario, proteina, carbohidrato, vitamina, grasa, porcion_proteina, porcion_carbohidrato, porcion_vitamina, porcion_grasa, nombre_dieta) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                                    int porcionVitamina, int porcionGrasa, String nombreDieta,  String dia_rutina) throws SQLException {
+        String query = "INSERT INTO Comidas (id_usuario, proteina, carbohidrato, vitamina, grasa, porcion_proteina, porcion_carbohidrato, porcion_vitamina, porcion_grasa, nombre_dieta, dia_comida) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);";
         int[] idComidas = new int[5];
         try (PreparedStatement sta = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             for (int i = 0; i < 5; i++) {
@@ -101,6 +104,7 @@ public class DietaspersoCreadas extends HttpServlet {
                 sta.setInt(8, porcionVitamina);
                 sta.setInt(9, porcionGrasa);
                 sta.setString(10, nombreDieta);
+                sta.setString(11, dia_rutina);
                 sta.executeUpdate();
 
                 try (ResultSet rs = sta.getGeneratedKeys()) {

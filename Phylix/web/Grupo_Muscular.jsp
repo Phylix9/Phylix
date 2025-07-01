@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -62,19 +63,19 @@
                     <h3>Tren superior</h3>
                 </header>
                 <div class="image-container">
-                    <a href="Espalda.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Espalda.jsp" class="image-wrapper">
                         <img src="src/espalda.jpg" alt="Espalda" class="hero-image">
                         <span class="image-text">Espalda</span>
                     </a>
-                    <a href="Pecho.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Pecho.jsp" class="image-wrapper">
                         <img src="src/pecho.jpeg" alt="Pecho" class="hero-image">
                         <span class="image-text">Pecho</span>
                     </a>
-                    <a href="Brazo.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Brazo.jsp" class="image-wrapper">
                         <img src="src/brazo.jpg" alt="Brazo" class="hero-image">
                         <span class="image-text">Brazo</span>
                     </a>
-                    <a href="Full.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Full.jsp" class="image-wrapper">
                         <img src="src/full.jpg" alt="Full" class="hero-image">
                         <span class="image-text">Full Body</span>
                     </a>
@@ -85,19 +86,19 @@
                     <h3>Tren inferior</h3>
                 </header>
                 <div class="image-container">
-                    <a href="Cuadriceps.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Cuadriceps.jsp" class="image-wrapper">
                         <img src="src/extension.png" alt="Cuadriceps" class="hero-image">
                         <span class="image-text">Cuadriceps</span>
                     </a>
-                    <a href="Femoral.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Femoral.jsp" class="image-wrapper">
                         <img src="src/femoral2.jpg" alt="Femoral" class="hero-image">
                         <span class="image-text">Femoral</span>
                     </a>
-                    <a href="Gluteo.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Gluteo.jsp" class="image-wrapper">
                         <img src="src/sentadilla.jpg" alt="Gluteo" class="hero-image">
                         <span class="image-text">Glúteo</span>
                     </a>
-                    <a href="Abdomen.jsp" class="image-wrapper">
+                    <a href="ValidarRutina?destino=Abdomen.jsp" class="image-wrapper">
                         <img src="src/abdominales.jpg" alt="Abdomen" class="hero-image">
                         <span class="image-text">Abdomen</span>
                     </a>

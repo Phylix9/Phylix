@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*, java.util.*" %>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -26,10 +27,9 @@
         String username = (String) session.getAttribute("nombre_usuario");
     %>
     <h2>Elige tus Ejercicios <%=username%></h2>
-    
-    
-    
+
     <form action="CrearRutina" method="post">
+        
         <h3>Ingresa el nombre de tu rutina</h3>
         <input type="text" name="nombreRutina" id="nombreRutina">
     <div class="checkbox-container">
@@ -48,9 +48,9 @@
         <input type="hidden" name="grupoEjercicio1" value="Espalda Baja">
         <label>Elige 3 Ejercicios para Espalda baja</label>
         <label><input type="checkbox" name="ejercicio2_1" value="Extension"> Extensión lumbar</label>
-        <label><input type="checkbox" name="ejercicio2_2" value="BuenosDias"> Buenos días con barra</label>
-        <label><input type="checkbox" name="ejercicio2_3" value="PlanchaInvertida"> Plancha invertida</label>
-        <label><input type="checkbox" name="ejercicio2_4" value="PaseoGranjero"> Paseo del granjero</label>
+        <label><input type="checkbox" name="ejercicio2_2" value="Buenos Dias"> Buenos días con barra</label>
+        <label><input type="checkbox" name="ejercicio2_3" value="Plancha Invertida"> Plancha invertida</label>
+        <label><input type="checkbox" name="ejercicio2_4" value="Paseo Granjero"> Paseo del granjero</label>
         <label><input type="checkbox" name="ejercicio2_5" value="Puente"> Puente</label>
         <div class="error-message">Por favor, selecciona exactamente 3 ejercicios.</div>
     </div>    
@@ -67,6 +67,30 @@
     </div>
 </div>
 
+        <div class="center-container">
+            <h3>Selecciona el día de la semana</h3>
+            <div class="styled-select">
+                <select name="diaRutina" required>
+                    <%
+                        List<String> diasDisponibles = (List<String>) request.getAttribute("diasDisponibles");
+
+                        if (diasDisponibles != null && !diasDisponibles.isEmpty()) {
+                            for (String dia : diasDisponibles) {
+                    %>
+                                <option value="<%= dia %>">
+                                    <%= dia.substring(0,1).toUpperCase() + dia.substring(1).toLowerCase() %>
+                                </option>
+                    <%
+                            }
+                        } else {
+                    %>
+                        <option disabled selected>No hay días disponibles</option>
+                    <%
+                        }
+                    %>
+                </select>
+            </div>
+        </div>
 
     <div class="button-container">
         <input type="submit" class="btn" name="Abdomen" value="Crear Rutina">

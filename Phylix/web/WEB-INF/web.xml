@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">    
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
         <servlet-name>Registro</servlet-name>
         <servlet-class>com.Phylix.Registro</servlet-class>
@@ -8,7 +8,6 @@
         <servlet-name>Registro</servlet-name>
         <url-pattern>/Registro</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>Cuestionario</servlet-name>
         <servlet-class>com.Phylix.Cuestionario</servlet-class>
@@ -17,7 +16,6 @@
         <servlet-name>Cuestionario</servlet-name>
         <url-pattern>/Cuestionario</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>com.Phylix.Login</servlet-class>
@@ -26,7 +24,6 @@
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>Acceder</servlet-name>
         <servlet-class>com.Phylix.Acceder</servlet-class>
@@ -35,7 +32,6 @@
         <servlet-name>Acceder</servlet-name>
         <url-pattern>/Acceder</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>Menus</servlet-name>
         <servlet-class>com.Phylix.Menus</servlet-class>
@@ -44,7 +40,6 @@
         <servlet-name>Menus</servlet-name>
         <url-pattern>/Menus</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>CalculoComidas</servlet-name>
         <servlet-class>com.Phylix.CalculoComidas</servlet-class>
@@ -53,7 +48,6 @@
         <servlet-name>CalculoComidas</servlet-name>
         <url-pattern>/CalculoComidas</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>CrearRutina</servlet-name>
         <servlet-class>com.Phylix.CrearRutina</servlet-class>
@@ -62,7 +56,6 @@
         <servlet-name>CrearRutina</servlet-name>
         <url-pattern>/CrearRutina</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>Perfil</servlet-name>
         <servlet-class>com.Phylix.Perfil</servlet-class>
@@ -71,7 +64,6 @@
         <servlet-name>Perfil</servlet-name>
         <url-pattern>/Perfil</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>IMC</servlet-name>
         <servlet-class>com.Phylix.IMC</servlet-class>
@@ -80,7 +72,6 @@
         <servlet-name>IMC</servlet-name>
         <url-pattern>/IMC</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>RutinaspersoCreadas</servlet-name>
         <servlet-class>com.Phylix.RutinaspersoCreadas</servlet-class>
@@ -89,7 +80,6 @@
         <servlet-name>RutinaspersoCreadas</servlet-name>
         <url-pattern>/RutinaspersoCreadas</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>DietaspersoCreadas</servlet-name>
         <servlet-class>com.Phylix.DietaspersoCreadas</servlet-class>
@@ -98,7 +88,6 @@
         <servlet-name>DietaspersoCreadas</servlet-name>
         <url-pattern>/DietaspersoCreadas</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>MisDietas</servlet-name>
         <servlet-class>com.Phylix.MisDietas</servlet-class>
@@ -107,7 +96,6 @@
         <servlet-name>MisDietas</servlet-name>
         <url-pattern>/MisDietas</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>MisRutinas</servlet-name>
         <servlet-class>com.Phylix.MisRutinas</servlet-class>
@@ -116,7 +104,6 @@
         <servlet-name>MisRutinas</servlet-name>
         <url-pattern>/MisRutinas</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>AnadirImagen</servlet-name>
         <servlet-class>com.Phylix.AnadirImagen</servlet-class>
@@ -125,7 +112,6 @@
         <servlet-name>AnadirImagen</servlet-name>
         <url-pattern>/AnadirImagen</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>ImagenPerfil</servlet-name>
         <servlet-class>com.Phylix.ImagenPerfil</servlet-class>
@@ -134,7 +120,6 @@
         <servlet-name>ImagenPerfil</servlet-name>
         <url-pattern>/ImagenPerfil</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>EliminarRutina</servlet-name>
         <servlet-class>com.Phylix.EliminarRutina</servlet-class>
@@ -143,7 +128,6 @@
         <servlet-name>EliminarRutina</servlet-name>
         <url-pattern>/EliminarRutina</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>EliminarDieta</servlet-name>
         <servlet-class>com.Phylix.EliminarDieta</servlet-class>
@@ -152,7 +136,6 @@
         <servlet-name>EliminarDieta</servlet-name>
         <url-pattern>/EliminarDieta</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>EliminarPerfil</servlet-name>
         <servlet-class>com.Phylix.EliminarPerfil</servlet-class>
@@ -169,7 +152,6 @@
         <servlet-name>ModificarPerfil</servlet-name>
         <url-pattern>/ModificarPerfil</url-pattern>
     </servlet-mapping>
-    
     <servlet>
         <servlet-name>Progreso</servlet-name>
         <servlet-class>com.Phylix.Progreso</servlet-class>
@@ -178,30 +160,82 @@
         <servlet-name>Progreso</servlet-name>
         <url-pattern>/Progreso</url-pattern>
     </servlet-mapping>
-    
-    
     <display-name>FitData Chatbot</display-name>
-        <context-param>
+    <context-param>
         <param-name>gemini.api.key</param-name>
         <param-value>AIzaSyCBaHESQ_T4jcOADB3d2A66trpcNDEoes0</param-value>
     </context-param>
-    
-    
     <servlet>
         <servlet-name>IAChatbot</servlet-name>
         <servlet-class>com.Phylix.IAChatbot</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>IAChatbot</servlet-name>
         <url-pattern>/IAChatbot</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>EjecutarPhyton</servlet-name>
+        <servlet-class>com.Phylix.EjecutarPhyton</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EjecutarPhyton</servlet-name>
+        <url-pattern>/EjecutarPhyton</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ProgressBar</servlet-name>
+        <servlet-class>com.Phylix.ProgressBar</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProgressBar</servlet-name>
+        <url-pattern>/ProgressBar</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GuardarDatos</servlet-name>
+        <servlet-class>com.Phylix.GuardarDatos</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GuardarDatos</servlet-name>
+        <url-pattern>/GuardarDatos</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DashboardServlet</servlet-name>
+        <servlet-class>com.Phylix.DashboardServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DashboardServlet</servlet-name>
+        <url-pattern>/DashboardServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RutinaDelDia</servlet-name>
+        <servlet-class>com.Phylix.RutinaDelDia</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RutinaDelDia</servlet-name>
+        <url-pattern>/RutinaDelDia</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ValidarRutina</servlet-name>
+        <servlet-class>com.Phylix.ValidarRutina</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ValidarRutina</servlet-name>
+        <url-pattern>/ValidarRutina</url-pattern>
+    </servlet-mapping>
     
-    <jsp-config>
-    <jsp-property-group>
-        <url-pattern>*.jsp</url-pattern>
-        <page-encoding>UTF-8</page-encoding>
-    </jsp-property-group>
-    </jsp-config>
-    
+    <servlet>
+        <servlet-name>VerificarComida</servlet-name>
+        <servlet-class>com.Phylix.VerificarComida</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VerificarComida</servlet-name>
+        <url-pattern>/VerificarComida</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>FitDataa</servlet-name>
+        <servlet-class>com.Phylix.FitDataa</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FitDataa</servlet-name>
+        <url-pattern>/FitDataa</url-pattern>
+    </servlet-mapping>
 </web-app>

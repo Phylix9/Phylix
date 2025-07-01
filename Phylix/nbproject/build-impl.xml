@@ -990,6 +990,7 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.gson-2.9.1.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.javax.jws-3.1.2.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jakarta.activation-2.0.1.jar-1}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jython-2.7.3.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
@@ -1002,9 +1003,26 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.gson-2.9.1.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.javax.jws-3.1.2.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.jakarta.activation-2.0.1.jar-1}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${file.reference.jython-2.7.3.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
+    </target>
+    <target name="prepare-python" depends="init">
+    <!-- Crear directorio para los módulos Python -->
+        <mkdir dir="${build.web.dir}/WEB-INF/lib/Lib/clases"/>
+    
+    <!-- Copiar los archivos Python de tu modelo ML desde la ubicación correcta -->
+        <copy todir="${build.web.dir}/WEB-INF/lib/Lib/clases">
+            <fileset dir="${basedir}/src/java/clases" includes="**/*.py"/>
+        </copy>
+
+        <!-- Crear archivo de configuración de Jython -->
+        <echo file="${build.web.dir}/WEB-INF/lib/jython.properties">
+            python.home=${build.web.dir}/WEB-INF/lib
+            python.path=${build.web.dir}/WEB-INF/lib/Lib
+            python.import.site=false
+        </echo>
     </target>
     <target depends="init,-clean-webinf-lib,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" if="do.tmp.war.package" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>

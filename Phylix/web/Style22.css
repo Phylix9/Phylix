@@ -3,14 +3,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : Apr 7, 2025, 12:14:24 AM
-    Author     : chris
+    Created on : Jun 26, 2025, 4:38:21 PM
+    Author     : Abraham
 */
+
 
 :root {
   --primary-color: #111317;
   --secondary-color: #2b6cb0;
-  --accent-color: #539EE9;
+  --tertiary-color: #b794f4;
+  --cuarternary-color: #2ecc71;
+  --accent-color: #f39c12;
+  --ahover-color: #539EE9;
   --background-dark: #1a202c;
   --background-card: #2d3748;
   --background-light: #F5F5F5;
@@ -54,7 +58,7 @@ a {
 }
 
 a:hover {
-    color: var(--accent-color);
+    color: var(--ahover-color);
 }
 
 header {
@@ -98,7 +102,7 @@ nav ul li a::after {
     left: 0;
     width: 0;
     height: 2px;
-    background-color: var(--accent-color);
+    background-color: var(--ahover-color);
     transition: width 0.3s ease;
 }
 
@@ -158,7 +162,7 @@ nav ul li a:hover::after {
 }
 
 main {
-    padding-top: 90px;
+    padding-top: 20px;
     padding-bottom: 50px;
 }
 
@@ -311,7 +315,6 @@ main {
 
 .days-remaining {
     font-weight: 500;
-    color: var(--tertiary-color);
 }
 
 /* Progress Sections */
@@ -443,15 +446,15 @@ main {
 }
 
 .color-dot.weight {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
 }
 
 .color-dot.target {
-    background-color: var(--tertiary-color);
+    background-color: var(--cuarternary-color);
 }
 
 .color-dot.chest {
-    background-color: var(--primary-color);
+    background-color: var(--cuarternary-color);
 }
 
 .color-dot.waist {
@@ -467,11 +470,11 @@ main {
 }
 
 .color-dot.arm {
-    background-color: #E91E63;
+    background-color: #e74c3c;
 }
 
 .color-dot.squat {
-    background-color: var(--primary-color);
+    background-color: #e74c3c;
 }
 
 .color-dot.bench {
@@ -479,7 +482,7 @@ main {
 }
 
 .color-dot.deadlift {
-    background-color: var(--tertiary-color);
+    background-color: var(--cuarternary-color);
 }
 
 .chart-body {

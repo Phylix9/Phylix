@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 @WebServlet(name = "Cuestionario", urlPatterns = {"/Cuestionario"})
@@ -37,6 +38,8 @@ public class Cuestionario extends HttpServlet {
         String nombre = request.getParameter("nombrecompleto");
         String edadStr = request.getParameter("edad");
         String sexo = request.getParameter("genero");
+        String pesoStr = request.getParameter("peso");
+        String alturaStr = request.getParameter("altura");
         String condicion = request.getParameter("condiciones");
         String medicamento = request.getParameter("medicamentos");
         String frecuencia = request.getParameter("actividad");
@@ -47,10 +50,18 @@ public class Cuestionario extends HttpServlet {
         String sueno = request.getParameter("suenio");
 
         int edad = Integer.parseInt(edadStr);
+        double peso = Double.parseDouble(pesoStr);
+        double altura = Double.parseDouble(alturaStr);
+        
+        int progreso_default = 0;
+        
+        Date fechaActual = new Date(System.currentTimeMillis());
 
+
+        
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         Connection con = null;
         PreparedStatement sta = null;
@@ -60,16 +71,32 @@ public class Cuestionario extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             con = DriverManager.getConnection(url, user, password);
 
-            sta2 = con.prepareStatement("UPDATE Usuario SET edad_usuario = ?, sexo_usuario = ? WHERE id_usuario = ?;");
+            sta2 = con.prepareStatement("UPDATE Usuario SET edad_usuario = ?, sexo_usuario = ?, progreso = ?, peso_inicial = ?, altura_inicial = ?, fecha_registro = ?, ultima_conexion = ? WHERE id_usuario = ?;");
             sta2.setInt(1, edad);
             sta2.setString(2, sexo);
-            sta2.setInt(3, id_usuario);
+            sta2.setInt(3,progreso_default);
+            sta2.setDouble(4, peso);
+            sta2.setDouble(5, altura);
+            sta2.setDate(6, fechaActual); 
+            sta2.setDate(7, fechaActual); 
+            sta2.setInt(8, id_usuario);
             sta2.executeUpdate();
             sta2.close();
             
-            sta2 = con.prepareStatement("INSERT INTO Imc(id_imc, id_usuario) values (?,?);");
+            sta2 = con.prepareStatement("INSERT INTO Imc(fecha, peso_usuario, altura_usuario, id_usuario) values (?,?,?,?);");
+            sta2.setDate(1, fechaActual);
+            sta2.setDouble(2, peso);
+            sta2.setDouble(3, altura);
+            sta2.setInt(4, id_usuario);
+            sta2.executeUpdate();
+            sta2.close();
+
+            sta2 = con.prepareStatement("INSERT INTO IMC_Inicial(id_imcinicial, fecha_registro, peso_inicial, altura_inicial, id_usuario) values (?,?,?,?,?);");
             sta2.setInt(1, id_usuario);
-            sta2.setInt(2, id_usuario);
+            sta2.setDate(2, fechaActual);
+            sta2.setDouble(3, peso);
+            sta2.setDouble(4, altura);
+            sta2.setInt(5, id_usuario);
             sta2.executeUpdate();
             sta2.close();
             
@@ -78,7 +105,7 @@ public class Cuestionario extends HttpServlet {
             sta2.setInt(2, id_usuario);
             sta2.executeUpdate();
             
-            File defaultImageFile = new File("C:\\Users\\chris\\Phylix\\Phylix\\web\\src\\perfil.png");
+            File defaultImageFile = new File("C:\\Users\\macur\\Documents\\Phylix\\Phylix\\web\\src\\perfil.png");
                             String sqlUpdateImagen = "UPDATE ImagenesPerfil SET imagen = ? WHERE id_usuario = ?";
                             try (FileInputStream fis = new FileInputStream(defaultImageFile);
                                  PreparedStatement stmtUpdateImagen = con.prepareStatement(sqlUpdateImagen)) {

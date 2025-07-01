@@ -42,8 +42,10 @@
                     <option value="femenino">Femenino</option>
                     <option value="masculino">Masculino</option>
                     <option value="otro">Otro</option>
-                </select>
                 <input type="text" id="generoOtro" name="generoOtro" placeholder="Especifica otro género" class="extra-field">
+                
+                <input type="number" name="peso" step="0.01" placeholder="Peso en kg" required>
+                <input type="number" name="altura" step="0.01" placeholder="Altura en metros" required>
 
             </div>
 

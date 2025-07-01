@@ -13,7 +13,7 @@
 </head>
 <body>
 
-    <h1>Crear tu Menú <%=session.getAttribute("nombre_usuario")%></h1>
+<h1>Crear tu Menú <%=session.getAttribute("nombre_usuario")%></h1>
 <form action="CalculoComidas" method="post">
     
     <h3>Asigna nombre a tu dieta</h3>
@@ -70,6 +70,30 @@
         <p>No se encontraron alimentos para este usuario.</p>
     <% } %>
 
+    <div class="center-container">
+            <h3>Selecciona el día de la semana</h3>
+            <div class="styled-select">
+                <select name="diaComida" required>
+                    <%
+                        List<String> diasDisponibles = (List<String>) request.getAttribute("diasDisponibles");
+
+                        if (diasDisponibles != null && !diasDisponibles.isEmpty()) {
+                            for (String dia : diasDisponibles) {
+                    %>
+                                <option value="<%= dia %>">
+                                    <%= dia.substring(0,1).toUpperCase() + dia.substring(1).toLowerCase() %>
+                                </option>
+                    <%
+                            }
+                        } else {
+                    %>
+                        <option disabled selected>No hay días disponibles</option>
+                    <%
+                        }
+                    %>
+                </select>
+            </div>
+        </div>
     <input type="submit" value="Crear Menú">
 </form>
 

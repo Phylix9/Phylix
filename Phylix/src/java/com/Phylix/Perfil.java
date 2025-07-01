@@ -32,7 +32,7 @@ public class Perfil extends HttpServlet {
         int idUsuario = (int) session.getAttribute("id_usuario");
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "AT10220906";
 
         Connection con = null;
         PreparedStatement Cuestionario = null;

@@ -35,7 +35,7 @@ public class CrearRutina extends HttpServlet {
 
     String url = "jdbc:mysql://localhost/FitData";
     String user = "root";
-    String password = "n0m3l0";
+    String password = "AT10220906";
 
         String currentRoutine = "";
         List<String[]> nombres = new ArrayList<>();
@@ -73,10 +73,11 @@ public class CrearRutina extends HttpServlet {
             }
 
             String nombreRutina = request.getParameter("nombreRutina");
+            String diaRutina = request.getParameter("diaRutina");
+            String estado = "pendiente";
             List<String> ejercicios1 = obtenerEjercicios(request, "ejercicio1");
             List<String> ejercicios2 = obtenerEjercicios(request, "ejercicio2");
             List<String> ejercicios3 = obtenerEjercicios(request, "ejercicio3");
-
 
             int edad = 0;
             String sexo = "desconocido";
@@ -115,10 +116,10 @@ public class CrearRutina extends HttpServlet {
             
             List<String> repeticionesYSeries = calcularRepeticionesYSeries(edad, sexo, frecuencia, objetivos);
 
-            crearRegistroRutina(con, idUsuario, ejercicios1, ejercicios2, ejercicios3, repeticionesYSeries, nombreRutina);
+            crearRegistroRutina(con, idUsuario, ejercicios1, ejercicios2, ejercicios3, repeticionesYSeries, diaRutina, nombreRutina, estado);
 
             response.getWriter().println("<script>alert('Rutina creada exitosamente.');</script>");
-            response.sendRedirect("FitData");
+            response.sendRedirect("FitDataa");
 
         } catch (Exception e) {
             response.getWriter().print("Error: " + e.getMessage());
@@ -192,10 +193,10 @@ public class CrearRutina extends HttpServlet {
 
     public void crearRegistroRutina(Connection con, Integer idUsuario, List<String> ejercicios1, 
                                     List<String> ejercicios2, List<String> ejercicios3, 
-                                    List<String> repeticionesYSeries, String nombreRutina) throws SQLException {
+                                    List<String> repeticionesYSeries,String diaRutina, String nombreRutina, String estado) throws SQLException {
         String query = "INSERT INTO Rutinasper (ejercicio1, ejercicio2, ejercicio3, ejercicio4, ejercicio5, ejercicio6, ejercicio7, ejercicio8, ejercicio9," +
-                       "reps1, reps2, reps3, reps4, reps5, reps6, reps7, reps8, reps9, nombre_rutina, id_usuario) " +
-                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                       "reps1, reps2, reps3, reps4, reps5, reps6, reps7, reps8, reps9, nombre_rutina, dia_rutina, estado, id_usuario) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
         try (PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             List<String> todosEjercicios = new ArrayList<>();
@@ -220,7 +221,9 @@ public class CrearRutina extends HttpServlet {
             }
 
             stmt.setString(19, nombreRutina);
-            stmt.setInt(20, idUsuario);
+            stmt.setString(20, diaRutina);
+            stmt.setString(21, estado);
+            stmt.setInt(22, idUsuario);
 
             int affectedRows = stmt.executeUpdate();
 
