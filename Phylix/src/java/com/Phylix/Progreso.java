@@ -32,10 +32,46 @@ public class Progreso extends HttpServlet {
         HttpSession session = request.getSession();
         Integer id_usuario = (Integer) session.getAttribute("id_usuario");
         
-        // Si no hay usuario autenticado, redirigir al login
-        if (id_usuario == null) {
-            response.sendRedirect("FitDataa");
-            return;
+        try {
+            if (session == null || session.getAttribute("id_usuario") == null || session.getAttribute("session_token") == null) {
+                request.getRequestDispatcher("FitDataa").forward(request, response);
+                return;
+            }
+
+            String tokenSesion = (String) session.getAttribute("session_token");
+            int idUsuario = (int) session.getAttribute("id_usuario");
+
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitdata", "root", "AT10220906")) {
+
+                try (PreparedStatement psToken = con.prepareStatement(
+                        "SELECT session_token FROM Usuario WHERE id_usuario = ?")) {
+                    psToken.setInt(1, idUsuario);
+                    ResultSet rs = psToken.executeQuery();
+
+                    if (rs.next()) {
+                        String tokenBD = rs.getString("session_token");
+
+                        if (!tokenSesion.equals(tokenBD)) {
+                            session.invalidate(); 
+                            response.sendRedirect("Acceder?error=sesion_duplicada");
+                            return;
+                        }
+                    } else {
+                        session.invalidate();
+                        response.sendRedirect("Acceder?error=usuario_no_encontrado");
+                        return;
+                    }
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                response.sendRedirect("login.jsp?error=conexion_bd");
+                return;
+            }
+        } catch (Exception e) {
+            PrintWriter out = response.getWriter();
+            out.println("<h1>Error interno: " + e.getMessage() + "</h1>");
+            e.printStackTrace(out);
         }
         
         // Obtener datos del progreso para enviar al JSP
@@ -331,7 +367,7 @@ public class Progreso extends HttpServlet {
             request.setAttribute("analisisMedidas", analisisMedidas);
             request.setAttribute("analisisCargas", analisisCargas.toString());
             request.setAttribute("analisisFuerzaGeneral", analisisFuerzaGeneral);
-        request.getRequestDispatcher("Progreso.jsp").forward(request, response);
+            request.getRequestDispatcher("Progreso.jsp").forward(request, response);
     }
     
     private String analizarPeso(List<Double> pesos, double objetivo, String objetivoUsuario) {
@@ -459,7 +495,7 @@ public class Progreso extends HttpServlet {
         resultado.append("<ul>");
 
         if (!pecho.isEmpty() && pecho.size() >= 2) {
-            int cambioPecho = pecho.get(0) - pecho.get(pecho.size() - 1);
+            int cambioPecho = pecho.get(pecho.size() - 1) - pecho.get(0) ;
             resultado.append("<li><strong>Pecho:</strong> ");
             if (Math.abs(cambioPecho) < 1) {
                 resultado.append("Medida estable. ");
@@ -473,7 +509,7 @@ public class Progreso extends HttpServlet {
             resultado.append("</li>");
         }
         
-        int cambioCintura = cintura.get(0) - cintura.get(cintura.size() - 1);
+        int cambioCintura = cintura.get(cintura.size() - 1) - cintura.get(0);
         resultado.append("<li><strong>Cintura:</strong> ");
         if (Math.abs(cambioCintura) < 1) {
             resultado.append("Sin cambios significativos. Mantén la consistencia para ver mejores resultados.");
@@ -487,7 +523,7 @@ public class Progreso extends HttpServlet {
         resultado.append("</li>");
 
         if (!caderas.isEmpty() && caderas.size() >= 2) {
-            int cambioCaderas = caderas.get(0) - caderas.get(caderas.size() - 1);
+            int cambioCaderas = caderas.get(caderas.size() - 1) - caderas.get(0);
             resultado.append("<li><strong>Caderas:</strong> ");
             if (Math.abs(cambioCaderas) < 1) {
                 resultado.append("Medida estable. ");
@@ -502,7 +538,7 @@ public class Progreso extends HttpServlet {
         }
                 
         if (!muslo.isEmpty() && muslo.size() >= 2) {
-            int cambioMuslo = muslo.get(0) - muslo.get(muslo.size() - 1);
+            int cambioMuslo = muslo.get(muslo.size() - 1) - muslo.get(0) ;
             resultado.append("<li><strong>Muslo:</strong> ");
             if (Math.abs(cambioMuslo) < 1) {
                 resultado.append("Medida estable. ");
@@ -517,7 +553,7 @@ public class Progreso extends HttpServlet {
         }
 
         if (!brazo.isEmpty() && brazo.size() >= 2) {
-            int cambioBrazo = brazo.get(0) - brazo.get(brazo.size() - 1);
+            int cambioBrazo = brazo.get(brazo.size()-1) - brazo.get(0);
             resultado.append("<li><strong>Brazo:</strong> ");
             if (Math.abs(cambioBrazo) < 1) {
                 resultado.append("Sin cambios notables. ");
@@ -593,11 +629,13 @@ public class Progreso extends HttpServlet {
         }
 
         // Análisis de tendencia reciente
-        if (Math.abs(cambioReciente) > 1.0) {
+        if (Math.abs(cambioReciente) > 0.5) {
             if (cambioReciente > 0) {
-                resultado.append(String.format("Última sesión: +%.1f kg. ", cambioReciente));
-            } else {
-                resultado.append(String.format("Última sesión: -%.1f kg. ", Math.abs(cambioReciente)));
+                resultado.append(String.format("Aumento con respecto al último registro: +%.1f kg. ", cambioReciente));
+            } else if (cambioReciente == 0) {
+                resultado.append(String.format("No hubo ni aumento ni disminución con respecto al último registro: +%.1f kg. ", cambioReciente));
+            }else {
+                resultado.append(String.format("Disminución con respecto al últim registro: -%.1f kg. ", Math.abs(cambioReciente)));
                 resultado.append("Posible fatiga o necesidad de deload. ");
             }
         }

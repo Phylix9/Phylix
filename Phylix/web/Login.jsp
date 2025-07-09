@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login FitData</title>
     <link rel="icon" href="src/logoFitData.png" type="img/png">
-    <link rel="stylesheet" href="Styles5.css">
+    <link rel="stylesheet" href="StylesLog.css">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -34,11 +35,14 @@
                     <input type="text" id="nombre" name="nombre" placeholder="Nombre" required />
                     <input type="email" id="signup-email" name="email" placeholder="Email" required />
                     <span class="email-error" id="signup-email-error" style="display: none; color: #f5f5f5; font-size: 0.8rem;"></span>
-                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required 
-                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]+" minlength="8"/>
+                    <div class="input-container">
+                        <input type="password" id="pswd1" name="pswd1" placeholder="ContraseÃ±a" required 
+                            pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]+" minlength="12"/>
+                        <i class="fa-solid fa-eye toggle-password" id="eyeIcon" onclick="togglePasswordVisibilityR()"></i>
+                    </div>
                     <div class="password-requirements" id="password-requirements">
                         <ul>
-                            <li>Mínimo 8 caracteres, sin espacios. Al menos una letra mayúscula, una minúscula y un número.</li>
+                            <li>MÃ­nimo 12 caracteres, sin espacios. Al menos una letra mayÃºscula, una minÃºscula y un nÃºmero.</li>
                         </ul>
                     </div>
                     <button type="submit">Registrarse</button>
@@ -47,24 +51,24 @@
 
             <div class="form-container sign-in-container">
                 <form action="Login" method="post" id="signinForm">
-                    <h1>Iniciar Sesión</h1>
+                    <h1>Iniciar SesiÃ³n</h1>
                     <%
                         HttpSession sesion = request.getSession(false);
                         String error = request.getParameter("error");
                         boolean maxIntentos = "max".equals(error);
-                        int intentosRestantes = 3;
-                        if (sesion != null && sesion.getAttribute("intentos") != null) {
-                            intentosRestantes = 3 - (Integer) sesion.getAttribute("intentos");
-                            if (intentosRestantes < 0) intentosRestantes = 0;
+                        int intentosRestantes =3;
+                        if (sesion != null && sesion.getAttribute("intentos_login") != null) {
+                            intentosRestantes = 3 - (Integer) sesion.getAttribute("intentos_login");
+                            if (intentosRestantes <= 0) intentosRestantes = 0;
                         }
 
                         if ("true".equals(error)) {
                     %>
-                        <p style="color: red; font-size: 14px;">Correo o contraseña incorrectos. Te quedan <%= intentosRestantes %> intento<%= intentosRestantes == 1 ? "" : "s" %>.</p>
+                        <p style="color: red; font-size: 14px;">Correo o contraseÃ±a incorrectos. Te quedan <%= intentosRestantes %> intento<%= intentosRestantes == 1 ? "" : "s" %>.</p>
                     <%
                         } else if ("max".equals(error)) {
                     %>
-                        <p style="color: red; font-size: 14px;">Has superado el número máximo de intentos. Intenta más tarde.</p>
+                        <p style="color: red; font-size: 14px;">Has superado el nÃºmero mÃ¡ximo de intentos. Intenta mÃ¡s tarde.</p>
                     <%
                         }
                     %>
@@ -74,8 +78,11 @@
                     </div>
                     <span>O usa tu cuenta</span>
                     <input type="email" id="email" name="email" placeholder="Email" required <%= maxIntentos ? "disabled" : "" %> />
-                    <input type="password" id="pswd" name="pswd" placeholder="Contraseña" required <%= maxIntentos ? "disabled" : "" %> />
-                    <button type="submit" <%= maxIntentos ? "disabled style='background-color: gray; cursor: not-allowed;'" : "" %>>Inicia Sesión</button>
+                    <div class="input-container">
+                        <input type="password" id="pswd" name="pswd" placeholder="ContraseÃ±a" required <%= maxIntentos ? "disabled" : "" %> />
+                            <i class="fa-solid fa-eye toggle-password" id="eyeIcon" onclick="togglePasswordVisibility()"></i>
+                    </div>
+                    <button type="submit" <%= maxIntentos ? "disabled style='background-color: gray; cursor: not-allowed;'" : "" %>>Inicia SesiÃ³n</button>
                 </form>
             </div>
 
@@ -85,10 +92,10 @@
                     <div class="overlay-panel overlay-left">
                         <h1>Bienvenido</h1>
                         <p>Para seguir conectado con nosotros por favor ingresa con tus datos personales</p>
-                        <button class="ghost" id="signIn">Iniciar Sesión</button>
+                        <button class="ghost" id="signIn">Iniciar SesiÃ³n</button>
                     </div>
                     <div class="overlay-panel overlay-right">
-                        <h1>Hola, ¿Nuevo Aquí?</h1>
+                        <h1>Hola, Â¿Nuevo AquÃ­?</h1>
                         <p>Ingresa tus datos personales para iniciar una vida saludable con nosotros</p>
                         <button class="ghost" id="signUp">Registrarse</button>
                     </div>
@@ -117,47 +124,47 @@
         function validateEmail(email) {
             const basicEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!basicEmailRegex.test(email)) {
-                return { isValid: false, error: 'Por favor ingrese un email válido' };
+                return { isValid: false, error: 'Por favor ingrese un email vÃ¡lido' };
             }
 
             const domain = email.split('@')[1];
             if (!VALID_DOMAINS.includes(domain.toLowerCase())) {
-                return { isValid: false, error: 'Por favor use un proveedor de correo válido' };
+                return { isValid: false, error: 'Por favor use un proveedor de correo vÃ¡lido' };
             }
 
             return { isValid: true };
         }
 
         function setupEmailValidation(formId, emailId, errorId) {
-    const form = document.getElementById(formId);
-    const emailInput = document.getElementById(emailId);
-    const errorSpan = document.getElementById(errorId);
+            const form = document.getElementById(formId);
+            const emailInput = document.getElementById(emailId);
+            const errorSpan = document.getElementById(errorId);
 
-    form.addEventListener('submit', function(e) {
-        const validation = validateEmail(emailInput.value);
-        if (!validation.isValid) {
-            e.preventDefault();
-            errorSpan.textContent = validation.error;
-            errorSpan.style.display = 'block';
-            emailInput.style.borderColor = 'red';
-        } else {
-            errorSpan.style.display = 'none';
-            emailInput.style.borderColor = '';
-        }
-    });
+            form.addEventListener('submit', function(e) {
+                const validation = validateEmail(emailInput.value);
+                if (!validation.isValid) {
+                    e.preventDefault();
+                    errorSpan.textContent = validation.error;
+                    errorSpan.style.display = 'block';
+                    emailInput.style.borderColor = 'red';
+                } else {
+                    errorSpan.style.display = 'none';
+                    emailInput.style.borderColor = '';
+                }
+            });
 
-    emailInput.addEventListener('blur', function() {
-        const validation = validateEmail(this.value);
-        if (!validation.isValid) {
-            errorSpan.textContent = validation.error;
-            errorSpan.style.display = 'block';
-            emailInput.style.borderColor = 'red';
-        } else {
-            errorSpan.style.display = 'none';
-            emailInput.style.borderColor = '';
+            emailInput.addEventListener('blur', function() {
+                const validation = validateEmail(this.value);
+                if (!validation.isValid) {
+                    errorSpan.textContent = validation.error;
+                    errorSpan.style.display = 'block';
+                    emailInput.style.borderColor = 'red';
+                } else {
+                    errorSpan.style.display = 'none';
+                    emailInput.style.borderColor = '';
+                }
+            });
         }
-    });
-}
 
 
         setupEmailValidation('signupForm', 'signup-email', 'signup-email-error');
@@ -179,7 +186,7 @@
             try {
                 const userData = jwt_decode(response.credential);
                 console.log("Usuario conectado:", userData);
-                alert(`¡Hola, ${userData.name}! Redirigiéndote...`);
+                alert(`Â¡Hola, ${userData.name}! RedirigiÃ©ndote...`);
                 window.location.href = "FitData";
             } catch (error) {
                 console.error("Error en Google:", error);
@@ -191,7 +198,7 @@
                 appId: '1255977565718063',
                 cookie: true,
                 xfbml: true,
-                version: 'v21.0',
+                version: 'v21.0'
             });
         };
 
@@ -199,11 +206,41 @@
             FB.login(function(response) {
                 if (response.authResponse) {
                     FB.api('/me', { fields: 'name,email' }, function(user) {
-                        alert(`Hola ${user.name}! Redirigiéndote...`);
+                        alert(`Hola ${user.name}! RedirigiÃ©ndote...`);
                         window.location.href = "FitData";
                     });
                 }
             }, { scope: 'public_profile,email' });
+        }
+        
+        function togglePasswordVisibility() {
+            const input = document.getElementById("pswd");
+            const icon = document.getElementById("eyeIcon");
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        function togglePasswordVisibilityR() {
+            const input = document.getElementById("pswd1");
+            const icon = document.getElementById("eyeIcon");
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
         }
     </script>
 </body>

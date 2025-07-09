@@ -13,21 +13,21 @@ import jakarta.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.json.JSONObject;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.json.JSONObject;
 
 
 /**
  *
  * @author Abraham
  */
-@WebServlet(name = "GuardarDatos", urlPatterns = {"/GuardarDatos"})
-public class GuardarDatos extends HttpServlet {
+@WebServlet(name = "GuardarPeso", urlPatterns = {"/GuardarPeso"})
+public class GuardarPeso extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +46,10 @@ public class GuardarDatos extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GuardarDatos</title>");            
+            out.println("<title>Servlet GuardarPeso</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GuardarDatos at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet GuardarPeso at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -91,12 +91,12 @@ public class GuardarDatos extends HttpServlet {
         // Parsear JSON
         JSONObject datos = new JSONObject(jsonBuilder.toString());
         Date fechaActual = new Date(System.currentTimeMillis());
-        double peso = datos.getDouble("peso");
-        int cintura = datos.getInt("cintura");
-        int pecho = datos.getInt("pecho");
-        int cadera = datos.getInt("cadera");
-        int muslo = datos.getInt("muslo");
-        int brazo = datos.getInt("brazo");
+        double sentadilla = datos.getDouble("sentadilla");
+        double press = datos.getDouble("press");
+        double pesom = datos.getDouble("pesom");
+        double pressm = datos.getDouble("pressm");
+        double biceps = datos.getDouble("biceps");
+        double remo = datos.getDouble("remo");
 
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("id_usuario") == null) {
@@ -108,26 +108,16 @@ public class GuardarDatos extends HttpServlet {
 
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitdata", "root", "AT10220906")) {
             con.setAutoCommit(false);
-            double altura = obtenerAlturaUsuario(con, idUsuario);
-
-            try (
-                PreparedStatement psIMC = con.prepareStatement("INSERT INTO IMC (fecha, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?);")) {
-                    psIMC.setDate(1, fechaActual);
-                    psIMC.setDouble(2, peso);
-                    psIMC.setDouble(3, altura);
-                    psIMC.setInt(4, idUsuario);
-                psIMC.executeUpdate();
-            }
-
             try ( 
-                PreparedStatement psMedidas = con.prepareStatement("INSERT INTO Medidas (fecha, cintura, pecho, caderas, muslo, brazo, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?);")) {
+                PreparedStatement psMedidas = con.prepareStatement("INSERT INTO Cargas (fecha, sentadilla, press_pecho, peso_muerto, press_militar, curl_biceps, remo, id_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
                     psMedidas.setDate(1, fechaActual);
-                    psMedidas.setInt(2, cintura);
-                    psMedidas.setInt(3, pecho);
-                    psMedidas.setInt(4, cadera);
-                    psMedidas.setInt(5, muslo);
-                    psMedidas.setInt(6, brazo);
-                    psMedidas.setInt(7, idUsuario);
+                    psMedidas.setDouble(2, sentadilla);
+                    psMedidas.setDouble(3, press);
+                    psMedidas.setDouble(4, pesom);
+                    psMedidas.setDouble(5, pressm);
+                    psMedidas.setDouble(6, biceps);
+                    psMedidas.setDouble(7, remo);
+                    psMedidas.setInt(8, idUsuario);
                 psMedidas.executeUpdate();
             }
 

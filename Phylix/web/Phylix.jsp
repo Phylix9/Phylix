@@ -1,3 +1,10 @@
+<%-- 
+    Document   : Phylix
+    Created on : Jul 1, 2025, 3:08:08 AM
+    Author     : Abraham
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +30,7 @@
         </div>
         <ul>
             <li>
-                <a href="index.html">
+                <a href="/Phylix/">
                     <i class="bx bx-home-alt"></i>
                     <span class="nav-item">Principal</span>
                 </a>

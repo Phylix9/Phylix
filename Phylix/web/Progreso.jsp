@@ -15,8 +15,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Progreso</title>
-    <link rel="stylesheet" href="Styles29.css">
+    <link rel="stylesheet" href="StylesProgreso.css">
     <link rel="icon" href="src/logoFitData.png" type="img/png">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet"/>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -98,9 +99,9 @@
             <nav>
                 <ul>
                     <li><a href="FitDataa">Inicio</a></li>
-                    <li><a href="Rutinas.jsp">Rutinas</a></li>
-                    <li><a href="Dietas.jsp">Dietas</a></li>
-                    <li><a href="Informacion.jsp">Informacion</a></li>
+                    <li><a href="Rutinas">Rutinas</a></li>
+                    <li><a href="Dietas">Dietas</a></li>
+                    <li><a href="Informacion">Informacion</a></li>
                 </ul>
             </nav>
             <div class="user-menu">
@@ -443,6 +444,26 @@
             </div>
         </section>
     </main>
+      
+    <div id="bot-float-button" onclick="toggleBot()">
+        <i class="ri-robot-line"></i>
+    </div>
+        
+    <div id="bot-window">
+        <iframe src="fitdatabot.jsp" frameborder="0"></iframe>
+    </div>
+    
+    <div id="login-modal">
+        <iframe src="LoginBot.html" frameborder="0"></iframe>
+    </div>                    
+
+    <div id="bot-float-button" onclick="toggleBot()">
+        <i class="ri-robot-line"></i>
+    </div>
+        
+    <div id="bot-window">
+        <iframe src="fitdatabot.jsp" frameborder="0"></iframe>
+    </div>
                         
      <div id="dataModal" class="modal">
         <div class="modal-content">
@@ -472,8 +493,32 @@
           </form>
         </div>
     </div>
+                        
+    
 
 <script>
+    
+    function toggleDropdown() {
+        const dropdown = document.querySelector('.dropdown-menu');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    function toggleBot() {
+        const idUsuario = <%= session.getAttribute("id_usuario") != null ? session.getAttribute("id_usuario") : "null" %>;
+
+        if (idUsuario === null) {
+            const loginModal = document.getElementById('login-modal');
+            loginModal.style.display = loginModal.style.display === 'block' ? 'none' : 'block';
+            return; 
+        }
+        const botWindow = document.getElementById('bot-window');
+        botWindow.style.display = botWindow.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function cerrarLoginModal() {
+        document.getElementById('login-modal').style.display = 'none';
+    }
+    
 document.addEventListener('DOMContentLoaded', function() {
 
 
@@ -527,7 +572,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                fetch('GuardarDatos', {
+                fetch('GuardarPeso', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1339,6 +1384,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (radarChart) radarChart.resize();
         }, 300);
     });
+
+    
 
     // Inicializar carga de datos
     loadProgressData();    

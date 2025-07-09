@@ -12,7 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.UUID;
 /**
  *
  * @author Abraham
@@ -31,24 +37,55 @@ public class FitDataa extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
 
-    try {
-        HttpSession session = request.getSession();
+        try {
+            HttpSession session = request.getSession(false); // Usa false para no crear una sesión nueva
 
-        if (session == null || session.getAttribute("id_usuario") == null) {
-            request.getRequestDispatcher("Proyecto.jsp").forward(request, response);
-            return;
-        }
+            if (session == null || session.getAttribute("id_usuario") == null || session.getAttribute("session_token") == null) {
+                request.getRequestDispatcher("FitData.jsp").forward(request, response);
+                return;
+            }
 
-        request.getRequestDispatcher("RutinaDelDia").forward(request, response);
+            String tokenSesion = (String) session.getAttribute("session_token");
+            int idUsuario = (int) session.getAttribute("id_usuario");
 
-    } catch (Exception e) {
-        PrintWriter out = response.getWriter();
-            out.println("<h1>Error: " + e.getMessage() + "</h1>");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitdata", "root", "AT10220906")) {
+
+                try (PreparedStatement psToken = con.prepareStatement(
+                        "SELECT session_token FROM Usuario WHERE id_usuario = ?")) {
+                    psToken.setInt(1, idUsuario);
+                    ResultSet rs = psToken.executeQuery();
+
+                    if (rs.next()) {
+                        String tokenBD = rs.getString("session_token");
+
+                        if (!tokenSesion.equals(tokenBD)) {
+                            session.invalidate(); 
+                            response.sendRedirect("Acceder?error=sesion_duplicada");
+                            return;
+                        }
+                    } else {
+                        session.invalidate();
+                        response.sendRedirect("Acceder?error=usuario_no_encontrado");
+                        return;
+                    }
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                response.sendRedirect("login.jsp?error=conexion_bd");
+                return;
+            }
+            request.getRequestDispatcher("RutinaDelDia").forward(request, response);
+
+        } catch (Exception e) {
+            PrintWriter out = response.getWriter();
+            out.println("<h1>Error interno: " + e.getMessage() + "</h1>");
             e.printStackTrace(out);
+        }
     }
-}
+
 
     
     

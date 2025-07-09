@@ -55,7 +55,7 @@ public class Login extends HttpServlet {
             Integer intentos = (Integer) session.getAttribute("intentos_login");
             if (intentos == null) intentos = 0;
 
-            if (intentos >= 3) {
+            if (intentos >= 2) {
                 response.sendRedirect("Acceder?error=max");
                 return;
             }

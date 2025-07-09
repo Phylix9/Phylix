@@ -1,3 +1,12 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jul 8, 2025, 10:04:33 AM
+    Author     : Abraham
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 
 * {
@@ -155,6 +164,26 @@ input:focus {
 
 input::placeholder {
   color: rgba(255, 255, 255, 0.5);
+}
+
+#pswd {
+    padding-right: 4px; /* espacio para el botón del ojo */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 button {

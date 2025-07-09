@@ -26,7 +26,7 @@ public class Registro extends HttpServlet {
 
         String correo = request.getParameter("email");
         String nombre = request.getParameter("nombre");
-        String contra = request.getParameter("pswd");
+        String contra = request.getParameter("pswd1");
 
         String url = "jdbc:mysql://localhost/FitData";
         String user = "root";

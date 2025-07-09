@@ -947,7 +947,7 @@ tr:nth-child(2n) {
     top: 0; left: 0;
     width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000
@@ -956,7 +956,7 @@ tr:nth-child(2n) {
 /* Contenedor del formulario */
 .modal-content {
   background-color: #1f2937; /* azul oscuro */
-  padding: 30px;
+  padding: 20px;
   border-radius: 16px;
   width: 360px;
   color: #f1f5f9;
@@ -1020,6 +1020,69 @@ tr:nth-child(2n) {
   background-color: #1e3a8a;
   color: #fff;
 }
+
+#bot-float-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 18px;
+        border-radius: 50%;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        z-index: 999;
+        transition: background-color 0.3s ease;
+      }
+
+      #bot-float-button:hover {
+        background-color: var(--secondary-color-dark);
+      }
+
+      #bot-float-button i {
+        font-size: 24px;
+      }
+
+      #bot-window {
+        display: none;
+        position: fixed;
+        bottom: 90px; 
+        right: 30px;
+        width: 450px;
+        height: 460px;
+        border: 1px solid #ccc;
+        background: white;
+        z-index: 999;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      #login-modal {
+        display: none;
+        position: fixed;
+        bottom: 90px; 
+        right: 30px;
+        width: 350px;
+        height: 460px;
+        border: 1px solid #ccc;
+        background: white;
+        z-index: 999;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      #login-modal iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      #bot-window iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
 
 @media (max-width: 1024px) {
   .dashboard {

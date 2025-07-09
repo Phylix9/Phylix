@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+
     <servlet>
         <servlet-name>Registro</servlet-name>
         <servlet-class>com.Phylix.Registro</servlet-class>
@@ -7,6 +8,38 @@
     <servlet-mapping>
         <servlet-name>Registro</servlet-name>
         <url-pattern>/Registro</url-pattern>
+    </servlet-mapping>
+    <servlet>    
+        <servlet-name>Abraham</servlet-name>
+        <servlet-class>com.Phylix.Abraham</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Abraham</servlet-name>
+        <url-pattern>/Abraham</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Christian</servlet-name>
+        <servlet-class>com.Phylix.Christian</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Christian</servlet-name>
+        <url-pattern>/Christian</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Karla</servlet-name>
+        <servlet-class>com.Phylix.Karla</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Karla</servlet-name>
+        <url-pattern>/Karla</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Julieta</servlet-name>
+        <servlet-class>com.Phylix.Julieta</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Julieta</servlet-name>
+        <url-pattern>/Julieta</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>Cuestionario</servlet-name>

@@ -169,7 +169,7 @@
             <img src="src/LogoFitdata2.png" alt="logo"/>
         </div>
         <ul class="nav__links">
-            <li class="link"><a href="index.html">Phylix</a></li>
+            <li class="link"><a href="/Phylix/">Phylix</a></li>
             <% 
                 String currentPage = request.getRequestURI();
                 if (currentPage.endsWith("FitData")) { 

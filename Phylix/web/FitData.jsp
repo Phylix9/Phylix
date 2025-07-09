@@ -107,10 +107,11 @@
       /* Contenedor del formulario */
       .modal-content {
         background-color: #1f2937; /* azul oscuro */
-        padding: 30px;
+        padding: 20px;
         border-radius: 16px;
         width: 360px;
         color: #f1f5f9;
+        height: 95%;
         font-family: 'Segoe UI', sans-serif;
         box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         text-align: center;
@@ -144,7 +145,7 @@
 
       /* Botón */
       .modal-content button {
-        margin-top: 20px;
+        margin-top: 0px;
         width: 100%;
         padding: 12px;
         border: none;
@@ -362,7 +363,7 @@
                             <img src="src/entrenamientos.png" alt="Entrenamientos">
                         </div>
                         <div class="stat-info">
-                            <span class="stat-value"><%= registrosEntreno %></span>
+                            <span class="stat-value">1</span>
                             <span class="stat-label">Entrenamientos en esta semana</span>
                         </div>
                     </div>
@@ -617,17 +618,6 @@
         <iframe src="LoginBot.html" frameborder="0"></iframe>
     </div>                    
 
-    <div id="bot-float-button" onclick="toggleBot()">
-        <i class="ri-robot-line"></i>
-    </div>
-        
-    <div id="bot-window">
-        <iframe src="fitdatabot.jsp" frameborder="0"></iframe>
-    </div>
-    
-    <div id="login-modal">
-        <iframe src="LoginBot.html" frameborder="0"></iframe>
-    </div>
                             
     <div id="dataModal" class="modal">
         <div class="modal-content">
@@ -1119,8 +1109,19 @@
             return; 
         }
         const botWindow = document.getElementById('bot-window');
-        botWindow.style.display = botWindow.style.display === 'block' ? 'none' : 'block';
+        const isVisible = botWindow.style.display === 'block';
+        botWindow.style.display = isVisible ? 'none' : 'block';
+
+        
+        if (!isVisible) {
+        const chatContainer = document.querySelector('.bot-window'); // cambia a tu clase real si es distinta
+        if (chatContainer) {
+            setTimeout(() => {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 100); // pequeño retraso para asegurar que los elementos ya estén visibles
+        }
     }
+}
 
     function cerrarLoginModal() {
         document.getElementById('login-modal').style.display = 'none';
