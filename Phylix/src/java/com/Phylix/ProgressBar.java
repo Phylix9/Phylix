@@ -23,7 +23,7 @@ import java.sql.*;
 public class ProgressBar extends HttpServlet {
     private final String URL = "jdbc:mysql://localhost:3306/fitdata";
     private final String USER = "root";
-    private final String PASSWORD = "AT10220906";
+    private final String PASSWORD = "n0m3l0";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

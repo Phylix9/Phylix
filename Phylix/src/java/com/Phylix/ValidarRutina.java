@@ -31,7 +31,7 @@ public class ValidarRutina extends HttpServlet {
 
     private final String url = "jdbc:mysql://localhost:3306/FitData";
     private final String user = "root";
-    private final String pass = "AT10220906";
+    private final String pass = "n0m3l0";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

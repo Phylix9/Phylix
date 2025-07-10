@@ -49,7 +49,7 @@ public class IMC extends HttpServlet {
             
             String url = "jdbc:mysql://localhost/FitData";
             String user = "root";
-            String password = "AT10220906";
+            String password = "n0m3l0";
 
             try (Connection con = DriverManager.getConnection(url, user, password)) {
                 PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC (fecha, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?)");

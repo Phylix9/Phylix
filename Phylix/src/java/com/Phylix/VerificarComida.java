@@ -29,7 +29,7 @@ public class VerificarComida extends HttpServlet {
 
     private final String url = "jdbc:mysql://localhost:3306/FitData";
     private final String user = "root";
-    private final String pass = "AT10220906";
+    private final String pass = "n0m3l0";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

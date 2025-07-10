@@ -40,7 +40,7 @@ public class DashboardServlet extends HttpServlet {
     // Configuración de base de datos - ajusta según tu configuración
     private final String url = "jdbc:mysql://localhost:3306/FitData";
     private final String user = "root";
-    private final String pass = "AT10220906";
+    private final String pass = "n0m3l0";
     
     // Límites saludables para cambios de peso mensual
     private static final double MAX_PERDIDA_MENSUAL_KG = 1.7;
