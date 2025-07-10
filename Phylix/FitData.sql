@@ -12,9 +12,26 @@ correo_usuario varchar(60),
 contrasena_usuario varchar(900),
 edad_usuario int,
 sexo_usuario varchar (15),
-two_factor boolean 
+two_factor boolean,
+progreso double,
+peso_inicial double,
+altura_inicial double,
+fecha_registro date,
+ultima_conexion date
 );
 
+select * from Usuario;
+
+UPDATE Usuario
+SET two_factor = false
+WHERE id_usuario = 1;
+
+SELECT DATE_FORMAT(fecha, '%Y-%m-%d') as fecha_formateada, peso_usuario FROM IMC WHERE id_usuario = 1 ORDER BY fecha ASC;
+select * from Cuestionario;
+UPDATE Usuario
+SET 
+    peso_inicial = 72
+WHERE id_usuario = 1;
 
 Create Table Cuestionario(
 id_cuestionario int primary key auto_increment,
@@ -57,58 +74,77 @@ FOREIGN KEY (id_rutina) REFERENCES Rutina(id_rutina)
 );
 
 
-Create Table IMC(
-id_imc int primary key auto_increment,
-imc_usuario double,
-peso_usuario double,
-altura_usuario double,
-id_usuario int,
-FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+CREATE TABLE IMC (
+    id_imc int primary key auto_increment,
+    fecha date,
+    peso_usuario double,
+    altura_usuario double,
+    imc_usuario double generated always as (peso_usuario / (altura_usuario * altura_usuario)) stored,
+    id_usuario int not null,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+);
+Drop table IMC;
+INSERT INTO IMC (fecha, peso_usuario, altura_usuario, id_usuario)
+VALUES 
+
+('2025-06-13', 63.4, 1.6, 1);
+select * from Comidas;
+delete from Comidas where id_comida= 15;
+
+SELECT COUNT(*) FROM Medidas WHERE id_usuario = 1 AND fecha >= DATE_SUB(CURDATE(), INTERVAL 13 DAY);
+SELECT COUNT(*) FROM Medidas WHERE id_usuario = 1 AND fecha >= DATE_SUB(CURDATE(), INTERVAL 15 DAY);
+SELECT COUNT(*) FROM Cargas WHERE id_usuario = 1 AND fecha >= DATE_SUB(CURDATE(), INTERVAL 13 DAY);
+CREATE TABLE IMC_Inicial (
+    id_imcinicial int primary key,
+    fecha_registro date,
+    peso_inicial double,
+    altura_inicial double,
+    imc_inicial double,
+    id_usuario int,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
 
-Create Table Alimentos(
-id_alim int primary key auto_increment,
-nombre_alim varchar(100),
-porcion_alim double,
-categoria varchar(25)
+ALTER TABLE Usuario ADD COLUMN session_token VARCHAR(100);
+
+UPDATE Rutinasper
+SET estado = "hecho"
+WHERE id_rut= 14;
+
+select * from Rutinasper;
+delete from Cargas where id_carga= 14;
+CREATE TABLE Medidas (
+    id_medida int primary key auto_increment,
+    fecha date,
+    cintura int,
+    pecho int,
+    caderas int,
+    muslo int,
+    brazo int,
+    id_usuario int,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
+drop table medidas;
+select * from Medidas;
+INSERT INTO Medidas (fecha, cintura, pecho, caderas, muslo, brazo, id_usuario) VALUES
 
-select * from Usuario;
-select * from Cuestionario;
-desc Cuestionario;
--- SELECT * FROM Usuario WHERE correo_usuario = 'abrahamtorrest10@gmail.com' AND contrasena_usuario = 'Abraham123-';
+('2025-07-01', 79, 98, 88, 58, 37, 1);
 
-INSERT INTO Alimentos (id_alim, nombre_alim, categoria) VALUES
-(NULL, 'Arroz', 'Carbohidrato'),
-(NULL, 'Pasta', 'Carbohidrato'),
-(NULL, 'Pan', 'Carbohidrato'),
-(NULL, 'Quinoa', 'Carbohidrato'),
-(NULL, 'Papa', 'Carbohidrato'),
-(NULL, 'Lentejas', 'Carbohidrato'),
+delete from medidas where id_medida=19;
 
-(NULL, 'Pollo', 'Proteína'),
-(NULL, 'Carne', 'Proteína'),
-(NULL, 'Pescado', 'Proteína'),
-(NULL, 'Huevo', 'Proteína'),
-(NULL, 'Tofu', 'Proteína'),
-(NULL, 'Pavo', 'Proteína'),
 
-(NULL, 'Aguacate', 'Grasa'),
-(NULL, 'Almendras', 'Grasa'),
-(NULL, 'Manteca de cerdo', 'Grasa'),
-(NULL, 'Nueces', 'Grasa'),
-(NULL, 'Semillas de chía', 'Grasa'),
-
-(NULL, 'Naranja', 'Vitamina'),
-(NULL, 'Manzana', 'Vitamina'),
-(NULL, 'Fresa', 'Vitamina'),
-(NULL, 'Brócoli', 'Vitamina'),
-(NULL, 'Zanahoria', 'Vitamina'),
-(NULL, 'Mango', 'Vitamina');
-
-select * from Alimentos;
-select * from Imc;
-
+CREATE TABLE Cargas (
+    id_carga int primary key auto_increment,
+    fecha date,
+    sentadilla double,
+    press_pecho double,
+    peso_muerto double,
+    press_militar double,
+    curl_biceps double,
+    remo double,
+    id_usuario int,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+);
+select * from Cargas;
 
 Create Table Comidas(
 id_comida int primary key auto_increment,
@@ -121,10 +157,13 @@ porcion_carbohidrato int,
 porcion_vitamina int,
 porcion_grasa int,
 nombre_dieta varchar(50),
+dia_comida varchar(25),
 id_usuario int,
 FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
+
 select * from Comidas;
+delete from comidas where id_comida = 30;
 
 Create Table Rutinasper(
 id_rut int primary key auto_increment,
@@ -147,13 +186,21 @@ reps7 varchar(40),
 reps8 varchar(40),
 reps9 varchar(40),
 nombre_rutina varchar(40),
+dia_rutina varchar(15),
+estado varchar(15),
 id_usuario int,
 FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
 
 select * from Rutinasper;
-desc Rutinasper;
+UPDATE Rutinasper
+SET estado = 'pendiente'
+WHERE id_rut = 20;
 
+SELECT * FROM Rutinasper WHERE id_usuario = 1;
+drop table rutinasper;
+select * from Medidas;
+delete FROM Medidas WHERE id_medida= 18;
 create table RutPrest(
 id_plan varchar(10) primary key,
 rutina_prest varchar(400),
@@ -172,10 +219,13 @@ INSERT INTO RutPrest (id_plan, rutina_prest, id_usuario) VALUES
 ('Plan 8', 'Rutina de Femoral 2 - Desarrollo Femoral\n\nEjercicio 1: Peso muerto rumano con barra: 4 series de 8-10 repeticiones\nEjercicio 2: Curl de piernas acostado en máquina: 4 series de 12 repeticiones\nEjercicio 3: Sentadilla sumo con mancuernas o barra: 3 series de 10-12 repeticiones\nEjercicio 4: Desplante invertido: 3 series de 10-12 repeticiones por pierna', NULL),
 ('Plan 9', 'Rutina de Cuerpo Completo\n\nEjercicio 1: Sentadilla con barra: 4 series de 6-8 repeticiones\nEjercicio 2: Peso muerto convencional: 4 series de 6-8 repeticiones\nEjercicio 3: Press de banca con barra: 4 series de 8-10 repeticiones\nEjercicio 4: Remo con barra: 4 series de 10 repeticiones\nEjercicio 5: Press militar con barra: 3 series de 10 repeticiones', NULL);
 
-select * from Comidas;
+select * from Rutinasper;
 
 
 select * from Rutinasper;
+
+SELECT * FROM Rutinasper WHERE id_usuario = 1 ORDER BY id_rut DESC LIMIT 1;
+
  select * from Rutina;
 -- select * from RutinapersoCreadas;
 
@@ -197,8 +247,6 @@ id_usuario int,
 FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
 
-SELECT * FROM RutPrestUsuarios;
-
 create table DietaPrest(
 id_dieta varchar(10) primary key,
 dieta_prest varchar(900),
@@ -214,8 +262,6 @@ id_usuario int,
 FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
 );
 
-select * from DietaPrest;
-
 INSERT INTO DietaPrest (id_dieta, dieta_prest, id_usuario) VALUES
 ('Plan 1', 'Comida 1: 4 huevos revueltos con espinacas y champiñones; 1 taza de avena cocida con un plátano en rodajas; café o té sin azúcar.\nComida 2: 1 sándwich de atún en agua con lechuga, jitomate y pan integral; 1 taza de fresas.\nComida 3: 150 g de pechuga de pollo a la parrilla; ensalada de lechuga, tomate, pepino y zanahoria con aceite de oliva y jugo de limón; ½ taza de arroz hervido; ½ aguacate.\nComida 4: 180 g de res con pimientos y cebolla; 1 taza de espinacas; 3 tortillas de maíz.\nComida 5: Gelatina light, una taza de jícama rallada, té de hierbas sin azúcar.', NULL),
 ('Plan 2', 'Comida 1: Yogurt griego (145 g) con 1 taza de avena y 2 tazas de papaya; 4 claras de huevo con 2 rebanadas de jamón de pavo.\nComida 2: Bistec en salsa verde (210 g) con 3 tortillas de maíz; ensalada de lechuga y pepino.\nComida 3: Ensalada de pollo con lechuga orejona, zanahoria rallada y jitomate asado; ¾ taza de arroz blanco hervido.\nComida 4: Mazapán sin azúcar, 10 almendras y 1 taza de gelatina de agua; 1 taza de piña picada.\nComida 5: Manzana roja chica con 20 almendras y 1 taza de gelatina de agua.', NULL),
@@ -224,5 +270,27 @@ INSERT INTO DietaPrest (id_dieta, dieta_prest, id_usuario) VALUES
 ('Plan 5', 'Comida 1: Yogurt con frutas: ½ taza de yogurt griego con ½ mango, ¼ taza de amaranto y 20 almendras.\nComida 2: Rice cake: sobre un rice cake, 2 cucharadas de crema de cacahuate, 5 fresas en rodajas y ½ taza de yogurt griego.\nComida 3: Brochetas de pollo: 150 g de pechuga de pollo asada con pimiento y cebolla; servido con ½ aguacate y 1½ taza de arroz integral.\nComida 4: 150 g de cecina asada acompañada de 1 taza de jitomate, acelga y espinaca; servido con ½ aguacate.\nComida 5: Chilaquiles: 1 taza de salsa de tomate (con cebolla y chile al gusto), 3 tostadas Salma como totopos, 2 huevos estrellados y 40 g de queso panela rallado; acompañado de 1 cucharada de crema.', NULL),
 ('Plan 6', 'Comida 1: Yogurt con ½ taza de avena, 1½ taza de papaya, 1 cucharada de chía y 10 almendras.\nComida 2: Sándwich dulce con 2 panes blancos, 1 cucharada de crema de cacahuate, 1 cucharadita de mermelada, 1 plátano en rodajas y 10 almendras; 1 taza de leche de almendras.\nComida 3: Ensalada de atún con lechuga, jitomate, cebolla morada y 2 huevos hervidos; 3 tostadas horneadas.\nComida 4: Bolitas de pollo con 120 g de pechuga licuada con ⅓ aguacate y 30 g de queso Oaxaca; acompañadas de 1 taza de apio y zanahoria.\nComida 5: Tres rollitos de pechuga de pavo.', NULL);
 
+SELECT peso_inicial FROM Usuario WHERE id_usuario = 1;
 
-select * from DietaPrestUsuarios;
+-- Peso actual (última medición registrada)
+SELECT peso_usuario FROM IMC 
+WHERE id_usuario = 1
+ORDER BY fecha DESC 
+LIMIT 1;
+
+-- Peso objetivo (opcionalmente lo puedes definir en una nueva columna)
+SELECT progreso_usuario FROM Progreso 
+WHERE id_usuario = 1 
+ORDER BY id_progreso DESC 
+LIMIT 1;
+
+SELECT MONTH(fecha) as mes, peso_usuario 
+FROM IMC 
+WHERE id_usuario = 1 
+ORDER BY fecha;
+
+-- Medidas corporales mensual
+SELECT MONTH(fecha) as mes, cintura, pecho 
+FROM Medidas 
+WHERE id_usuario = 1 
+ORDER BY fecha;
