@@ -27,9 +27,9 @@ public class Menus extends HttpServlet {
             return;
         }
 
-        String url = "jdbc:mysql://localhost/FitData";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 
         List<String> proteinas = new ArrayList<>();
         List<String> carbohidratos = new ArrayList<>();

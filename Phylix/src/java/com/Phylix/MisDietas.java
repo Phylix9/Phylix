@@ -27,9 +27,9 @@ public class MisDietas extends HttpServlet {
             return;
         }
 
-        String url = "jdbc:mysql://localhost/FitData";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

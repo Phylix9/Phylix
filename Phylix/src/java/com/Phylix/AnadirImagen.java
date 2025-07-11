@@ -26,13 +26,10 @@ public class AnadirImagen extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
 
-        String url = "jdbc:mysql://localhost/FitData";
-        String user = "root";
-        String password = "n0m3l0";
-
-        String uploadDirectory = "C:\\Users\\chris\\Phylix\\Phylix\\web\\Fotosperfil";
+        String uploadDirectory = request.getServletContext().getRealPath("/Fotosperfil");
 
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
@@ -52,54 +49,52 @@ public class AnadirImagen extends HttpServlet {
                 uploadDir.mkdirs();
             }
 
-            File file = new File(uploadDirectory, fileName);
-            try {
-                filePart.write(file.getAbsolutePath());
+            File file = new File(uploadDir, fileName);
+            filePart.write(file.getAbsolutePath());
 
-                try (Connection con = DriverManager.getConnection(url, user, password);
-                     FileInputStream input = new FileInputStream(file)) {
+            // Aquí puedes guardar la ruta relativa en la base de datos si quieres
+            String rutaWeb = "Fotosperfil/" + fileName;
 
-                    String sql = "UPDATE ImagenesPerfil SET imagen = ? WHERE id_usuario = ?";
-                    try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                        pstmt.setBinaryStream(1, input, (int) file.length());
-                        pstmt.setInt(2, idUsuario);
+            try (Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://root:YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE@ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC",
+                    "root", "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE")) {
 
-                        pstmt.executeUpdate();
-                    }
-                    
-                    PreparedStatement stmtMedidas = con.prepareStatement("SELECT imc_usuario, peso_usuario, altura_usuario FROM Imc WHERE id_usuario = ?");
-                    stmtMedidas.setInt(1, idUsuario);
-                    ResultSet rsMedidas = stmtMedidas.executeQuery();
+                // Guarda la ruta de la imagen en la base de datos (opcional)
+                String sql = "UPDATE ImagenesPerfil SET ruta = ? WHERE id_usuario = ?";
+                try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                    pstmt.setString(1, rutaWeb);
+                    pstmt.setInt(2, idUsuario);
+                    pstmt.executeUpdate();
+                }
 
-                    List<clases.Medidas> medidas = new ArrayList<>();
-                    while (rsMedidas.next()) {
-                        clases.Medidas medida = new clases.Medidas();
-                        medida.setImc(rsMedidas.getDouble("imc_usuario"));
-                        medida.setPeso(rsMedidas.getDouble("peso_usuario"));
-                        medida.setAltura(rsMedidas.getDouble("altura_usuario"));
-                        medidas.add(medida);
-                    }
+                // Recuperar medidas para el perfil
+                PreparedStatement stmtMedidas = con.prepareStatement(
+                    "SELECT imc_usuario, peso_usuario, altura_usuario FROM Imc WHERE id_usuario = ?");
+                stmtMedidas.setInt(1, idUsuario);
+                ResultSet rsMedidas = stmtMedidas.executeQuery();
 
-                    request.setAttribute("medidas", medidas);
-                    request.getRequestDispatcher("Perfil.jsp").forward(request, response);
-                } catch (SQLException e) {
-                    request.setAttribute("error", "Error en la base de datos: " + e.getMessage());
-                    request.getRequestDispatcher("Rutinas.jsp").forward(request, response);
-                  }
-            } catch (IOException e) {
-                request.setAttribute("error", "Error al guardar la imagen: " + e.getMessage());
+                List<clases.Medidas> medidas = new ArrayList<>();
+                while (rsMedidas.next()) {
+                    clases.Medidas medida = new clases.Medidas();
+                    medida.setImc(rsMedidas.getDouble("imc_usuario"));
+                    medida.setPeso(rsMedidas.getDouble("peso_usuario"));
+                    medida.setAltura(rsMedidas.getDouble("altura_usuario"));
+                    medidas.add(medida);
+                }
+
+                request.setAttribute("medidas", medidas);
+                request.setAttribute("fotoPerfil", rutaWeb); // Puedes mostrarla luego con <img src="${fotoPerfil}">
+                request.getRequestDispatcher("Perfil.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                request.setAttribute("error", "Error en la base de datos: " + e.getMessage());
                 request.getRequestDispatcher("Perfil.jsp").forward(request, response);
             }
+
         } else {
             request.setAttribute("error", "No se ha seleccionado ningún archivo.");
             request.getRequestDispatcher("Perfil.jsp").forward(request, response);
         }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     @Override

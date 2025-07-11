@@ -36,9 +36,9 @@ public class ValidarCodigo extends HttpServlet {
             String correo = (String) session.getAttribute("correo_usuario");
 
 
-            String url = "jdbc:mysql://localhost/FitData";
-            String user = "root";
-            String password = "n0m3l0";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+        String user = "root";
+        String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 
             Connection con = null;
             PreparedStatement sta = null;

@@ -29,9 +29,9 @@ public class ImagenPerfil extends HttpServlet {
             return;
         }
 
-        String url = "jdbc:mysql://localhost/FitData";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 
         try (Connection con = DriverManager.getConnection(url, user, password)) {
             String sql = "SELECT imagen FROM ImagenesPerfil WHERE id_usuario = ?";

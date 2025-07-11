@@ -38,9 +38,9 @@ public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     // Configuración de base de datos - ajusta según tu configuración
-    private final String url = "jdbc:mysql://localhost:3306/FitData";
+    private final String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
     private final String user = "root";
-    private final String pass = "n0m3l0";
+    private final String pass = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
     
     // Límites saludables para cambios de peso mensual
     private static final double MAX_PERDIDA_MENSUAL_KG = 1.7;

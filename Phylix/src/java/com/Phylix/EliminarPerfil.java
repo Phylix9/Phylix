@@ -24,9 +24,9 @@ import java.sql.SQLException;
 @WebServlet(name = "EliminarPerfil", urlPatterns = {"/EliminarPerfil"})
 public class EliminarPerfil extends HttpServlet {
 
-    String url = "jdbc:mysql://localhost/FitData";
+    String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
     String user = "root";
-    String password = "n0m3l0";
+    String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

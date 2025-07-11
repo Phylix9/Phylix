@@ -47,9 +47,9 @@ public class IMC extends HttpServlet {
 
             int idUsuario = (int) session.getAttribute("id_usuario");
             
-            String url = "jdbc:mysql://localhost/FitData";
+            String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
             String user = "root";
-            String password = "n0m3l0";
+            String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 
             try (Connection con = DriverManager.getConnection(url, user, password)) {
                 PreparedStatement insertSta = con.prepareStatement("INSERT INTO IMC (fecha, peso_usuario, altura_usuario, id_usuario) VALUES (?, ?, ?, ?)");

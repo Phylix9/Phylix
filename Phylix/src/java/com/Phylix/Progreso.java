@@ -21,9 +21,9 @@ import java.util.Map;
 
 @WebServlet(name = "Progreso", urlPatterns = {"/Progreso"})
 public class Progreso extends HttpServlet {
-    private final String url = "jdbc:mysql://localhost:3306/FitData";
-    private final String user = "root";
-    private final String pass = "AT10220906";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+        String user = "root";
+        String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -111,7 +111,7 @@ public class Progreso extends HttpServlet {
         double pesoInicial = 0.0;
         String objetivoUsuario = "";
         
-        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
             
             // Obtener datos del usuario
             String usuarioSql = "SELECT peso_inicial FROM Usuario WHERE id_usuario = ?";
@@ -257,7 +257,7 @@ public class Progreso extends HttpServlet {
                 
             // Convertir los datos a JSON y enviarlos como atributo para el JSP
                 
-                try (Connection con2 = DriverManager.getConnection(url, user, pass)) {
+                try (Connection con2 = DriverManager.getConnection(url, user, password)) {
                     PreparedStatement ps = con2.prepareStatement("SELECT objetivo_usuario FROM Cuestionario WHERE id_usuario = ?");
                     ps.setInt(1, id_usuario);
                     ResultSet rs = ps.executeQuery();
@@ -757,7 +757,7 @@ public class Progreso extends HttpServlet {
             double objetivo = 75.0;
             double pesoInicial = 0.0;
 
-            try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            try (Connection conn = DriverManager.getConnection(url, user, password)) {
                 
                 // Obtener datos del usuario
                 String usuarioSql = "SELECT peso_inicial FROM Usuario WHERE id_usuario = ?";
@@ -924,7 +924,7 @@ public class Progreso extends HttpServlet {
         String altura = request.getParameter("altura");
         
         if (peso != null && fecha != null) {
-            try (Connection conn = DriverManager.getConnection(url, user, pass)) {
+            try (Connection conn = DriverManager.getConnection(url, user, password)) {
                 
                 // Si no se proporciona altura, obtenerla del usuario
                 double alturaValue = 1.70;

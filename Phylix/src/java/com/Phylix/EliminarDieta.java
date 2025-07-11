@@ -24,9 +24,9 @@ public class EliminarDieta extends HttpServlet {
         HttpSession session = request.getSession();
         Integer idUsuario = (Integer) session.getAttribute("id_usuario");
 
-        String url = "jdbc:mysql://localhost/FitData";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
         String user = "root";
-        String password = "n0m3l0";
+        String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
         
         if (session == null || session.getAttribute("id_usuario") == null) {
             response.sendRedirect("Acceder?error=sesion");

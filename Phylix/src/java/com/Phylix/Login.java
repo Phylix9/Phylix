@@ -31,9 +31,9 @@ public class Login extends HttpServlet {
         String contra = request.getParameter("pswd");
         
 
-        String url = "jdbc:mysql://localhost/FitData";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
         String user = "root";
-        String password = "AT10220906";
+        String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 
         Connection con = null;
         PreparedStatement sta = null;

@@ -29,9 +29,9 @@ import java.sql.SQLException;
 @WebServlet(name = "ValidarRutina", urlPatterns = {"/ValidarRutina"})
 public class ValidarRutina extends HttpServlet {
 
-    private final String url = "jdbc:mysql://localhost:3306/FitData";
+    private final String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
     private final String user = "root";
-    private final String pass = "n0m3l0";
+    private final String pass = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
