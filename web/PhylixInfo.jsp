@@ -19,45 +19,45 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Acerca de</title>
 </head>
-<div class="sidebar">
-  <div class="top">
-      <div class="logo">
-          <img src="src/LogoPhylix.png" alt="Imagen central" id="LogoPhylix">
-          <span>Phylix</span>
-      </div>
-      <i class="bx bx-menu" id="btn"></i>
-  </div>
-  <ul>
-      <li>
-          <a href="/Phylix/">
-              <i class="bx bx-home-alt"></i>
-              <span class="nav-item">Principal</span>
-          </a>
-          <span class="tooltip">Principal</span>
-      </li>
-      <li>
-          <a href="PhylixInfo">
-              <i class="bx bx-buildings"></i>
-              <span class="nav-item">Acerca de</span>
-          </a>
-          <span class="tooltip">Acerca de</span>
-      </li>
-      <li>
-          <a href=FitData>
-              <i class="bx bx-code"></i>
-              <span class="nav-item">Proyectos</span>
-          </a>
-          <span class="tooltip">Proyectos</span>
-      </li>
-      <li>
-          <a href="Miembros">
-              <i class='bx bxs-id-card'></i>
-              <span class="nav-item">Nosotros</span>
-          </a>
-          <span class="tooltip">Equipo</span>
-      </li>
-  </ul>
-</div>
+    <div class="sidebar">
+        <div class="top">
+            <div class="logo">
+                <img src="src/LogoPhylix.png" alt="Imagen central" id="LogoPhylix">
+                <span>Phylix</span>
+            </div>
+            <i class="bx bx-menu" id="btn"></i>
+        </div>
+        <ul>
+            <li>
+                <a href="Phylix.jsp">
+                    <i class="bx bx-home-alt"></i>
+                    <span class="nav-item">Principal</span>
+                </a>
+                <span class="tooltip">Principal</span>
+            </li>
+            <li>
+                <a href="PhylixInfo.jsp">
+                    <i class="bx bx-buildings"></i>
+                    <span class="nav-item">Acerca de</span>
+                </a>
+                <span class="tooltip">Acerca de</span>
+            </li>
+            <li>
+                <a href="Proyecto.jsp">
+                    <i class="bx bx-code"></i>
+                    <span class="nav-item">Proyecto</span>
+                </a>
+                <span class="tooltip">Proyecto</span>
+            </li>
+            <li>
+                <a href="Miembros.jsp">
+                    <i class='bx bxs-id-card'></i>
+                    <span class="nav-item">Nosotros</span>
+                </a>
+                <span class="tooltip">Equipo</span>
+            </li>
+        </ul>
+    </div>
 <body>
     <div class="titulo">
         <h1 id="TituloE">Sobre Phylix</h1>

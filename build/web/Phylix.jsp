@@ -44,7 +44,7 @@
                 <span class="tooltip">Acerca de</span>
             </li>
             <li>
-                <a href="FitData.jsp">
+                <a href="Proyecto.jsp">
                     <i class="bx bx-code"></i>
                     <span class="nav-item">Proyecto</span>
                 </a>

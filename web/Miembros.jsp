@@ -24,7 +24,7 @@
     <div class="titulo">
         <h1 id="TituloE">Sobre Nosotros</h1>
     </div>
-    <div class="sidebar">
+        <div class="sidebar">
         <div class="top">
             <div class="logo">
                 <img src="src/LogoPhylix.png" alt="Imagen central" id="LogoPhylix">
@@ -34,28 +34,28 @@
         </div>
         <ul>
             <li>
-                <a href="/Phylix/">
+                <a href="Phylix.jsp">
                     <i class="bx bx-home-alt"></i>
                     <span class="nav-item">Principal</span>
                 </a>
                 <span class="tooltip">Principal</span>
             </li>
             <li>
-                <a href="PhylixInfo">
+                <a href="PhylixInfo.jsp">
                     <i class="bx bx-buildings"></i>
                     <span class="nav-item">Acerca de</span>
                 </a>
                 <span class="tooltip">Acerca de</span>
             </li>
             <li>
-                <a href="FitData">
+                <a href="Proyecto.jsp">
                     <i class="bx bx-code"></i>
-                    <span class="nav-item">Proyectos</span>
+                    <span class="nav-item">Proyecto</span>
                 </a>
-                <span class="tooltip">Proyectos</span>
+                <span class="tooltip">Proyecto</span>
             </li>
             <li>
-                <a href="Miembros">
+                <a href="Miembros.jsp">
                     <i class='bx bxs-id-card'></i>
                     <span class="nav-item">Nosotros</span>
                 </a>
