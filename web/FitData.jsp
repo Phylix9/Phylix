@@ -212,7 +212,7 @@
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/fitdata", "root", "AT10220906");
+            con = DriverManager.getConnection("jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC", "root", "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE");
 
             ps = con.prepareStatement("SELECT fecha_registro, progreso, peso_inicial, ultima_conexion FROM Usuario WHERE id_usuario = ?");
             ps.setInt(1, id_usuario);

@@ -30,28 +30,28 @@
         </div>
         <ul>
             <li>
-                <a href="/Phylix/">
+                <a href="Phylix.jsp">
                     <i class="bx bx-home-alt"></i>
                     <span class="nav-item">Principal</span>
                 </a>
                 <span class="tooltip">Principal</span>
             </li>
             <li>
-                <a href="PhylixInfo">
+                <a href="PhylixInfo.jsp">
                     <i class="bx bx-buildings"></i>
                     <span class="nav-item">Acerca de</span>
                 </a>
                 <span class="tooltip">Acerca de</span>
             </li>
             <li>
-                <a href="FitData">
+                <a href="FitData.jsp">
                     <i class="bx bx-code"></i>
                     <span class="nav-item">Proyecto</span>
                 </a>
                 <span class="tooltip">Proyecto</span>
             </li>
             <li>
-                <a href="Miembros">
+                <a href="Miembros.html">
                     <i class='bx bxs-id-card'></i>
                     <span class="nav-item">Nosotros</span>
                 </a>
