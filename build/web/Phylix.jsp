@@ -51,7 +51,7 @@
                 <span class="tooltip">Proyecto</span>
             </li>
             <li>
-                <a href="Miembros.html">
+                <a href="Miembros.jsp">
                     <i class='bx bxs-id-card'></i>
                     <span class="nav-item">Nosotros</span>
                 </a>
