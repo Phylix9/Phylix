@@ -56,7 +56,7 @@ public class AnadirImagen extends HttpServlet {
             String rutaWeb = "Fotosperfil/" + fileName;
 
             try (Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://root:YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE@ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC",
+                    "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
                     "root", "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE")) {
 
                 // Guarda la ruta de la imagen en la base de datos (opcional)

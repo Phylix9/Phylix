@@ -50,7 +50,7 @@ public class Rutinas extends HttpServlet {
             String tokenSesion = (String) session.getAttribute("session_token");
             int idUsuario = (int) session.getAttribute("id_usuario");
 
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC", "root", "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE")) {
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", "root", "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE")) {
                 try (PreparedStatement psToken = con.prepareStatement(
                         "SELECT session_token FROM Usuario WHERE id_usuario = ?")) {
                     psToken.setInt(1, idUsuario);

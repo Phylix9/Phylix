@@ -27,7 +27,7 @@ import java.util.List;
 @WebServlet(name = "VerificarComida", urlPatterns = {"/VerificarComida"})
 public class VerificarComida extends HttpServlet {
 
-    private final String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+    private final String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private final String user = "root";
     private final String pass = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
     

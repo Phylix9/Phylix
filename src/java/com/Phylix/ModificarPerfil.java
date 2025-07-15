@@ -49,7 +49,7 @@ public class ModificarPerfil extends HttpServlet {
         session.setAttribute("estres", request.getParameter("estres"));
         session.setAttribute("suenio", request.getParameter("suenio"));
         
-        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
         String user = "root";
         String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
         

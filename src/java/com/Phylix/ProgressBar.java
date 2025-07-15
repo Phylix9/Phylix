@@ -21,7 +21,7 @@ import java.sql.*;
  */
 @WebServlet(name = "ProgressBar", urlPatterns = {"/ProgressBar"})
 public class ProgressBar extends HttpServlet {
-    private final String URL = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+    private final String URL = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private final String USER = "root";
     private final String PASSWORD = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 

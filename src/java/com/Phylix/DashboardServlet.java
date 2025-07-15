@@ -38,7 +38,7 @@ public class DashboardServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     // Configuración de base de datos - ajusta según tu configuración
-    private final String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+    private final String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
     private final String user = "root";
     private final String pass = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
     

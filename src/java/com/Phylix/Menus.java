@@ -27,7 +27,7 @@ public class Menus extends HttpServlet {
             return;
         }
 
-        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
         String user = "root";
         String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 

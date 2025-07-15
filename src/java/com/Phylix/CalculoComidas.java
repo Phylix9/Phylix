@@ -33,7 +33,7 @@ public class CalculoComidas extends HttpServlet {
         String frecuencia = null;
         double peso = 0;
 
-        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
         String user = "root";
         String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 

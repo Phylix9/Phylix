@@ -106,7 +106,7 @@ public class GuardarDatos extends HttpServlet {
 
         int idUsuario = (int) session.getAttribute("id_usuario");
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC", "root", "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE")) {
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC","root", "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE")) {
             con.setAutoCommit(false);
             double altura = obtenerAlturaUsuario(con, idUsuario);
 
