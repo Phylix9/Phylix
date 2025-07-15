@@ -28,7 +28,7 @@ public class Registro extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String contra = request.getParameter("pswd1");
 
-        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?useSSL=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://ballast.proxy.rlwy.net:25248/railway?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
         String user = "root";
         String password = "YvAwfIKqPUtHThKEnCFTrKTgxZssaUIE";
 
