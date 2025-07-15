@@ -169,16 +169,16 @@
             <img src="src/LogoFitdata2.png" alt="logo"/>
         </div>
         <ul class="nav__links">
-            <li class="link"><a href="/Phylix/">Phylix</a></li>
+            <li class="link"><a href="<%= request.getContextPath() %>/Phylix.jsp"></li>
             <% 
                 String currentPage = request.getRequestURI();
                 if (currentPage.endsWith("FitData")) { 
             %>
-            <li class="link"><a href="FitDataa">Inicio</a></li>
+            <li class="link"><a href="<%= request.getContextPath() %>/FitDataa">Inicio</a></li>
             <% } %>
-            <li class="link"><a href="Rutinas">Rutinas</a></li>
-            <li class="link"><a href="Dietas">Dietas</a></li>
-            <li class="link"><a href="Informacion">Informacion</a></li>
+            <li class="link"><a href="<%= request.getContextPath() %>/Rutinas">Rutinas</a></li>
+            <li class="link"><a href="<%= request.getContextPath() %>/Dietas">Dietas</a></li>
+            <li class="link"><a href="<%= request.getContextPath() %>/Informacion">Informacion</a></li>
         </ul>
         <div id="authButtonContainer">
             <% 

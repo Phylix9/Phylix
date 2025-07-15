@@ -300,14 +300,14 @@
     <header>
         <div class="container">
             <div class="logo">
-                <a href="FitDataa"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
+                <a href="<%= request.getContextPath() %>/FitDataa"><img src="src/LogoFitdata2.png" alt="FITDATA"></a>
             </div>
             <nav>
                 <ul>
-                    <li><a href="Progreso">Progreso</a></li>
-                    <li><a href="Rutinas">Rutinas</a></li>
-                    <li><a href="Dietas">Dietas</a></li>
-                    <li><a href="Informacion">Información</a></li>
+                    <li class="link"><a href="<%= request.getContextPath() %>/Progreso">Progreso</a></li>
+                    <li class="link"><a href="<%= request.getContextPath() %>/Rutinas">Rutinas</a></li>
+                    <li class="link"><a href="<%= request.getContextPath() %>/Dietas">Dietas</a></li>
+                    <li class="link"><a href="<%= request.getContextPath() %>/Informacion">Informacion</a></li>
                 </ul>
             </nav>
             <div class="user-menu">

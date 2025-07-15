@@ -34,7 +34,7 @@
         </div>
         <ul>
             <li>
-                <a href="Phylix.jsp">
+                <a href="<%= request.getContextPath() %>/Phylix.jsp">
                     <i class="bx bx-home-alt"></i>
                     <span class="nav-item">Principal</span>
                 </a>
