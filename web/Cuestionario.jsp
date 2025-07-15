@@ -25,7 +25,7 @@
     <div class="content-wrapper">
         <h1>Cuestionario de Salud</h1>
         <p>Necesitamos saber un poco mas sobre ti</p>
-        <form action="Cuestionario" method="post">
+        <form action="<%= request.getContextPath() %>/Cuestionario" method="post">
             <div class="section">
                 <div class="section-header">
                     <i class="fas fa-heart section-header-icon"></i>

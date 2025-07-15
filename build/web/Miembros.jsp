@@ -24,7 +24,7 @@
     <div class="titulo">
         <h1 id="TituloE">Sobre Nosotros</h1>
     </div>
-        <div class="sidebar">
+            <div class="sidebar">
         <div class="top">
             <div class="logo">
                 <img src="src/LogoPhylix.png" alt="Imagen central" id="LogoPhylix">
@@ -41,7 +41,7 @@
                 <span class="tooltip">Principal</span>
             </li>
             <li>
-                <a href="PhylixInfo.jsp">
+                <a href="PhylixInfo">
                     <i class="bx bx-buildings"></i>
                     <span class="nav-item">Acerca de</span>
                 </a>
@@ -55,7 +55,7 @@
                 <span class="tooltip">Proyecto</span>
             </li>
             <li>
-                <a href="Miembros.jsp">
+                <a href="Miembros">
                     <i class='bx bxs-id-card'></i>
                     <span class="nav-item">Nosotros</span>
                 </a>

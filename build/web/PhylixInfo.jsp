@@ -36,7 +36,7 @@
                 <span class="tooltip">Principal</span>
             </li>
             <li>
-                <a href="PhylixInfo.jsp">
+                <a href="PhylixInfo">
                     <i class="bx bx-buildings"></i>
                     <span class="nav-item">Acerca de</span>
                 </a>
@@ -50,7 +50,7 @@
                 <span class="tooltip">Proyecto</span>
             </li>
             <li>
-                <a href="Miembros.jsp">
+                <a href="Miembros">
                     <i class='bx bxs-id-card'></i>
                     <span class="nav-item">Nosotros</span>
                 </a>
